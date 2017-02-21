@@ -1,0 +1,199 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Packages/Dokumentart %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[ a4paper,	% Papierart
+	% 10pt,		
+	%	11pt,									% Schriftgröße
+		12pt,									
+		pdftex,								% PDF Umwandlung
+	%	twoside								% 2-seitig
+		] {report}						% Dokumenttyp Bericht
+
+\usepackage[ngerman]{babel}			% Deutsches Sprachpaket/Silbentrennung etc.
+\usepackage[utf8]{inputenc}			% verwendeter Codec (für Umlaute)
+\usepackage{graphicx}						% für Bilder
+%\usepackage{cite}								% für bestimmte Zitierfunktionen
+\usepackage[footnote]{acronym}	% für Abkürzungen in Fußnote
+\usepackage{caption}						% Um Bildunterschriften zu konfigurieren (mit, ohne erscheinen im Abkürzungsverzeichnis)
+\usepackage{setspace}						% für Zeilenabstand
+\usepackage{url}   							% Package zur Darstellung von URL's
+\usepackage{eurosym}  					% Package zur Darstellung von €-Zeichen
+\usepackage{booktabs}
+\usepackage[bookmarksopen,
+						bookmarksnumbered,
+						plainpages=false,		%vermeidet diverse Warnungen
+						pdfpagelabels=true,	%ebenso
+						]{hyperref}
+\usepackage{etoolbox}  		% http://dante.ctan.org/tex-archive/help/Catalogue/entries/etoolbox.html
+\usepackage{csquotes}
+\usepackage[
+	hyperref=true,          % Klickbare Referenzen in der PDF-Datei
+  backref=true,           % In der Literaturref. die Seiten angeben, wo ein \cite dazu steht
+  bibencoding=inputenc,   % s. inputenc-Paket
+  backend = biber,
+  style = alphabetic,			% [Aut98]
+	%style=authoryear-comp,	% Autor Jahr
+	%style=numeric-comp,		% [1]
+	sorting=nty]{biblatex}  % http://dante.ctan.org/tex-archive/help/Catalogue/entries/biblatex.html 
+
+\addbibresource{Literaturverzeichnis.bib}
+
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}			% itemize in einer \tabular Umgebung
+
+\onehalfspacing									% ab hier Zeilenabstand 1,5
+
+\usepackage[a4paper, left=2.5cm, right=2.5cm,
+top=2.5cm, bottom=2.5cm]{geometry}
+
+\setlength{\headheight}{1.1\baselineskip}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Kopfzeile %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[automark]{scrpage2}				% Package für Kopfzeile	
+\pagestyle{scrheadings} 							% Pagestyle
+\automark[section]{chapter}						% für Anzeigen des Unterkapitels (Standard Überkapitel)
+\clearscrheadfoot 
+\ihead{\headmark}											% ihead links, ohead rechts, chead mitte
+\ohead{Vorname Nachname}											
+\setheadsepline{0.4pt}								% Linie unter Kopfzeile
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Abkürzungen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Persönlich
+\newcommand{\Autor}{Jan Mannherz, Alexander Sinicyn, Harm-Christian Schweizer}
+\newcommand{\MatrikelNummer}{1899163, 9617383, 2161207}
+\newcommand{\Kursbezeichnung}{Tinf14B3}
+%Firma
+%\newcommand{\FirmenName}{EDEKA Handelsgesellschaft Südwest mbH}
+%\newcommand{\FirmenNameKurz}{EDEKA Südwest}							
+%\newcommand{\FirmenStadt}{77656 Offenburg}							
+%\newcommand{\FirmenLogoDeckblatt}{\includegraphics[width=1.8cm]{Bilder/edekaneu.png}}	
+\newcommand{\dhLogo}{\includegraphics[width=4cm]{Bilder/dhbw-logo.png}}
+%Betreuer
+%\newcommand{\BetreuerFirma}{Betreuer}
+\newcommand{\BetreuerDHBW}{Herr Prof. Dr. Haubner}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Art der Arbeit %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\newcommand{\Was}{Praxisbericht}
+%\newcommand{\WasErklaerung}{den vorliegenden \Was}
+%\newcommand{\Was}{Projektarbeit}
+%\newcommand{\WasErklaerung}{die vorliegende \Was}
+\newcommand{\Was}{Studienarbeit}
+\newcommand{\WasErklaerung}{die vorliegende \Was}
+%\newcommand{\Was}{Bachelorarbeit}
+%\newcommand{\WasErklaerung}{die vorliegende \Was}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Deckblatt Infos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Titel}{Entwicklung eines Sensorknotens für IoT}
+%\newcommand{\Dauer}{12 Wochen}
+\newcommand{\Abschluss}{Bachelor of Engineering}
+\newcommand{\Studiengang}{Informationstechnik}
+\newcommand{\AbgabeDatum}{29.05.2017}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Titelseite %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\hypersetup{pageanchor=false}						% vermeidet falsche Referenzierung durch gleiche Seitenanzahlen
+
+\begin{singlespace}											% Zeilenabstand für Titelseite verringern
+\begin{titlepage}
+\begin{center}													% Referenzpunkt Seitenmitte
+\vspace*{-2cm}													% 2 cm nach Links Platz lassen
+\FirmenLogoDeckblatt\hfill\includegraphics[width=4cm]{Bilder/dhbw-logo}\\[2cm] % Firmenlogo platzieren
+
+{\Huge \Titel}\\[2cm]										% \Huge, \Large, \large sind versch. Schriftgrößen \bfseries ist Fett gedruckt
+{\Huge\scshape \Was}\\[2cm]							% [] Inhalt ist Abstand zur nächsten Zeile
+{\large für die Prüfung zum}\\[0.5cm]
+{\Large \Abschluss}\\[0.5cm]
+{\large des Studienganges \Studiengang}\\[0.5cm]
+{\large an der}\\[0.5cm]
+{\large Dualen Hochschule Baden-Württemberg Karlsruhe}\\[0.5cm]
+{\large von}\\[0.5cm]
+{\large\bfseries \Autor}\\[1cm]
+{\large Abgabedatum \AbgabeDatum}
+\vfill																	% ermöglicht es unterhalb der Seitengrenze zu schreiben
+\end{center}														% Referenzpunkt Mitte beenden
+
+\begin{tabular}{l@{\hspace{2cm}}l}			% Beginn Tabelle mit einer Spalte nach der 2cm Platz gelassen wird bevor die nächste beginnt
+Bearbeitungszeitraum           & \Dauer 			    \\
+Matrikelnummer	               & \MatrikelNummer	\\
+Kurs			         						 & \Kursbezeichnung	\\
+%Ausbildungsfirma	             & \FirmenName			\\
+%			                         & \FirmenStadt			\\
+%Betreuer der Ausbildungsfirma	 & \BetreuerFirma		\\
+Gutachter der Studienakademie	 & \BetreuerDHBW		\\
+\end{tabular}														% Tabelle abschließen
+\end{titlepage}													% Titelseite abschließen
+\end{singlespace}												% ab hier wieder 1.5 fach Zeilenabstand
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Erklärung & Sperrvermerk %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\setlength{\parindent}{0em}
+\input{Anhang/erklaerung}
+%\input{Anhang/Sperrvermerk.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Kurzzusammenfassung %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+\begin{onehalfspace}
+
+Kurze Zusammenfassung (Abstract)
+
+\end{onehalfspace}
+\end{abstract} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Verzeichnisse %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\cfoot[\pagemark]{\pagemark}							% Mitte Fußzeile Seitenzahl (selbe wie mit head (i,o,c))
+\pagenumbering{Roman}         						% Seitenzahlen für Verzeichnisse auf römisch
+
+\begin{singlespace}												% Zeilenabstand für Verzeichnisse 1	
+\tableofcontents 			 										% Inhaltsverzeichnis
+\listoffigures	 			 										% Abbildungsverzeichnis
+\listoftables				 	 										% Tabellenverzeichnis
+\end{singlespace}	 		 										% Zeilenabstand wieder ausstellen
+%\listofequations			 										% Formelverzeichnisir
+%\listoflistings 			 										% Listenverzeichnis
+\input{Anhang/abkuerzungsverzeichnis.tex} % Abkuerzungsverzeichnis
+\newpage
+
+\hypersetup{pageanchor=true} 							% ab hier werden wieder Anker gesetzt und damit richtige Referenzen gebildet
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Kapitel einbinden %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{arabic}                  % Ab hier Seitenzahl auf normal
+
+\input{Kapitel/1/Kapitel1.tex}
+\newpage
+
+\input{Kapitel/2/Kapitel2.tex}
+\newpage
+
+\input{Kapitel/3/Kapitel3.tex}
+\newpage
+
+\input{Kapitel/4/Kapitel4.tex}
+\newpage
+
+\input{Kapitel/5/Kapitel5.tex}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% URL wegen Sonderzeichen Vordefinieren %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\urldef{\newUrl}\url{http://www.htl-hl.ac.at/el/projekte/2011/DA_Spielekonsole/Sonstiges/GanttProject%20Tutorial.pdf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Literaturverzeichnis %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+%\bibliographystyle{gerabbrv}					% Zitierformat (deutsch für Großschreibung) [Häufigkeit] im Text
+%\bibliography{Literaturverzeichnis}		% Pfad des Literaturverzeichnisses.bib
+
+\printbibliography
+
+\newpage
+\thispagestyle{plain}
+\input{Anhang/anhang.tex}							% Anhang Einbinden
+
+\end{document}

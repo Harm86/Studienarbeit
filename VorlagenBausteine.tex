@@ -1,0 +1,57 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Formel %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{equation}
+Hochrechnung =  \frac{Summe~Ums\ddot{a}tze~zum~aktuellen~Monat~des~Jahres}{Anzahl~der~vergangenen~Monate~des~Jahres}*12
+\label{eq:eq1}
+\end{equation}
+
+$n$ % Mathemodus 
+$I_{ges}$
+\[Q = 0.05 * 108 * 5 * 80 * 10^{-3}[m^3/h]\] % Formel vom Text abgesetzt
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Überschriften %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Überschrift}
+\subsection{Unter-Überschrift}
+\subsubsection{Unter-Unter-Überschrift}
+\paragraph{Paragraph}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Zitat / Abkürzung %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\cite{netz} % Zitat 
+\acf{VFD} % Abkürzung
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Bild %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[ht]														% Begin Figur Umgebung
+\centering																		% Um Bild mittig auszurichten
+\includegraphics[scale=1.7]{Bilder/vfd_new.png}		% BildPfad angeben mit Optionen zur z.B. Größe (scale, width, height)	
+\caption[USV mit VFD Topologie]{USV mit VFD Topologie \cite{bild}}	% Bildunterschrift
+\label{vfd}																		% Name um auf Bild zu verweisen wie bei Tabellen
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Tabelle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[ht]
+ \centering
+		\begin{tabular}{| p{6.5cm} | p{2.5cm} | p{4.0cm} |}
+		\hline
+		
+		\textbf{Netzstörung} 						& \textbf{Zeit} 		& \textbf{Topologie}\\
+		\hline
+		1. Netzausfälle									& \textgreater 10ms & VFD (Offline)\\
+		\hline
+		2. Spannungs-Einbrüche					& \textgreater 10ms & VFD (Offline)\\
+		\hline
+		3. Spannungsspitzen							& \textgreater 10ms & VFD (Offline)\\
+		\hline
+		
+		\end{tabular}
+	\caption[USV Schutzwirkungen im Vergleich]{USV Schutzwirkungen im Vergleich \cite{tabelle}}
+	\label{tab:VergleichUSV}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% nicht zitierte Quellen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\nocite{Solvin}
