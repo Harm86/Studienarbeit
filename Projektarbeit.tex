@@ -101,7 +101,8 @@ top=2.5cm, bottom=2.5cm]{geometry}
 \begin{titlepage}
 \begin{center}													% Referenzpunkt Seitenmitte
 \vspace*{-2cm}													% 2 cm nach Links Platz lassen
-\FirmenLogoDeckblatt\hfill\includegraphics[width=4cm]{Bilder/dhbw-logo}\\[2cm] % Firmenlogo platzieren
+\hfill\includegraphics[width=4cm]{Bilder/dhbw-logo}\\[2cm]  % Firmenlogo
+% platzieren
 
 {\Huge \Titel}\\[2cm]										% \Huge, \Large, \large sind versch. Schriftgrößen \bfseries ist Fett gedruckt
 {\Huge\scshape \Was}\\[2cm]							% [] Inhalt ist Abstand zur nächsten Zeile
@@ -117,13 +118,10 @@ top=2.5cm, bottom=2.5cm]{geometry}
 \end{center}														% Referenzpunkt Mitte beenden
 
 \begin{tabular}{l@{\hspace{2cm}}l}			% Beginn Tabelle mit einer Spalte nach der 2cm Platz gelassen wird bevor die nächste beginnt
-Bearbeitungszeitraum           & \Dauer 			    \\
-Matrikelnummer	               & \MatrikelNummer	\\
-Kurs			         						 & \Kursbezeichnung	\\
-%Ausbildungsfirma	             & \FirmenName			\\
-%			                         & \FirmenStadt			\\
-%Betreuer der Ausbildungsfirma	 & \BetreuerFirma		\\
-Gutachter der Studienakademie	 & \BetreuerDHBW		\\
+%Bearbeitungszeitraum           	& \Dauer 				\\
+Matrikelnummer	             	& \MatrikelNummer		\\
+Kurs			         		& \Kursbezeichnung		\\
+Gutachter der Studienakademie	& \BetreuerDHBW			\\
 \end{tabular}														% Tabelle abschließen
 \end{titlepage}													% Titelseite abschließen
 \end{singlespace}												% ab hier wieder 1.5 fach Zeilenabstand
