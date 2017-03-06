@@ -7,11 +7,48 @@
 \subsection{MySQL}
 
 \section{Raspberry Pi}
+Der Raspberry Pi wurde von der britischen Raspberry Pi Foundation entworfen um
+jungen Menschen den Erwerb von Programmier- und Hardwarekenntnissen zu
+ermöglichen. Er ist ein Einplatinencomputer und für wenig Geld verfügbar. Der
+Raspberry Pi zeichnet sich durch frei programmierbare Schnittstellen aus um
+beispielsweise Sensoren anzuschließen.
+
+ Mittlerweile gibt es mehrere Modelle:
+
+\begin{itemize} 
+\item Pi Zero 
+\item Pi Zero W
+\item Pi 1 Modell A
+\item Pi 1 Modell A+
+\item Pi 1 Modell B
+\item Pi 1 Modell B+
+\item Pi 2 Modell B
+\item Pi 3 Modell B 
+\end{itemize}
+
 
 \section{Konfiguration}
 
+Die Sensoren werden an einen Raspberry Pi angeschlossen und melden die
+gemessenen Werte an einen zentralen Raspberry Pi. Der zentrale Raspberry Pi legt
+die gemeldeten Daten in einer Datenbank ab. Eine Website greift auf die
+Datenbank zu und stellt die Daten dar. 
+
 \section{Sensoren}
+
+Es werden folgende Sensoren verwendet:
+
+\begin{itemize}
+\item Feuersensor
+\item
+\end{itemize}
 
 \section{Vernetzung}
 
+Die Vernetzung erfolgt über ein Funknetz nach dem WLAN-Standard 802.11n. 
+
 \section{Verschlüsselung}
+
+Das WLAN ist mit WPA2 verschlüsselt. WPA2 gilt aktuell als sicher, was nicht für
+die Alternativen WEP oder WPA gilt. Zur Authentifizierung wird ein
+Pre-Shared-Key (PSK) verwendet.

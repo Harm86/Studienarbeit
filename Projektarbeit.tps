@@ -17,7 +17,7 @@ Class=LaTeXView
 Document=Projektarbeit.tex
 
 [Frame0_View0,0]
-TopLine=177
+TopLine=174
 Cursor=6174
 
 [Frame1]
@@ -108,9 +108,9 @@ Document=Kapitel\5\Kapitel5.tex
 
 [Frame5_View0,0]
 TopLine=0
-Cursor=273
+Cursor=112
 
 [SessionInfo]
 FrameCount=6
-ActiveFrame=0
+ActiveFrame=1
 
