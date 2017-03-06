@@ -38,14 +38,14 @@ subnet 192.168.178.0 netmask 255.255.255.0
 
 \subsection{WLAN}
 
-Das WLAN ist mit dem Namen Pinet konfiguriert.
+Das WLAN ist mit dem Namen Pinet konfiguriert. Kanal 6 ist als Funkkanal
+festgelegt.
 
 
 \begin{verbatim}
 /etc/hostapd/hostapd.conf
 
 interface=wlan0
-#driver=rtl871xdrv
 ssid=Pinet
 country_code=DE
 hw_mode=g
@@ -66,6 +66,10 @@ wme_enabled=1
 \subsection{Mesh}
 
 \subsection{Verschlüsselung ?}
+
+\subsection{Website}
+
+
 
 \section{Sensoren}
 

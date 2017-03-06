@@ -6,6 +6,8 @@
 
 \subsection{MySQL}
 
+\subsection{PHP}
+
 \section{Raspberry Pi}
 Der Raspberry Pi wurde von der britischen Raspberry Pi Foundation entworfen um
 jungen Menschen den Erwerb von Programmier- und Hardwarekenntnissen zu
@@ -32,7 +34,12 @@ beispielsweise Sensoren anzuschließen.
 Die Sensoren werden an einen Raspberry Pi angeschlossen und melden die
 gemessenen Werte an einen zentralen Raspberry Pi. Der zentrale Raspberry Pi legt
 die gemeldeten Daten in einer Datenbank ab. Eine Website greift auf die
-Datenbank zu und stellt die Daten dar. 
+Datenbank zu und stellt die Daten dar.\\
+Die Kommunikation wird über ein eigenes WLAN-Netz abgewickelt das von der
+Zentraleinheit aufgespannt wird. IP-Adressen werden von einem DHCP-Server, der
+auf der Zentraleinheit installiert ist vergeben.\\
+Die Website wird durch einen Apache-Webserver auf der Zentraleinheit
+bereitgestellt.
 
 \section{Sensoren}
 
