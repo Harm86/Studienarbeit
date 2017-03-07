@@ -38,8 +38,31 @@ subnet 192.168.178.0 netmask 255.255.255.0
 
 \subsection{WLAN}
 
-Das WLAN ist mit dem Namen Pinet konfiguriert. Kanal 6 ist als Funkkanal
-festgelegt.
+Es wird ein Funknetz auf Basis des 802.11n Standards verwendet. Der Name lautet
+Pinet. Kanal 6 ist als Funkkanal festgelegt.
+
+\begin{tabular}{p{0.5\textwidth} p{0.45\textwidth}}
+Befehl & Erklärung \\
+interface=wlan0 & Das Interface auf dem das Funknetz ausgestrahlt wird \\
+ssid=Pinet & Der name des Funknetzes \\
+country\_code=DE & Über die Festlegung der Region wird sichergestellt, dass das
+Funknetz die spezifischen Grenzwerte für Kanäle oder Sendestärke einhält \\
+hw\_mode=g & legt fest, dass das Funknetz im 2,4 GHz-Band ausgestrahlt wird \\
+channel=6 & Der Funkkanal 6 wird verwendet \\
+macaddr\_acl=0 & MAC-Adressenfilterung ist deaktiviert \\
+auth\_algs=1 & Legt fest, dass als Verschlüsselung WPA verwendet wird \\
+ignore\_broadcast\_ssid=0 & Die SSID wird ausgestrahlt und nicht versteckt. \\
+wpa=2 & Legt die WPA-Version fest auf WPA2 \\
+wpa\_passphrase=IrgendeinbloedesPasswort & Legt den Pre-Shared-Key fest \\
+wpa\_key\_mgmt=WPA-PSK & Legt fest, dass ein Pre-Shared-Key verwendet wird \\
+wpa\_pairwise=CCMP & Legt fest, dass nur der AES-Verschlüsselungsalgorithmus
+verwendet wird \\
+wpa\_group\_rekey=86400 & Legt fest, dass alle 86400 Sekunden ein neuer
+Schlüssel verwendet werden muss \\
+ieee80211n=1 & Aktiviert den n-Standard \\
+wme\_enabled=1 & Aktiviert Quality-of-Service - Voraussetzung für die Verwendung
+des n-Standards \\
+ \end{tabular}
 
 
 \begin{verbatim}
