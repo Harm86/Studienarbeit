@@ -59,5 +59,44 @@ Darstellung der geplanten Umgebung}
 \end{centering}
 \end{figure} 
 
+\section{Website}
+
+Auf der Website kann man sich einloggen und einen neuen Benutzer registrieren.
+Nach dem Login kommt man auf eine Übersicht auf der alle Sensorknoten in
+Tabellenform abgebildet sind mit den aktuell gemessenen Werten. \\
+Auf der Statistik-Seite wird ein Verlauf über mehrere Tage zu einem Sensor
+abgebildet.\\
+Die Webcam-Seite dient dazu, auf die Webcams zuzugreifen, die an den einzelnen Sensorknoten
+angeschlossen sind.\\
+Das Impressum dient dazu das Projekt kurz zu beschreiben und dieses Dokument
+herunterzuladen.\\
+Auf der Logout-Seite bekommt man die Meldung, dass man ausgeloggt ist und die
+Möglichkeit zurück zur Login-Seite zu kommen.
+(\nameref{Darstellung_Website_einfach})
+
+
+\begin{figure} [htb]
+\begin{centering}
+\includegraphics[scale=0.8]{Bilder/struktur_website_einfach.pdf}
+\caption[Schematische Darstellung der geplanten Website]{Schematische
+Darstellung der geplanten Website}
+\label{Darstellung_Website_einfach}
+\end{centering}
+\end{figure}
+
+
+\section{Konfiguration}
+
+Die Sensoren werden an einen Raspberry Pi angeschlossen und melden die
+gemessenen Werte an einen zentralen Raspberry Pi. Der zentrale Raspberry Pi legt
+die gemeldeten Daten in einer Datenbank ab. Eine Website greift auf die
+Datenbank zu und stellt die Daten dar.\\
+Die Kommunikation wird über ein eigenes WLAN-Netz abgewickelt das von der
+Zentraleinheit aufgespannt wird. IP-Adressen werden von einem DHCP-Server, der
+auf der Zentraleinheit installiert ist vergeben.\\
+Die Website wird durch einen Apache-Webserver auf der Zentraleinheit
+bereitgestellt.
+
+
 \section{Datendiagramme}
 
