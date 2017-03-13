@@ -6,7 +6,11 @@
 
 \subsection{MySQL}
 
+\subsection{HTML 5.0}
+
 \subsection{PHP}
+
+\subsection{Javascript}
 
 \section{Raspberry Pi}
 Der Raspberry Pi wurde von der britischen Raspberry Pi Foundation entworfen um
@@ -29,17 +33,7 @@ beispielsweise Sensoren anzuschließen.
 \end{itemize}
 
 
-\section{Konfiguration}
 
-Die Sensoren werden an einen Raspberry Pi angeschlossen und melden die
-gemessenen Werte an einen zentralen Raspberry Pi. Der zentrale Raspberry Pi legt
-die gemeldeten Daten in einer Datenbank ab. Eine Website greift auf die
-Datenbank zu und stellt die Daten dar.\\
-Die Kommunikation wird über ein eigenes WLAN-Netz abgewickelt das von der
-Zentraleinheit aufgespannt wird. IP-Adressen werden von einem DHCP-Server, der
-auf der Zentraleinheit installiert ist vergeben.\\
-Die Website wird durch einen Apache-Webserver auf der Zentraleinheit
-bereitgestellt.
 
 \section{Sensoren}
 
@@ -50,12 +44,12 @@ Es werden folgende Sensoren verwendet:
 \item
 \end{itemize}
 
-\section{Vernetzung}
+\section{802.11}
 
 Die Vernetzung erfolgt über ein Funknetz nach dem WLAN-Standard 802.11n. 
 
 \section{Verschlüsselung}
+WEP, WPA, WPA2
 
-Das WLAN ist mit WPA2 verschlüsselt. WPA2 gilt aktuell als sicher, was nicht für
-die Alternativen WEP oder WPA gilt. Zur Authentifizierung wird ein
-Pre-Shared-Key (PSK) verwendet.
+
+
