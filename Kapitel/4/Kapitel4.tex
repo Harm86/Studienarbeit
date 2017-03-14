@@ -80,9 +80,9 @@ Pre-Shared-Key (PSK) verwendet.
 
 \subsection{Mesh}
 
-\subsection{Website}
+\section{Website}
 
-\subsubsection{Login}
+\subsection{Login}
 
 Der Login, die Registrierung und der Logout ist nach der Anleitung von
 wikiHow erstellt und entsprechend angepasst worden. (\cite{PHP-Login})
@@ -109,16 +109,35 @@ weiterleitet \\
 register\_inc & Code der abläuft wenn sich ein User neu registriert \\
 forms.js & Javascriptdatei, für das Hashen und überprüfen der Passwörter \\
 sha512.js & Hashfunktion \\
+style.css & CSS-Datei für zentrale Designeinstellungen \\
  \end{tabular}
 \end{table}
 
-\subsubsection{Übersicht}
+In der Datei functions.php sind zentrale Funktionen gesammelt, die nachfolgend
+beschrieben werden:
 
-\subsubsection{Statistik}
+\subsubsection{sec_session_start}
+Diese Funktion vergibt eine Session-ID
 
-\subsubsection{Webcam}
+\subsubsection{login}
+Diese Funktion steuert alle notwendigen abläufe den Login betreffend.
 
-\subsubsection{Impressum}
+\subsubsection{checkbrute}
+
+\subsubsection{login_check}
+Diese Funktion prüft ob ein Anwender eingeloggt ist und setzt den entsprechenden
+Parameter, der dann entscheidet was der Anwender auf der Website sieht.
+
+\subsubsection{esc_url}
+
+
+\subsection{Übersicht}
+
+\subsection{Statistik}
+
+\subsection{Webcam}
+
+\subsection{Impressum}
 
 
 \section{Sensoren}
