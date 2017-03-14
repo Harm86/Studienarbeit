@@ -4,7 +4,7 @@
 
 \subsection{DHCP}
 
-Als DHCP-Server wurde der ISC-DHCP-Server verwendet.\\
+Als DHCP-Server wird der ISC-DHCP-Server verwendet.\\
 Die IP-Adressen werden nur über das wlan0-Interface der Zentraleinheit vergeben.
 Als Netz wurde das Private Netz 192.168.178.0 /24 verwendet. In diesem Netz hat
 Die Zentraleinheit als DHCP-Server die Adresse 192.168.178.1 /24. Diese Adresse
@@ -83,6 +83,34 @@ Pre-Shared-Key (PSK) verwendet.
 \subsection{Website}
 
 \subsubsection{Login}
+
+Der Login, die Registrierung und der Logout ist nach der Anleitung von
+wikiHow erstellt und entsprechend angepasst worden. (\cite{PHP-Login})
+\\
+Der Login besteht aus mehreren Dateien, deren Funktion in der Tabelle
+(\nameref{tab:Login-Dateien}) aufgezählt ist.
+
+\begin{table}
+\caption{PHP-Login-Dateien und Funktion}
+\label{tab:Login-Dateien}
+\begin{tabular}{p{0.5\textwidth} p{0.45\textwidth}}
+Datei & Erklärung \\
+Login.php & Die Loginseite - Gleichzeitig auch die Startseite bei Aufruf der
+Server-IP\\
+Register.php & Die Registrierungsseite \\
+Register\_success.php & Die Seite, die nach einer erfolgreichen Registrierung
+angezeigt wird \\
+Logout.php & Die Seite, die nach einem erfolgreichen Logout angezeigt wird \\
+psl\_config.php & Festlegung von Variablen, die mehrfach verwendet werden \\
+db-connect.php & Datenbank-Connector \\
+functions.php & Relevante Funktionen, die benötigt werden \\
+process\_login.php & Code der die Logindaten der Loginseite überprüft und danach
+weiterleitet \\
+register\_inc & Code der abläuft wenn sich ein User neu registriert \\
+forms.js & Javascriptdatei, für das Hashen und überprüfen der Passwörter \\
+sha512.js & Hashfunktion \\
+ \end{tabular}
+\end{table}
 
 \subsubsection{Übersicht}
 
