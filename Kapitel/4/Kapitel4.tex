@@ -39,9 +39,15 @@ subnet 192.168.178.0 netmask 255.255.255.0
 
 \subsection{WLAN}
 
-Es wird ein Funknetz auf Basis des 802.11n Standards verwendet. Der Name lautet
-Pinet. Kanal 6 ist als Funkkanal festgelegt.
+Es wird ein Funknetz auf Basis des 802.11n Standards verwendet. Als Name wurde
+Pinet festgelegt, der von allen gesehen werden kann. In der Tabelle
+(\nameref{tab:WLAN-Konfiguration}) sind die einzelnen Optionen
+aufgeführt und erläutert.
 
+
+\begin{table}
+\caption{WLan-Konfigurationsdetails}
+\label{tab:WLAN-Konfiguration}
 \begin{tabular}{p{0.5\textwidth} p{0.45\textwidth}}
 Befehl & Erklärung \\
 interface=wlan0 & Das Interface auf dem das Funknetz ausgestrahlt wird \\
@@ -64,6 +70,7 @@ ieee80211n=1 & Aktiviert den n-Standard \\
 wme\_enabled=1 & Aktiviert Quality-of-Service - Voraussetzung für die Verwendung
 des n-Standards \\
  \end{tabular}
+\end{table}
 
 \subsection{Verschlüsselung}
 
