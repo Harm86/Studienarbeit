@@ -1,6 +1,6 @@
 \chapter{Planung}
 
-\section{Vorgehen}
+\section*{Vorgehen} %wohindamit ?
 
 Zuerst muss sich über das Themengebiet informiert werden. Danach erfolgt der
 Entwurf eines Konzepts mit daran anschließender Technologieauswahl. Nachdem die
@@ -9,41 +9,9 @@ parallel dazu mit der Aufteilung der Aufgaben in Arbeitspakete begonnen. Im
 nächsten Schritt werden die Arbeitspakete in logischer Abfolge abgearbeitet und
 das Konzept so schrittweise umgesetzt.
 
-\subsection{Zeitplanung}
+\section{Netzwerkplanung} %Konfiguration
 
-Die Zeitplanung ist Semesterbedingt in zwei große Blöcke unterteilt.\\
-Im ersten Semester werden folgende Punkte umgesetzt:
-
-\begin{enumerate}
-  \item Informationsphase
-  \item Entwicklung eines Konzeptes
-  \item Technologieauswahl
-  \item Beschaffung von notwendiger Hard- und Software
-  \item Aufteilung der Aufgaben in Arbeitspakete
-  \item Erstellen der Zeitplanung
-\end{enumerate}
-
-Im zweiten Semester werden folgende Punkte umgesetzt:
-
-\begin{enumerate}
-  \item Abarbeitung der Arbeitspakete
-  \item Erstellung der Dokumentation
-\end{enumerate}
-
-\subsection{GANTT-Diagramm}
-
-Das folgende GANTT-Diagramm wurde im Rahmen der Zeitplanung erstellt:
-
-\section{Soll-Zustand}
-Die Sensoren werden kontinuierlich abgefragt und senden die gemessenen Werte an
-die Datenbank auf der Zentraleinheit. Dort werden die Daten entsprechend dem
-meldenden Sensorknoten abgespeichert. Die Website greift auf die Datenbank zu
-und lädt die Daten in eine tabellarische Darstellung, die der Benutzer dann
-sieht. Durch einen Zeitstempel ist es möglich bei Daten der Temperatursensoren
-und der Feuchtigkeitssensoren einen Verlauf darzustellen.
-
-\section{Netzplan}
-
+\subsection{Netzwerkplan}
 Die Sensoren sind an den Sensorknoten angeschlossen. Die Daten werden per WLAN
 an die Zentraleinheit gesendet. Dort werden die Daten in die Datenbank
 geschrieben.\\
@@ -59,7 +27,15 @@ Darstellung der geplanten Umgebung}
 \end{centering}
 \end{figure} 
 
-\section{Website}
+\subsection{Kommunikation}
+
+\section{Sensorknoten}
+\subsection{Python vs. Java}
+\subsection{Auslesen der Sensoren}
+
+\section{Zentraleinheit}
+\subsection{Datenbank}
+\subsection{Website}
 
 Auf der Website kann man sich einloggen und einen neuen Benutzer registrieren.
 Nach dem Login kommt man auf eine Übersicht auf der alle Sensorknoten in
@@ -85,18 +61,39 @@ Darstellung der geplanten Website}
 \end{figure}
 
 
-\section{Konfiguration}
 
-Die Sensoren werden an einen Raspberry Pi angeschlossen und melden die
-gemessenen Werte an einen zentralen Raspberry Pi. Der zentrale Raspberry Pi legt
-die gemeldeten Daten in einer Datenbank ab. Eine Website greift auf die
-Datenbank zu und stellt die Daten dar.\\
-Die Kommunikation wird über ein eigenes WLAN-Netz abgewickelt das von der
-Zentraleinheit aufgespannt wird. IP-Adressen werden von einem DHCP-Server, der
-auf der Zentraleinheit installiert ist vergeben.\\
-Die Website wird durch einen Apache-Webserver auf der Zentraleinheit
-bereitgestellt.
+\section{Zeitplanung}
 
+Die Zeitplanung ist Semesterbedingt in zwei große Blöcke unterteilt.\\
+Im ersten Semester werden folgende Punkte umgesetzt:
 
-\section{Datendiagramme}
+\begin{enumerate}
+  \item Informationsphase
+  \item Entwicklung eines Konzeptes
+  \item Technologieauswahl
+  \item Beschaffung von notwendiger Hard- und Software
+  \item Aufteilung der Aufgaben in Arbeitspakete
+  \item Erstellen der Zeitplanung
+\end{enumerate}
+
+Im zweiten Semester werden folgende Punkte umgesetzt:
+
+\begin{enumerate}
+  \item Abarbeitung der Arbeitspakete
+  \item Erstellung der Dokumentation
+\end{enumerate}
+
+\subsection*{GANTT-Diagramm}
+
+Das folgende GANTT-Diagramm wurde im Rahmen der Zeitplanung erstellt:
+
+\section*{Soll-Zustand}
+Die Sensoren werden kontinuierlich abgefragt und senden die gemessenen Werte an
+die Datenbank auf der Zentraleinheit. Dort werden die Daten entsprechend dem
+meldenden Sensorknoten abgespeichert. Die Website greift auf die Datenbank zu
+und lädt die Daten in eine tabellarische Darstellung, die der Benutzer dann
+sieht. Durch einen Zeitstempel ist es möglich bei Daten der Temperatursensoren
+und der Feuchtigkeitssensoren einen Verlauf darzustellen.
+
+\section*{Datendiagramme}
 xfdtrdzhftjgzjfkzjtderdsfrtdrthztjswtqw

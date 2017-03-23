@@ -1,40 +1,17 @@
 \chapter{Umsetzung}
 
-\section{Allgemein}
+%\section{Konfiguration}
+Die Sensoren werden an einen Raspberry Pi angeschlossen und melden die
+gemessenen Werte an einen zentralen Raspberry Pi. Der zentrale Raspberry Pi legt
+die gemeldeten Daten in einer Datenbank ab. Eine Website greift auf die
+Datenbank zu und stellt die Daten dar.\\
+Die Kommunikation wird über ein eigenes WLAN-Netz abgewickelt das von der
+Zentraleinheit aufgespannt wird. IP-Adressen werden von einem DHCP-Server, der
+auf der Zentraleinheit installiert ist vergeben.\\
+Die Website wird durch einen Apache-Webserver auf der Zentraleinheit
+bereitgestellt.
 
-\subsection{DHCP}
-
-Als DHCP-Server wird der ISC-DHCP-Server verwendet.\\
-Die IP-Adressen werden nur �ber das wlan0-Interface der Zentraleinheit vergeben.
-Als Netz wurde das Private Netz 192.168.178.0 /24 verwendet. In diesem Netz hat
-Die Zentraleinheit als DHCP-Server die Adresse 192.168.178.1 /24. Diese Adresse
-ist Statisch eingetragen. Alle anderen Geräte erhalten dynamische IP-Adressen
-aus dem Bereich 192.168.178.10 - 192.168.178.250. Die Lease-Time wurde auf
-604800 sekunden festgelegt. Dies entspricht 7 Tagen. Da nur wenige Geräte im
-Netz verfügbar sind und auch keine häufigen Änderungen erwartet werden wird dies
-als ausreichend angesehen.
-
-\begin{verbatim}
-/etc/dhcp/dhcpd.conf
-
-#Rogue-DHCP-Server nicht erlauben (Doppelter DHCP-Server)
-authoritative;
-
-#Definition des Subnetzes
-subnet 192.168.178.0 netmask 255.255.255.0
-{
-        #Angabe der DHCP-Range
-        range 192.168.178.10 192.168.178.250;
-
-        #Angabe der Lease-Times 7 Tage in sekunden
-        default-lease-time 604800;
-        max-lease-time 604800;
-
-        #Begrenzung auf das WLAN-Interface
-        interface wlan0;
-}
-
-\end{verbatim}
+\section{Netzwerkkonfiguration}
 
 
 \subsection{WLAN}
@@ -72,14 +49,59 @@ des n-Standards \\
  \end{tabular}
 \end{table}
 
-\subsection{Verschlüsselung}
+\subsection{DHCP}
 
-Das WLAN ist mit WPA2 verschlüsselt. WPA2 gilt aktuell als sicher, was nicht für
-die Alternativen WEP oder WPA gilt. Zur Authentifizierung wird ein
-Pre-Shared-Key (PSK) verwendet.
+Als DHCP-Server wird der ISC-DHCP-Server verwendet.\\
+Die IP-Adressen werden nur �ber das wlan0-Interface der Zentraleinheit vergeben.
+Als Netz wurde das Private Netz 192.168.178.0 /24 verwendet. In diesem Netz hat
+Die Zentraleinheit als DHCP-Server die Adresse 192.168.178.1 /24. Diese Adresse
+ist Statisch eingetragen. Alle anderen Geräte erhalten dynamische IP-Adressen
+aus dem Bereich 192.168.178.10 - 192.168.178.250. Die Lease-Time wurde auf
+604800 sekunden festgelegt. Dies entspricht 7 Tagen. Da nur wenige Geräte im
+Netz verfügbar sind und auch keine häufigen Änderungen erwartet werden wird dies
+als ausreichend angesehen.
+
+\begin{verbatim}
+/etc/dhcp/dhcpd.conf
+
+#Rogue-DHCP-Server nicht erlauben (Doppelter DHCP-Server)
+authoritative;
+
+#Definition des Subnetzes
+subnet 192.168.178.0 netmask 255.255.255.0
+{
+        #Angabe der DHCP-Range
+        range 192.168.178.10 192.168.178.250;
+
+        #Angabe der Lease-Times 7 Tage in sekunden
+        default-lease-time 604800;
+        max-lease-time 604800;
+
+        #Begrenzung auf das WLAN-Interface
+        interface wlan0;
+}
+
+\end{verbatim}
+%TODO: M�ssen schauen, wo wir das hinpacken
+%\subsection{Verschl�sselung}
+%
+%Das WLAN ist mit WPA2 verschlüsselt. WPA2 gilt aktuell als sicher, was nicht
+% für die Alternativen WEP oder WPA gilt. Zur Authentifizierung wird ein
+%Pre-Shared-Key (PSK) verwendet.
 
 \subsection{Mesh}
+\section{Sensorknoten} %Allgemein Vorinstalation!
+\subsection{Verdrahtung der Sensoren}
+\subsection{Implementierung der Sensoren}
+\subsection{Konfiguraton & Testen der Sensoren}
+\subsection{Priorisierung der Sensoren}
+\subsection{�bertragung der Sensordaten}
 
+\section{Zentraleinheit}%Allgemein Vorinstalation!
+\subsection{Empfagen der Sensordaten}
+\subsection{Bef�llen der Datenbank}
+\subsection{Problematik Zeitsynchronisierung}
+ 
 \section{Website}
 
 \subsection{Login}
@@ -131,7 +153,7 @@ Parameter, der dann entscheidet was der Anwender auf der Website sieht.
 \subsubsection{esc_url}
 
 
-\subsection{Übersicht}
+\subsection{�bersicht}
 
 \subsection{Statistik}
 
@@ -139,11 +161,5 @@ Parameter, der dann entscheidet was der Anwender auf der Website sieht.
 
 \subsection{Impressum}
 
-
-\section{Sensoren}
-
-\subsection{Sensoreinrichtung}
-
-\subsection{Programmcode}
-
-\section{Namenskonvention}
+\section{Refactoring}
+\section{Systemtest}
