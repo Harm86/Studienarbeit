@@ -13,7 +13,7 @@
 \usepackage{graphicx}						% für Bilder
 \usepackage{cite}	%					% für bestimmte Zitierfunktionen
 \usepackage[footnote]{acronym}	% für Abkürzungen in Fußnote
-\usepackage{caption}						% Um Bildunterschriften zu konfigurieren (mit, ohne erscheinen im Abkürzungsverzeichnis)
+\usepackage{caption}					% Um Bildunterschriften zu konfigurieren (mit, ohne erscheinen im Abkürzungsverzeichnis)
 \usepackage{setspace}						% für Zeilenabstand
 \usepackage{url}   							% Package zur Darstellung von URL's
 \usepackage{eurosym}  					% Package zur Darstellung von €-Zeichen
@@ -25,19 +25,19 @@
 						]{hyperref}
 \usepackage{etoolbox}  		% http://dante.ctan.org/tex-archive/help/Catalogue/entries/etoolbox.html
 \usepackage{csquotes}
-%%\usepackage[
-%%	hyperref=true,          % Klickbare Referenzen in der PDF-Datei
-%%  backref=true,           % In der Literaturref. die Seiten angeben, wo ein
+\usepackage[
+	hyperref=true,          % Klickbare Referenzen in der PDF-Datei
+  backref=true,           % In der Literaturref. die Seiten angeben, wo ein
   % \cite dazu steht
-%%  bibencoding=inputenc,   % s. inputenc-Paket
-%%  backend = biber,
-%%  style = alphabetic,			% [Aut98]
+  bibencoding=inputenc,   % s. inputenc-Paket
+  backend = biber,
+  style = alphabetic,			% [Aut98]
 	%style=authoryear-comp,	% Autor Jahr
 	%style=numeric-comp,		% [1]
-%%	sorting=nty]{biblatex}  %
+	sorting=nty]{biblatex}  %
 	% http://dante.ctan.org/tex-archive/help/Catalogue/entries/biblatex.html
 
-%%\addbibresource{Literaturverzeichnis.bib}
+\addbibresource{Literaturverzeichnis.bib}
 %%
 \newcommand{\tabitem}{~~\llap{\textbullet}~~}			% itemize in einer \tabular Umgebung
 
@@ -191,8 +191,7 @@ Kurze Zusammenfassung (Abstract)
 %\bibliography{Literaturverzeichnis}		% Pfad des Literaturverzeichnisses.bib
 
 \printbibliography
-%Neues Quellenverzeichnis
-\input{Quellen/quellen.tex}
+
 \newpage
 \thispagestyle{plain}
 \input{Anhang/anhang.tex}							% Anhang Einbinden
