@@ -11,7 +11,7 @@
 \usepackage[ngerman]{babel}			% Deutsches Sprachpaket/Silbentrennung etc.
 \usepackage[utf8]{inputenc}			% verwendeter Codec (für Umlaute)
 \usepackage{graphicx}						% für Bilder
-%\usepackage{cite}								% für bestimmte Zitierfunktionen
+\usepackage{cite}	%					% für bestimmte Zitierfunktionen
 \usepackage[footnote]{acronym}	% für Abkürzungen in Fußnote
 \usepackage{caption}						% Um Bildunterschriften zu konfigurieren (mit, ohne erscheinen im Abkürzungsverzeichnis)
 \usepackage{setspace}						% für Zeilenabstand
@@ -25,18 +25,20 @@
 						]{hyperref}
 \usepackage{etoolbox}  		% http://dante.ctan.org/tex-archive/help/Catalogue/entries/etoolbox.html
 \usepackage{csquotes}
-\usepackage[
-	hyperref=true,          % Klickbare Referenzen in der PDF-Datei
-  backref=true,           % In der Literaturref. die Seiten angeben, wo ein \cite dazu steht
-  bibencoding=inputenc,   % s. inputenc-Paket
-  backend = biber,
-  style = alphabetic,			% [Aut98]
+%%\usepackage[
+%%	hyperref=true,          % Klickbare Referenzen in der PDF-Datei
+%%  backref=true,           % In der Literaturref. die Seiten angeben, wo ein
+  % \cite dazu steht
+%%  bibencoding=inputenc,   % s. inputenc-Paket
+%%  backend = biber,
+%%  style = alphabetic,			% [Aut98]
 	%style=authoryear-comp,	% Autor Jahr
 	%style=numeric-comp,		% [1]
-	sorting=nty]{biblatex}  % http://dante.ctan.org/tex-archive/help/Catalogue/entries/biblatex.html 
+%%	sorting=nty]{biblatex}  %
+	% http://dante.ctan.org/tex-archive/help/Catalogue/entries/biblatex.html
 
-\addbibresource{Literaturverzeichnis.bib}
-
+%%\addbibresource{Literaturverzeichnis.bib}
+%%
 \newcommand{\tabitem}{~~\llap{\textbullet}~~}			% itemize in einer \tabular Umgebung
 
 \onehalfspacing									% ab hier Zeilenabstand 1,5
