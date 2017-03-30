@@ -26,71 +26,26 @@ Mittlerweile gibt es mehrere Modelle:
 \subsection{Python}
 
 \textsc{Bastian Ballmann} \cite{ballmann2012network} stellt die Scriptsprache Python
-als eine leicht erlernbare und gut lesbare dynamische Scriptsprache dar. 
+als eine leicht erlernbare und gut lesbare dynamische Scriptsprache dar. Mit dieser Scriptsprache ist es möglich die Sensoren des Raspberry Pi zu implementieren. Ebenso gibt es die Möglichkeit eine Datenbankschnittstelle zu erstellen und eine Schnittstelle für die Kommunikation unter den Raspberry Pi's.
+%TODO: Python evtl. Erweitern/neue Quelle
 
-
-\cite{lutz2007einführung}
 \subsection{Java}
-\cite{abts2015grundkurs}
-Java wird als universelle Programmiersprache für eine Vielzahl von Anwendungen
-in der industriellen Praxis auf der Client- und insbesondere auf der
-Serverseite eingesetzt. Sie dient als Standard für die Entwicklung von Unternehmenssoftware
-und Webanwendungen sowie in technische Systeme (Geräte der
-Unterhaltungselektronik, der Medizintechnik usw.) eingebettete und mobile
-Anwendungen (z. B. Apps auf der Basis des Betriebssystems Android).
-Ein hervorstechendes Merkmal von Java ist die Plattformunabhängigkeit, d. h. in
-Java programmierte Anwendungen sind ohne Portierung auf nahezu allen
-Rechnersystemen lauffähig.
-Java hat von den Erfahrungen mit anderen Programmiersprachen wie Smalltalk, C
-und C++ profitiert. Wesentliche Konzepte wurden übernommen. Auf allzu
-komplexe und fehleranfällige Eigenschaften wurde bewusst verzichtet, um die
-Sprache verhältnismäßig einfach und robust halten zu können.
-\subsection{SQL}
-\cite{schicker2017datenbanken}
-Als Zugriffssprache wird SQL (Structured Query Language) verwendet. SQL war zunächst
-eine Sprache für den Endbenutzer. Inzwischen dominieren grafische Oberflächen
-als Schnittstelle zum Anwender. Als Sprache für den Datenbankprogrammierer hat SQL
-dafür eine umso größere Bedeutung erlangt. SQL hat sich, insbesondere seit der ersten
-Normierung (SQL1 1987), zur wichtigsten Standardsprache für Datenbanken entwickelt.
-Diese erste Norm (im Weiteren als SQL1 Norm bezeichnet) wurde 1992 erheblich erweitert
-(SQL2 1992). Die SQL2 Norm ist heute durchgängig implementiert, voll alltagstauglich
-und außer für Spezialanwendungen völlig ausreichend. Sie ist daher die Basis dieses
-Kapitels.
-\subsection{HTML}
-\cite{plenk2017angewandte}
-Die HypertextMarkup Language, abgekürzt HTML, ist eine textbasierte
-Auszeichnungssprache. Das bedeutet, dass HTML beliebige, von Menschen
-für Menschen geschrieben Texte strukturiert. Die visuelle Darstellung
-der Texte ist nicht Teil der HTML-Spezifikationen und wird durch
-den Webbrowser und Gestaltungsvorlagen wie CSS bestimmt.
-HTML kennt verschiedene Gliederungsebenen, Absätze und Tabellen
-zur Strukturierung digitaler Dokumente. Zusätzlich bietet es Hyperlinks,
-Bilder und andere multimediale Inhalte. HTML-Dokumente sind
-die Grundlage des World Wide Web und werden von Webbrowsern dargestellt.
-Neben den vom Browser angezeigten Inhalten können HTMLDateien
-zusätzliche Angaben in Form von Metainformationen enthalten,
-z. B. über die im Text verwendeten Sprachen, den Autor oder den zusammengefassten
-Inhalt des Textes.
-\subsection{PHP}
-\cite{pomaska2012webseiten-programmierung}
-PHP Hypertext Preprocezor wurde für die Web-Programmierung entwickelt. Die
-Sprache orientiert sich an den typischen Aufgaben von Internetanwendungen, das
-sind die Übermittlung von Formulardaten, die Anbindung von Datenbanken oder
-auch die Erzeugung von Webseiten selbst. Es gibt viele Gründe für den Einsatz
-von PHP. Da ist zunächst die weite Verbreitung des Open Source-Projekts mit der
-plattformübergreifenden Anwendung auf unterschiedlichen Betriebssystemen zu
-nennen. Der Entwickler profitiert von der Verfügbarkeit von Programmbausteinen,
-die er in seine Applikation integrieren kann
+
+\textsc{Dietemar Abts} stellt in seinem Buch Grundkurs JAVA : von den Grundlagen bis zu Datenbank- und Netzanwendungen \cite{abts2015grundkurs} Java als eine universelle Programmiersprache für viele Anwendungen in der Industrie auf Client- und Serverseite dar.
+Sie wird als Standart für die Entwicklung von Unternehmenssoftware, Webanwendung, in technischen Systemen und in mobilen Anwendungen verwendet.
+Ein besonderes Merkmal von Java ist die Plattformunabhängigkeit, d.h. Java Anwendungen sind ohne Portierung auf nahezu alle Rechnersystemen 
+lauffähig. Java profitiert von den Erfahrungen mit anderen Programmiersprache wie C, C++ und Smalltalk. Wesentliche Konzepte wurden übernommen und fehleranfällige Eigenschaften wurden bewusst ausgelassen, damit die Sprache verhältnismäßig robust und einfach ist. Mit der Programmiersprache Java ist es möglich, die Sensoren des Raspberry Pi's zu implementieren. Ebenso können Datenbankschnittstellen und Schnittstellen zur Kommunikation erstellt werden.
+
+\subsection{\ac{SQL}}
+Laut \textsc{Edwin Schick}\cite{schicker2017datenbanken} ist \ac{SQL} eine Zugriffsprache für den Endbenutzer. Als Schnittstelle für den Anwender dominieren inzwischen grafische Oberflächen. Für Datenbankprogrammierer hat die Sprache \ac{SQL} an große Bedeutung gewonnen, insbesondere seit der ersten Normierung (SQL1 1987), ist \ac{SQL} die wichtigste Standartsprache für Datenbanken. Die \ac{SQL} Datenbank soll als Speicher für Daten der Raspberry Pi's dienen. Zusätzlich soll die Daten aus der Datenbank lesbar sein.
+\subsection{\ac{HTML}}
+\textsc{Valentin Plenk}\cite{plenk2017angewandte} schreibt, dass \ac{HTML} eine textbasierte Auszeichnungssprache, die von Menschen für Menschen geschrieben Texte strukturiert. Durch den Webbrowser und Gestaltungsvorlangen wie \ac{CSS} wird die visuelle Darstellung der Texte bestimmt. \ac{HTML} kann strukturierte Dokumente durch verschieden Gliederungsebenen, Absätze und Tabellen erstellen. Zusätzlich bietet es Möglichkeiten Hyperlinks, Bilder und andere multimediale Inhalte wiederzugeben. Die Grundlage des World Wide Webs sind \ac{HTML}-Dokumente, die durch die Webbrowser dargestellt werden. Diese Auszeichnungssprache soll zur Darstellung des Projektes im Webbrowser dienen und somit die gesammelten Messdaten u.v.m. anzeigen.
+
+\subsection{\ac{PHP}}
+\textsc{Günther Pomaska} schreibt in seinem Buch Webseiten-Programmierung Sprachen, Werkzeuge, Entwicklung \cite{pomaska2012webseiten-programmierung}, dass \ac{PHP} für die Web-Programmierung entwickelt wurde. Typische Aufgaben von Internetanwendungen werden durch die Sprache abgedeckt, z.B.: Übermittlung von Formulardaten, Anbindung von Datenbanken oder Erzeugen von Webseiten. Gründe für den Einsatz von \ac{PHP} sind, die weite Verbreitung des Open Source-Projekts mit der plattformubergreifenden Anwendung auf unterschiedlichen Betriebssystemen und der Entwickler profitiert von der Verfügbarkeit von Programmierbausteinen.
 
 \subsection{Javascript}
-\cite{pomaska2012webseiten-programmierung}
-JavaScript ist keinesfalls mit der objektorientierten Programmiersprache Java in
-Verbindung zu bringen, obwohl die Syntax der Sprachelemente in vielen Fällen
-gleich ist. JavaScript stellt eine objektbasierte Skriptsprache dar und ergänzt die
-Funktionalität von Web-Browsern. Der Web-Browser kann den Inhalt einer Webseite
-nur statisch abbilden. Durch JavaScript kommt Dynamik in die Seiten. Ohne
-eine Seite neu hoch zu laden, werden Elemente durch Benutzereingriffe dynamisch
-verändert.
+Laut \textsc{Günther Pomaska} \cite{pomaska2012webseiten-programmierung} ist JavaScript nicht mit der objektorientierten Programmiersprache Java in Verbindung zu bringen, obwohl die Syntax der Sprachelemente in vielen Fällen gleich ist. JavaScript ergänzt die Funktionalität von Web-Browsern und ist eine objektbasierte Skriptsprache. Der Browser kann den Inhalt einer Webseite nur statisch abbilden, durch JavaScript können Inhalte dynamisch dargestellt werden. Elemente werden durch Benutzerzugriffe dynamisch verändert, ohne die Seite neu zu laden.
 
 \section{Sensoren}
 \input{Kapitel/2/sensoren.tex}
