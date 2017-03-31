@@ -31,6 +31,23 @@ Darstellung der geplanten Umgebung}
 
 \section{Sensorknoten}
 \subsection{Python vs. Java}
+Für das Projekt ist die richtige Sprache essenziell. Die Sprache muss nicht nur die Daten der Sensoren auslesen, sondern diese auch in Pakete packen und an die Zentraleinheit weitergeben. Die Weitergabe der Datenpackte sollte über eine Schnittstelle erfolgen, die von der ausgewälten Sprache erstellt werden kann. Hierzu wurden zwei Programmiersprachen ausgewählt, Java und Python. Folgende Tabelle zeigt die Funktionaliät der Sprache die für das Projekt notwendig sind:\hfill
+\\
+\begin{table}[]
+	\centering
+	\caption{Python vs. Java}
+	\label{my-label}
+	\begin{tabular}{lll}
+	\textbf{Python} & \textbf{Java} & \textbf{Funktionalität}  \\
+	niedrieg & hoch &  Speicherverbrauch\\
+	vorhanden & nicht vorhanden & Bibliotheken für die Sensoren \\
+	einfach & komplex & Schwierigkeit \\
+	hoch & hoch & Geschwindigkeit \\
+	vorhanden & vorhanden & Schnittstelle für die Datenübertragung
+	\end{tabular}
+\end{table}
+Da die Raspberry Pi's für schnelle kleine Hardwarenahe Projekte ausgelegt sind, fiel die Entscheidung auf die Sprache Python, da Java nur bedingt hardwarenah ist und der Speicherbedarf der Raspberry Pi's begrenzt ist. Ein weitere Vorteil von Python, sind die bereits vorhandenen Bibliotheken und die kurze Einarbeitungszeit. Die kürzer Einabreitungs- und Umsetzungszeit, kommt dem engmaschigen Zeitplan zu gute.
+
 \subsection{Auslesen der Sensoren}
 
 \section{Zentraleinheit}
