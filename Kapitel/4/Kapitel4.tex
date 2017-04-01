@@ -1,6 +1,5 @@
 \chapter{Umsetzung}
 
-%\section{Konfiguration}
 Die Sensoren werden an einen Raspberry Pi angeschlossen und melden die
 gemessenen Werte an einen zentralen Raspberry Pi. Der zentrale Raspberry Pi legt
 die gemeldeten Daten in einer Datenbank ab. Eine Website greift auf die
@@ -49,6 +48,10 @@ des n-Standards \\
  \end{tabular}
 \end{table}
 
+\subsection{Verschlüsselung}
+
+Wie aus der Tabelle WLAN-Konfigurationsdetails (\nameref{tab:WLAN-Konfiguration}) hervorgeht ist das WLAN mit WPA2 verschlüsselt. WPA2 gilt aktuell als sicher, was nicht für die Alternativen WEP oder WPA gilt. Zur Authentifizierung wird ein Pre-Shared-Key (PSK) verwendet. Als Verschlüsselungsprotokoll wird CCMP verwendet. 
+
 \subsection{DHCP}
 
 Als DHCP-Server wird der ISC-DHCP-Server verwendet.\\
@@ -82,12 +85,6 @@ subnet 192.168.178.0 netmask 255.255.255.0
 }
 
 \end{verbatim}
-%TODO: Müssen schauen, wo wir das hinpacken
-%\subsection{Verschlüsselung}
-%
-%Das WLAN ist mit WPA2 verschlüsselt. WPA2 gilt aktuell als sicher, was nicht
-% für die Alternativen WEP oder WPA gilt. Zur Authentifizierung wird ein
-%Pre-Shared-Key (PSK) verwendet.
 
 \subsection{Mesh}
 \section{Sensorknoten} %Allgemein Vorinstalation!
@@ -139,10 +136,11 @@ In der Datei functions.php sind zentrale Funktionen gesammelt, die nachfolgend
 beschrieben werden:
 
 \subsubsection{sec\_session\_start}
-Diese Funktion vergibt eine Session-ID
+Diese Funktion vergibt eine Session-ID und legt fest, dass Cookies verwendet werden.
 
 \subsubsection{login}
-Diese Funktion steuert alle notwendigen abläufe den Login betreffend.
+Diese Funktion steuert alle notwendigen Abläufe den Login betreffend.\\
+Aufgerufen wird die Funktion mit den Parametern Username, Passwort und der Datenbankverbindung. Die Parameter Username und Passwort werden aus POST-Werten der Loginseite übergeben während die Datenbankverbindung in der Datei db-connect.php definiert ist. Durch ein Prepared-Statement werden die Werte mit den eingetragenen Werten der Datenbank verglichen. Existiert der Benutzer, wird zuerst überprüft ob der User momentan gesperrt ist durch die Funktion 'checkbrute'. Ist dies nicht der Fall wird das Passwort überprüft und der Anwender wird gegebenenfalls auf die Seite 'Übersicht' weitergeleitet. Ist das Passwort nicht korrekt wird der fehlgeschlagene Loginversuch in der Datenbank vermerkt.
 
 \subsubsection{checkbrute}
 
