@@ -88,7 +88,14 @@ subnet 192.168.178.0 netmask 255.255.255.0
 
 \subsection{Mesh}
 \section{Sensorknoten} %Allgemein Vorinstalation!
+%TODO: Notwendige Librarys
+Python bietet mit Hilfe der Adafruit\cite{Adafruit60:online} Bibliotheken eine Schnittstelle zu den Sensoren. Die Adafruitbibliothek kann mithilfe des pythoneigenen Packetmanager installiert werden.
+\begin{verbatim}
+pip install adafruit_python_dht
+\end{verbatim}
+Dieses Packet wird zum Ansteuern des DHT-11 Sensors benötigt.
 \subsection{Verdrahtung der Sensoren}
+
 \subsection{Implementierung der Sensoren}
 \subsection{Konfiguraton \& Testen der Sensoren}
 \subsection{Priorisierung der Sensoren}
