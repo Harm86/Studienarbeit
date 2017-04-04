@@ -5,7 +5,7 @@ gemessenen Werte an einen zentralen Raspberry Pi. Der zentrale Raspberry Pi legt
 die gemeldeten Daten in einer Datenbank ab. Eine Website greift auf die
 Datenbank zu und stellt die Daten dar.\\
 Die Kommunikation wird über ein eigenes WLAN-Netz abgewickelt das von der
-Zentraleinheit aufgespannt wird. IP-Adressen werden von einem DHCP-Server, der
+Zentraleinheit aufgespannt wird. IP-Adressen werden von einem \ac{DHCP}-Server, der
 auf der Zentraleinheit installiert ist vergeben.\\
 Die Website wird durch einen Apache-Webserver auf der Zentraleinheit
 bereitgestellt.
@@ -14,62 +14,48 @@ bereitgestellt.
 \section{Netzwerkkonfiguration}
 %TODO: Einleitender satz
 
-%TODO: Acro WLAN
+%TODO: Acro WLAN Anmerkung: WLAN ist eine allgemein bekannte Abkürzung und muss nicht erklärt werden!!
 \subsection{WLAN}
 %TODO: Wird von der Zentraleinheit aufgespannt
-Es wird ein Funknetz auf Basis des 802.11n Standards verwendet. Als Name wurde
-Pinet festgelegt, der von allen gesehen werden kann. In der Tabelle
-(\nameref{tab:WLAN-Konfiguration}) sind die einzelnen Optionen
-aufgeführt und erläutert.
+Es wird ein Funknetz auf Basis des 802.11n Standards verwendet. Aufgespannt wird das WLAN von der Zentraleinheit, auf der zentrale Dienste bereitgestellt werden. Als Name wurde Pinet festgelegt, der von allen gesehen werden kann. In der Tabelle (\nameref{tab:WLAN-Konfiguration}) sind die einzelnen Optionen aufgeführt und erläutert.
 
-%TODO: SSID, Preshared Key, AES Acro 
+ 
 \begin{table}
 \caption{WLan-Konfigurationsdetails}
 \label{tab:WLAN-Konfiguration}
 \begin{tabular}{p{0.5\textwidth} p{0.45\textwidth}}
-\textbf{Befehl} & \textbf{Erklärung} \\
-interface=wlan0 & Das Interface auf dem das Funknetz ausgestrahlt wird \\
-ssid=Pinet 		& Der Name des Funknetzes \\
-country\_code=DE & Über die Festlegung der Region wird sichergestellt, dass das
-Funknetz die spezifischen Grenzwerte für Kanäle oder Sendestärke einhält \\
-hw\_mode=g 		& Legt fest, dass das Funknetz im 2,4 GHz-Band ausgestrahlt wird \\
-channel=6 		& Der Funkkanal 6 wird verwendet \\
-macaddr\_acl=0 	& MAC-Adressenfilterung ist deaktiviert \\
-auth\_algs=1 	& Legt fest, dass als Verschlüsselung WPA verwendet wird \\
-ignore\_broadcast\_ssid=0 & Die SSID wird ausgestrahlt und nicht versteckt. \\
-wpa=2 & Legt die WPA-Version fest auf WPA2 \\
-wpa\_passphrase=********** & Legt den Pre-Shared-Key fest \\
-wpa\_key\_mgmt=WPA-PSK 	& Legt fest, dass ein Pre-Shared-Key verwendet wird \\
-wpa\_pairwise=CCMP 		& Legt fest, dass nur der AES-Verschlüsselungsalgorithmus
-verwendet wird \\
-wpa\_group\_rekey=86400 & Legt fest, dass alle 86400 Sekunden ein neuer
-Schlüssel verwendet werden muss \\
-ieee80211n=1 	& Aktiviert den n-Standard \\
-wme\_enabled=1 & Aktiviert Quality-of-Service - Voraussetzung für die Verwendung
-des n-Standards \\
+\textbf{Befehl} 						& \textbf{Erklärung} \\
+interface=wlan0 						& Das Interface auf dem das Funknetz ausgestrahlt wird \\
+ssid=Pinet 									& Der Name des Funknetzes \\
+country\_code=DE 						& Über die Festlegung der Region wird sichergestellt, dass das Funknetz die spezifischen Grenzwerte für Kanäle oder Sendestärke einhält \\
+hw\_mode=g 									& Legt fest, dass das Funknetz im 2,4 GHz-Band ausgestrahlt wird \\
+channel=6 									& Der Funkkanal 6 wird verwendet \\
+macaddr\_acl=0 							& MAC-Adressenfilterung ist deaktiviert \\
+auth\_algs=1 								& Legt fest, dass als Verschlüsselung \ac{WPA} verwendet wird \\
+ignore\_broadcast\_ssid=0 	& Die \ac{SSID} wird ausgestrahlt und nicht versteckt. \\
+wpa=2 											& Legt die WPA-Version fest auf \ac{WPA2} \\
+wpa\_passphrase=********** 	& Legt den \ac{PSK} fest \\
+wpa\_key\_mgmt=WPA-PSK 			& Legt fest, dass ein \ac{PSK} verwendet wird \\
+wpa\_pairwise=CCMP 					& Legt fest, dass nur der \ac{AES}-Verschlüsselungsalgorithmus verwendet wird \\
+wpa\_group\_rekey=86400 		& Legt fest, dass alle 86400 Sekunden ein neuer Schlüssel verwendet werden muss \\
+ieee80211n=1 								& Aktiviert den n-Standard \\
+wme\_enabled=1 							& Aktiviert \ac{QoS} - Voraussetzung für die Verwendung des n-Standards \\
  \end{tabular}
 \end{table}
 
 \subsection{Verschlüsselung}
 
-Wie aus der Tabelle WLAN-Konfigurationsdetails (\nameref{tab:WLAN-Konfiguration}) hervorgeht ist das WLAN mit WPA2 verschlüsselt. WPA2 gilt aktuell als sicher, was nicht für die Alternativen WEP oder WPA gilt. Zur Authentifizierung wird ein Pre-Shared-Key (PSK) verwendet. Als Verschlüsselungsprotokoll wird CCMP verwendet. 
+Wie aus der Tabelle WLAN-Konfigurationsdetails (\nameref{tab:WLAN-Konfiguration}) hervorgeht ist das WLAN mit \ac{WPA2} verschlüsselt. \ac{WPA2} gilt aktuell als sicher, was nicht für die Alternativen \ac{WEP} oder \ac{WPA} gilt. Zur Authentifizierung wird ein \ac{PSK} verwendet. Als Verschlüsselungsprotokoll wird \ac{CCMP} verwendet. 
 
-%TODO: DHCP Acro
-\subsection{DHCP}
-%TODO: Lease-Time erklähren 
-Als DHCP-Server wird der ISC-DHCP-Server verwendet.\\
-Die IP-Adressen werden nur über das wlan0-Interface der Zentraleinheit vergeben.
-Als Netz wurde das Private Netz 192.168.178.0 /24 verwendet. In diesem Netz hat
-die Zentraleinheit als DHCP-Server die Adresse 192.168.178.1 /24. Diese Adresse
-ist Statisch eingetragen. Alle anderen Geräte erhalten dynamische IP-Adressen
-aus dem Bereich 192.168.178.10 - 192.168.178.250. Die Lease-Time wurde auf
-604800 sekunden festgelegt. Dies entspricht 7 Tagen. Da nur wenige Geräte im
-Netz verfügbar sind und auch keine häufigen Änderungen erwartet werden wird dies
-als ausreichend angesehen.
+
+\subsection{\ac{DHCP}}
+ 
+Als \ac{DHCP}-Server wird der ISC-DHCP-Server verwendet.\\
+Die IP-Adressen werden nur über das wlan0-Interface der Zentraleinheit vergeben. Als Netz wurde das Private Netz 192.168.178.0 /24 verwendet. In diesem Netz hat die Zentraleinheit als \ac{DHCP}-Server die Adresse 192.168.178.1 /24. Diese Adresse ist Statisch eingetragen. Alle anderen Geräte erhalten dynamische IP-Adressen aus dem Bereich 192.168.178.10 - 192.168.178.250. Die Lease-Time wurde auf 604800 sekunden festgelegt. Dies entspricht 7 Tagen. Als Lease-Time wird der Zeitraum bezeichnet, in dem ein Netzwerkgerät, die gleiche IP-Adresse erhält. So wird verhindert, dass viele Adressänderungen stattfinden. Da nur wenige Geräte im Netz verfügbar sind und auch keine häufigen Änderungen erwartet werden wird der Zeitraum von 7 Tagen als ausreichend angesehen. Damit der \ac{DHCP}-Server die IP-Adressen nur im WLAN vergibt wurde die IP-Adress-Vergabe auf das Interface wlan0 eingeschränkt.
 %TODO: Kästchen aus um den Quellcode!
-\begin{verbatim}
-/etc/dhcp/dhcpd.conf
 
+
+\begin{lstlisting}[caption=Konfiguration des ISC-DHCP-Server]
 #Rogue-DHCP-Server nicht erlauben (Doppelter DHCP-Server)
 authoritative;
 
@@ -87,7 +73,7 @@ subnet 192.168.178.0 netmask 255.255.255.0
         interface wlan0;
 }
 
-\end{verbatim}
+\end{lstlisting}
 
 %Alex
 \section{Sensorknoten} %Allgemein Vorinstalation!
@@ -154,22 +140,19 @@ Der Login besteht aus mehreren Dateien, deren Funktion in der Tabelle
 \caption{PHP-Login-Dateien und Funktion}
 \label{tab:Login-Dateien}
 \begin{tabular}{p{0.5\textwidth} p{0.45\textwidth}}
-\textbf{Datei} 	& \textbf{Erklärung} \\
-Login.php 		& Die Loginseite - Gleichzeitig auch die Startseite bei Aufruf der
-Server-IP\\
-Register.php 	& Die Registrierungsseite \\
-Register\_success.php & Die Seite, die nach einer erfolgreichen Registrierung
-angezeigt wird \\
-Logout.php 		& Die Seite, die nach einem erfolgreichen Logout angezeigt wird \\
-psl\_config.php & Festlegung von Variablen, die mehrfach verwendet werden \\
-db-connect.php 	& Datenbank-Connector \\
-functions.php 	& Relevante Funktionen, die benötigt werden \\
-process\_login.php & Code der die Logindaten der Loginseite überprüft und danach auf die Übersichtsseite
-weiterleitet \\
-register\_inc 	& Code der abläuft wenn sich ein User neu registriert \\
-forms.js 		& Javascriptdatei, für das Hashen und Überprüfen der Passwörter \\
-sha512.js 		& Hashfunktion nach Standard SHA-512 \\
-style.css 		& CSS-Datei für zentrale Designeinstellungen \\
+\textbf{Datei} 				& \textbf{Erklärung} \\
+Login.php 						& Die Loginseite - Gleichzeitig auch die Startseite bei Aufruf der Server-IP\\
+Register.php 					& Die Registrierungsseite \\
+Register\_success.php & Die Seite, die nach einer erfolgreichen Registrierung angezeigt wird \\
+Logout.php 						& Die Seite, die nach einem erfolgreichen Logout angezeigt wird \\
+psl\_config.php 			& Festlegung von Variablen, die mehrfach verwendet werden \\
+db-connect.php 				& Datenbank-Connector \\
+functions.php 				& Relevante Funktionen, die benötigt werden \\
+process\_login.php 		& Code der die Logindaten der Loginseite überprüft und danach auf die Übersichtsseite weiterleitet \\
+register\_inc 				& Code der abläuft wenn sich ein User neu registriert \\
+forms.js 							& Javascriptdatei, für das Hashen und Überprüfen der Passwörter \\
+sha512.js 						& Hashfunktion nach Standard SHA-512 \\
+style.css 						& CSS-Datei für zentrale Designeinstellungen \\
  \end{tabular}
 \end{table}
 
@@ -182,9 +165,7 @@ Diese Funktion vergibt eine Session-ID und legt fest, dass Cookies verwendet wer
 
 \subsubsection{login}
 Diese Funktion steuert alle notwendigen Abläufe, die den Login betreffend.\\
-Aufgerufen wird die Funktion mit den Parametern Username, Passwort und der Datenbankverbindung. Die Parameter Username und Passwort werden aus POST-Werten der Loginseite übergeben während die Datenbankverbindung in der Datei db-connect.php definiert ist. 
-%TODO: Prepared-STMT hat keine logik. Gibt nur Daten aus der DB zurück
-Durch ein Prepared-Statement werden die Werte mit den eingetragenen Werten der Datenbank verglichen. Existiert der Benutzer, wird zuerst durch die Funktion 'checkbrute' überprüft, ob der Benutzer momentan gesperrt ist. Ist der Benutzer nicht gesperrt, wird das Passwort überprüft und der Anwender wird auf die Seite 'Übersicht' weitergeleitet. Ist das Passwort nicht korrekt, wird der fehlgeschlagene Loginversuch in der Datenbank vermerkt.
+Aufgerufen wird die Funktion mit den Parametern Username, Passwort und der Datenbankverbindung. Die Parameter Username und Passwort werden aus POST-Werten der Loginseite übergeben während die Datenbankverbindung in der Datei db-connect.php definiert ist. Durch ein Prepared-Statement werden die benötigten Werte aus der Datenbank abgerufen. Danach wird verglichen ob der übergebene Username in der Datenbank hinterlegt ist. Existiert der Benutzer, wird zuerst durch die Funktion 'checkbrute' überprüft, ob der Benutzer momentan gesperrt ist. Ist der Benutzer nicht gesperrt, wird das Passwort überprüft und der Anwender wird auf die Seite 'Übersicht' weitergeleitet. Ist das Passwort nicht korrekt, wird der fehlgeschlagene Loginversuch in der Datenbank vermerkt und der Benutzer erhält eine Meldung, dass der Anmeldeversuch fehlgeschlagen ist. 
 
 \subsubsection{checkbrute}
 
@@ -202,6 +183,8 @@ Parameter, der entscheidet was der Anwender auf der Website sieht.
 \subsection{Webcam}
 %Harm
 \subsection{Impressum}
+
+Auf der Seite "`Impressum"' stehen die Namen der drei Autoren, der Titel des Projektes und diese Dokumentation wird zum Download angeboten. Ansonsten ist keine weitere Funktionalität implementiert.
 %Alle
 \section{Refactoring}
 %Alle

@@ -1,13 +1,10 @@
 
 \chapter{Grundlagen}
 %Harm
-\section{Raspberry Pi}
+\section{Raspberry Pi}\label{Raspberry}
 %TODO: Quellen!
-Der Raspberry Pi wurde von der britischen Raspberry Pi Foundation entworfen um
-jungen Menschen den Erwerb von Programmier- und Hardwarekenntnissen zu
-ermöglichen. Er ist ein Einplatinencomputer und für wenig Geld verfügbar. Der
-Raspberry Pi zeichnet sich durch frei programmierbare Schnittstellen aus um
-beispielsweise Sensoren anzuschließen.
+Der Raspberry Pi wurde von der britischen Raspberry Pi Foundation entworfen um jungen Menschen den Erwerb von Programmier- und Hardwarekenntnissen zu
+ermöglichen. Die Bezeichnung Raspberry Pi folgt der "`Tradition"' Computer nach Früchten zu benennen wie beispielsweise bei "`Apple"'. Das Pi steht für Phyton Interpreter und soll verdeutlichen, dass der Raspberry mit einem Phyton Interpreter ausgeliefert wird. Er ist ein Einplatinencomputer und für wenig Geld verfügbar. Der Raspberry Pi zeichnet sich durch frei programmierbare Schnittstellen aus um beispielsweise Sensoren anzuschließen.(\cite{SWB-435432907}
 
 Mittlerweile gibt es mehrere Modelle:
 
@@ -22,8 +19,28 @@ Mittlerweile gibt es mehrere Modelle:
 \item Pi 3 Modell B 
 \end{itemize}
 
-%TODO: Von uns genutzte Modelle hinzufügen
-%TODO: Unterschiede der Modelle erläutern
+Aufgrund der Vielzahl der mittlerweile verfügbaren Modelle konzentriert sich die genauere Beschreibung auf die Modelle "`2 Modell B"' und "`3 Modell B"':
+
+\begin{table}[h]
+\centering
+\caption{Vergleich von Raspberry Pi 2 und 3}
+\label{tab:VergleichRaspberry}
+\begin{tabular}{lll}
+Kriterium                    & Raspberry Pi 2        					& Raspberry Pi 3           \\
+Veröffentlichungsdatum       & Februar 2015          					& Februar 2016             \\
+CPU                          & ARM Cortex-A7   & ARM Cortex-A57           \\
+CPU-Geschwindigkeit (in MHz) & 900             & 1200                     \\
+CPU-Kerne                    & 4                              & 4                        \\
+Arbeitsspeicher (in MB)      & 1024                  					& 1024                     \\
+USB 2.0-Anschlüsse           & 4                     					& 4                        \\
+Ethernetschnittstelle        & 10/100 MBit Ethernet  					& 10/100 MBit Ethernet     \\
+W-Lan                        & \multicolumn{1}{c}{-} 					& 802.11b/g/n (2,4 Ghz)    \\
+Bluetooth                    & \multicolumn{1}{c}{-} 					& Bluetooth 4.1 Low Energy \\
+Anzahl GPIO-Pins             & 26                    					& 26                      
+\end{tabular}
+\end{table}
+\cite{CortexA7} \cite{CortexA57}
+Die Modelle Raspberry Pi 2 Modell B und Raspberry Pi 3 Modell B unterscheiden sich nur in wenigen Eigenschaften. Der Raspberry Pi 3 hat eine höher getaktete CPU, WLAN und Bluetooth.
 
 %Jan
 \section{Sprachen}
@@ -69,9 +86,13 @@ Die Vernetzung erfolgt über ein Funknetz nach dem WLAN-Standard 802.11n.
 
 \subsection{Verschlüsselung}
 %TODO: Einleitung
-WEP, WPA, WPA2
+\subsubsection{\ac{WEP}}
 
-Der Vorteil gegenüber der älteren Alternative TKIP ist, dass \ac{CCMP} auf dem AES-Verschlüsselungsstandard basiert. Bei \ac{CCMP} wird ein 128 Bit Schlüssel mit 48 Bit Initialisierungsvektor verwendet.
+\subsubsection{\ac{WPA}} 
+
+\subsubsection{\ac{WPA2}}
+
+Der Vorteil gegenüber der älteren Alternative \ac{TKIP} ist, dass \ac{CCMP} auf dem \ac{AES}-Verschlüsselungsstandard basiert. Bei \ac{CCMP} wird ein 128 Bit Schlüssel mit 48 Bit Initialisierungsvektor verwendet. \cite{Tanenbaum}
 %%
 
 
