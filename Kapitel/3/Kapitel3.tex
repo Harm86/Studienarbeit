@@ -1,7 +1,7 @@
 \chapter{Planung}
 %TODO: Einleitung für die Planung
 %Harm
-\section{Zeitplanung}
+\section{Zeitplanung}\label{Zeitplanung}
 Zuerst muss sich über das Themengebiet informiert werden. Danach erfolgt der
 Entwurf eines Konzepts mit daran anschließender Technologieauswahl. Nachdem die
 Technologieauswahl getroffen ist wird die notwendige Hardware beschafft und
@@ -26,14 +26,16 @@ Im zweiten Semester werden folgende Punkte umgesetzt:
 	\item Abarbeitung der Arbeitspakete
 	\item Erstellung der Dokumentation
 \end{enumerate}
-
+%Jan
 \subsection*{GANTT-Diagramm}
-
+Die geannten Punkte des Kapitels \nameref{Zeitplanung} müssen zeitlich struktoriert in einem GANTT-Diagramm festgehalten werden.
 Das folgende GANTT-Diagramm wurde im Rahmen der Zeitplanung erstellt:
 
 \section{Netzwerkplanung}
-
+%TODO: Einleitungssatz
+%Harm
 \subsection{Netzwerkplan}
+%TODO: Einleitungssatz
 Die Sensoren sind an den Sensorknoten angeschlossen. Die Daten werden per WLAN
 an die Zentraleinheit gesendet. Dort werden die Daten in die Datenbank
 geschrieben.\\
@@ -49,24 +51,32 @@ Darstellung der geplanten Umgebung}
 \end{centering}
 \end{figure} 
 
+%Harm
 \subsection{Kommunikation}
+%Bsp
+Für die Kommunikation der einzelnen Komponenten ist ein DHCP-Server, der über das WLan eine Verbindung zwischen der Zentraleinheit und der Sensorknoten herstellt.
+%TODO: Schnittstelle erwähnen
 
+%Alex
 \section{Sensorknoten}
-Der Raspbarry Pi, an dem die Messdaten der Sensoren gesammelt werden, wird als Sensorknoten bezeichnet. An diesem können bis zu sieben Sensoren, die im Kapitel \nameref{Sensoren_Planung} beschrieben sind, angeschlossen werden. Neben dem Messen muss der Sensorknoten die Messdaten an die Zentraleinheit weiterleiten, welche die Daten auswertet. Bevor der Sensorknoten implementiert werden kann, muss eine Auswahl der Programmiersprache getroffen werden.
+%TODO: Erwähnen, dass mehrere Sensorknoten geben kann
+Ein Raspberry Pi, an dem die Messdaten der Sensoren gesammelt werden, wird als Sensorknoten bezeichnet. An diesen können bis zu sieben Sensoren, die im Kapitel \nameref{Sensoren_Planung} beschrieben sind, angeschlossen werden. Neben dem Messen muss der Sensorknoten die Messdaten an die Zentraleinheit weiterleiten, welche die Daten auswertet. Bevor der Sensorknoten implementiert werden kann, muss eine Auswahl der Programmiersprache getroffen werden.
+%Jan
 \subsection{Python vs. Java}
-Für das Projekt ist die richtige Sprache essenziell. Die Sprache muss nicht nur die Daten der Sensoren auslesen, sondern diese auch in Pakete packen und an die Zentraleinheit weitergeben. Die Weitergabe der Datenpackte sollte über eine Schnittstelle erfolgen, die von der ausgewälten Sprache erstellt werden kann. Hierzu wurden zwei Programmiersprachen ausgewählt, \nameref{Java} und \nameref{Python}. Folgende Tabelle zeigt die Funktionaliäten der Sprachen, die für das Projekt notwendig sind:\hfill
+Für das Projekt ist die richtige Programmiersprache essenziell. Die Sprache muss nicht nur die Daten der Sensoren auslesen, sondern diese auch in Pakete packen und an die Zentraleinheit weitergeben. Die Weitergabe der Datenpakete soll über eine Schnittstelle erfolgen, die von der ausgewählten Sprache erstellt werden kann. Hierzu werden zwei Programmiersprachen verglichen, \nameref{Java} und \nameref{Python}. Folgende Tabelle vergleicht die Funktionaliäten der Sprachen, die für das Projekt notwendig sind:\hfill
 
 \begin{table}[h]
 	\centering
 	\caption{Python vs. Java}
 	\label{my-label}
-	\begin{tabular}{lll}
-	\textbf{Python} & \textbf{Java} & \textbf{Funktionalität}  \\
-	niedrieg & hoch &  Speicherverbrauch\\
-	vorhanden & nicht vorhanden & Bibliotheken für die Sensoren \\
-	einfach & komplex & Schwierigkeit \\
-	hoch & hoch & Geschwindigkeit \\
-	vorhanden & vorhanden & Schnittstelle für die Datenübertragung
+	\begin{tabular}{l|l|l}
+	\textbf{Funktionalität} & \textbf{Java} &\textbf{Python}   \\
+	\hline
+	 Speicherverbrauch & hoch & niedrig \\\hline
+	Komplexität  & hoch & niedrig\\\hline
+	Geschwindigkeit  & hoch & hoch \\\hline
+	Bibliotheken für die Sensoren & nicht vorhanden & vorhanden \\\hline
+	Schnittstelle für die Datenübertragung & vorhanden & vorhanden
 	\end{tabular}
 \end{table}
 \noindent Da die Raspberry Pi's für schnelle kleine Hardwarenahe Projekte ausgelegt sind, fiel die Entscheidung auf die Sprache Python, da Java nur bedingt hardwarenah ist und die Speicherkapazität der Raspberry Pi's begrenzt ist. Ein weitere Vorteil von Python, sind die bereits vorhandenen Bibliotheken und die kurze Einarbeitungszeit. Die kürzere Einabreitungs- und Umsetzungszeit, kommt dem engmaschigen Zeitplan zu gute.
