@@ -93,9 +93,31 @@ Python bietet mit Hilfe der Adafruit\cite{Adafruit60:online} Bibliotheken eine S
 \begin{verbatim}
 pip install adafruit_python_dht
 \end{verbatim}
-Dieses Packet wird zum Ansteuern des DHT-11 Sensors benötigt.
+Dieses Packet wird zum Ansteuern des DHT-11 Sensors benötigt. Des Weiteren muss der I$^2$C Bus in der Raspi-config Datei aktiviert werden.
 \subsection{Verdrahtung der Sensoren}
+Die Sensoren haben eine feste Zuweisung an die jeweiligen Pins, damit andere Nutzer das System einfacher nachbauen können, ohne Probleme bei der Verbindung der Sensoren zu bekommen. Die Pins sind wie folgt belegt.
 
+\begin{table}[h]
+	\caption{GPIO Pinbelegung der Sensoren}
+	\label{tab:GPIO-Pinbelegung}
+	\begin{tabular}{p{0.15\textwidth} p{0.2\textwidth} p{0.6\textwidth}}
+		\textbf{GPIO-Pin}	& \textbf{Sensor} & \textbf{Beschreibung} \\
+		Pin 5 		& Schocksensor 	& Funktiontsweise über die Flankendetektion\\	
+		Pin 17		& Flammensensor	& True oder False Wert vom Sensor\\
+		Pin 18		& Mikrofon		& True oder False Wert vom Sensor\\
+		Pin 24		& Lichtschranke	& True oder False Wert vom Sensor\\
+		Pin 25		& DHT11 Sensor	& Luftfeuchtigkeits und Temperaturwerte werden als Digitale Werte geliefert
+	\end{tabular}
+	\caption{Analog Pinbelegung der Sensoren}
+	\begin{tabular}{p{0.15\textwidth} p{0.2\textwidth} p{0.6\textwidth}}
+		\textbf{Analog-Pin}	& \textbf{Sensor} & \textbf{Beschreibung} \\
+		A0	& Mikrofon 		& Analoge Messwerte des Mikrofons. Werden zur Fehlererkennung genutzt. \\
+		A1	& Flammensensor	& Analoge Messwerte des Flammensensors. Werden zur Fehlererkennung genutzt.\\
+		A2	& Lichtsensor	& Analoge Messwerte des Lichtsensors.
+	\end{tabular}
+\end{table}
+
+Die feste Pinbelegung hat ebenfalls einen Einfluss auf die Implementierung der Sensoren.
 \subsection{Implementierung der Sensoren}
 \subsection{Konfiguraton \& Testen der Sensoren}
 \subsection{Priorisierung der Sensoren}
@@ -147,7 +169,7 @@ Diese Funktion vergibt eine Session-ID und legt fest, dass Cookies verwendet wer
 
 \subsubsection{login}
 Diese Funktion steuert alle notwendigen Abläufe den Login betreffend.\\
-Aufgerufen wird die Funktion mit den Parametern Username, Passwort und der Datenbankverbindung. Die Parameter Username und Passwort werden aus POST-Werten der Loginseite übergeben während die Datenbankverbindung in der Datei db-connect.php definiert ist. Durch ein Prepared-Statement werden die Werte mit den eingetragenen Werten der Datenbank verglichen. Existiert der Benutzer, wird zuerst überprüft ob der User momentan gesperrt ist durch die Funktion 'checkbrute'. Ist dies nicht der Fall wird das Passwort überprüft und der Anwender wird gegebenenfalls auf die Seite 'Übersicht' weitergeleitet. Ist das Passwort nicht korrekt wird der fehlgeschlagene Loginversuch in der Datenbank vermerkt.
+Aufgerufen wird die Funktion mit den Parametern Username, Passwort und der Datenbankverbindung. Die Parameter Username und Passwort werden aus POST-Werten der Loginseite übergeben während die Datenbankverbindung in der Datei db-connect.php definiert ist. Durch ein Prepared-Statement werden die Werte mit den eingetragenen Werten der Datenbank verglichen. Existiert der Benutzer, wird zuerst überprüft ob der User momentan gesperrt ist durch die Funktion 'checkbrute'. Ist dies nicht der Fall wird das Passwort überprüft und dAnwender wird gegebenenfalls auf die Seite 'Übersicht' weitergeleitet. Ist das Passwort nicht korrekt wird der fehlgeschlagene Loginversuch in der Datenbank vermerkt.
 
 \subsubsection{checkbrute}
 
