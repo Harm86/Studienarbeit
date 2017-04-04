@@ -88,6 +88,7 @@ subnet 192.168.178.0 netmask 255.255.255.0
 
 \subsection{Mesh}
 \section{Sensorknoten} %Allgemein Vorinstalation!
+%TODO: Erweiterungsplatine erwähnen
 %TODO: Notwendige Librarys
 Python bietet mit Hilfe der Adafruit\cite{Adafruit60:online} Bibliotheken eine Schnittstelle zu den Sensoren. Die Adafruitbibliothek kann mithilfe des pythoneigenen Packetmanager installiert werden.
 \begin{verbatim}
@@ -95,6 +96,7 @@ pip install adafruit_python_dht
 \end{verbatim}
 Dieses Packet wird zum Ansteuern des DHT-11 Sensors benötigt. Des Weiteren muss der I$^2$C Bus in der Raspi-config Datei aktiviert werden.
 \subsection{Verdrahtung der Sensoren}
+%Die Sensoren werden bestimmten Pins zugewiesen, damit sowohl erfahrene als auch unerfahrene Nutzer dieses Sensorknotensystem nachbauen können.
 Die Sensoren haben eine feste Zuweisung an die jeweiligen Pins, damit andere Nutzer das System einfacher nachbauen können, ohne Probleme bei der Verbindung der Sensoren zu bekommen. Die Pins sind wie folgt belegt.
 
 \begin{table}[h]
@@ -119,6 +121,8 @@ Die Sensoren haben eine feste Zuweisung an die jeweiligen Pins, damit andere Nut
 
 Die feste Pinbelegung hat ebenfalls einen Einfluss auf die Implementierung der Sensoren.
 \subsection{Implementierung der Sensoren}
+% Lichtsensor: Problematisch ist hierbei das Tageslicht, da es das gleiche Verhalten beim Sensor auslöst.
+% Schocksensor:Eine Umsetzung mit diesem Modell ist nicht mögich, da eine starke Erschütterung zum detektieren benötigt.
 \subsection{Konfiguraton \& Testen der Sensoren}
 \subsection{Priorisierung der Sensoren}
 \subsection{Übertragung der Sensordaten}

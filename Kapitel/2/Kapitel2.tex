@@ -1,6 +1,8 @@
-\chapter{Grundlagen}
 
+\chapter{Grundlagen}
+%Harm
 \section{Raspberry Pi}
+%TODO: Quellen!
 Der Raspberry Pi wurde von der britischen Raspberry Pi Foundation entworfen um
 jungen Menschen den Erwerb von Programmier- und Hardwarekenntnissen zu
 ermöglichen. Er ist ein Einplatinencomputer und für wenig Geld verfügbar. Der
@@ -20,38 +22,53 @@ Mittlerweile gibt es mehrere Modelle:
 \item Pi 3 Modell B 
 \end{itemize}
 
+%TODO: Von uns genutzte Modelle hinzufügen
+%TODO: Unterschiede der Modelle erläutern
 
+%Jan
 \section{Sprachen}
 
 \subsection{Python}\label{Python}
-\textsc{Johannes Hubertz}\cite{hubertz2016softwaretests} schreibt, dass Python für alle gängigen Betriebssysteme verfügbar ist, bei Linux-Distributionen wird es direkt mit ausgeliefert. Der Interpreter eignet sich für manuelle Eingaben, die direkt verarbeitet werden und für die Ausführung von Dateien, die Python-Code enthalten. Die Eigenheit in Python besteht darin, alles als Objekt zu behandeln. Der Quelltext ist durch die besondere Einrückung mit Leerzeichen, der die wesentliche Ausführung bestimmt, einfach und gut lesbar.  Mit der Scriptsprache Python ist es möglich, die Sensoren des Raspberry Pi zu implementieren. Ebenso gibt es die Möglichkeit eine Datenbankschnittstelle zu erstellen und eine Schnittstelle für die Kommunikation unter den Raspberry Pi's.
+%TODO: Zitierung muss passiv sein
+\textsc{Johannes Hubertz}\cite{hubertz2016softwaretests} schreibt, dass Python für alle gängigen Betriebssysteme verfügbar ist und bei Linux-Distributionen wird es direkt mit ausgeliefert. Der Interpreter eignet sich für manuelle Eingaben, die direkt verarbeitet werden. Ebenfalls eignet sich dieser für die Ausführung von Dateien, die Python-Code enthalten. Eine Eigenheit von Python besteht darin, alles als Objekt zu behandeln. Der Quelltext ist durch die besondere Einrückung mit Leerzeichen, der die wesentliche Ausführung bestimmt, einfach und gut lesbar.  Mit der Scriptsprache Python ist es möglich, die Sensoren des Raspberry Pi zu implementieren. Ebenso gibt es die Möglichkeit eine Datenbankschnittstelle zu erstellen und eine Schnittstelle für die Kommunikation unter den Raspberry Pi's.
 
 \subsection{Java}\label{Java}
-
-\textsc{Dietemar Abts} stellt in seinem Buch Grundkurs JAVA : von den Grundlagen bis zu Datenbank- und Netzanwendungen \cite{abts2015grundkurs} Java als eine universelle Programmiersprache für viele Anwendungen in der Industrie auf Client- und Serverseite dar.
-Sie wird als Standart für die Entwicklung von Unternehmenssoftware, Webanwendung, in technischen Systemen und in mobilen Anwendungen verwendet.
-Ein besonderes Merkmal von Java ist die Plattformunabhängigkeit, d.h. Java Anwendungen sind ohne Portierung auf nahezu alle Rechnersystemen 
-lauffähig. Java profitiert von den Erfahrungen mit anderen Programmiersprache wie C, C++ und Smalltalk. Wesentliche Konzepte wurden übernommen und fehleranfällige Eigenschaften wurden bewusst ausgelassen, damit die Sprache verhältnismäßig robust und einfach ist. Mit der Programmiersprache Java ist es möglich, die Sensoren des Raspberry Pi's zu implementieren. Ebenso können Datenbankschnittstellen und Schnittstellen zur Kommunikation erstellt werden.
+%TODO: Zitieren im passiv
+\textsc{Dietemar Abts} stellt in seinem Buch "'Grundkurs JAVA : von den Grundlagen bis zu Datenbank- und Netzanwendungen"' \cite{abts2015grundkurs} Java als eine universelle Programmiersprache für viele Anwendungen in der Industrie auf Client- und Serverseite dar.
+Sie wird als Standard für die Entwicklung von Unternehmenssoftware, Webanwendungen, in technischen Systemen und in mobilen Anwendungen verwendet.
+Ein besonderes Merkmal von Java ist die Plattformunabhängigkeit, d.h. Java Anwendungen sind ohne Portierung auf nahezu allen Rechnersystemen 
+lauffähig. Java profitiert von den Erfahrungen mit anderen Programmiersprache wie C, C++ und Smalltalk. Wesentliche Konzepte wurden übernommen und fehleranfällige Eigenschaften wurden bewusst ausgelassen, damit die Sprache verhältnismäßig robust und einfach ist.%TODO: Bis hierhin 
+Mit der Programmiersprache Java ist es möglich, die Sensoren des Raspberry Pi's zu implementieren. Ebenso können Datenbankschnittstellen und Schnittstellen zur Kommunikation erstellt werden.
 
 \subsection{\ac{SQL}}
-Laut \textsc{Edwin Schick}\cite{schicker2017datenbanken} ist \ac{SQL} eine Zugriffsprache für den Endbenutzer. Als Schnittstelle für den Anwender dominieren inzwischen grafische Oberflächen. Für Datenbankprogrammierer hat die Sprache \ac{SQL} an große Bedeutung gewonnen, insbesondere seit der ersten Normierung (SQL1 1987), ist \ac{SQL} die wichtigste Standartsprache für Datenbanken. Die \ac{SQL} Datenbank soll als Speicher für Daten der Raspberry Pi's dienen. Zusätzlich soll die Daten aus der Datenbank lesbar sein.
+%TODO: Zitieren im passiv
+Laut \textsc{Edwin Schick}\cite{schicker2017datenbanken} ist \ac{SQL} eine Zugriffsprache für den Endbenutzer. Als Schnittstelle für den Anwender dominieren inzwischen grafische Oberflächen. Für Datenbankprogrammierer hat die Sprache \ac{SQL} an große Bedeutung gewonnen, insbesondere seit der ersten Normierung (SQL1 1987).\ac{SQL} ist die wichtigste Standardsprache für Datenbanken. Die \ac{SQL} Datenbank soll als Speicher für Daten der Raspberry Pi's dienen. Zusätzlich soll die Daten aus der Datenbank lesbar sein.
 \subsection{\ac{HTML}}
-\textsc{Valentin Plenk}\cite{plenk2017angewandte} schreibt, dass \ac{HTML} eine textbasierte Auszeichnungssprache, die von Menschen für Menschen geschrieben Texte strukturiert. Durch den Webbrowser und Gestaltungsvorlangen wie \ac{CSS} wird die visuelle Darstellung der Texte bestimmt. \ac{HTML} kann strukturierte Dokumente durch verschieden Gliederungsebenen, Absätze und Tabellen erstellen. Zusätzlich bietet es Möglichkeiten Hyperlinks, Bilder und andere multimediale Inhalte wiederzugeben. Die Grundlage des World Wide Webs sind \ac{HTML}-Dokumente, die durch die Webbrowser dargestellt werden. Diese Auszeichnungssprache soll zur Darstellung des Projektes im Webbrowser dienen und somit die gesammelten Messdaten u.v.m. anzeigen.
+%TODO: Zitieren im passiv
+\textsc{Valentin Plenk}\cite{plenk2017angewandte} schreibt, dass \ac{HTML} eine textbasierte Auszeichnungssprache ist, die von Menschen für Menschen geschrieben Texte strukturiert. Durch den Webbrowser und Gestaltungsvorlagen wie \ac{CSS} wird die visuelle Darstellung der Texte bestimmt. \ac{HTML} kann strukturierte Dokumente durch verschieden Gliederungsebenen, Absätze und Tabellen erstellen. Zusätzlich bietet es Möglichkeiten Hyperlinks, Bilder und andere multimediale Inhalte wiederzugeben. Die Grundlage des World Wide Webs sind \ac{HTML}-Dokumente, die durch die Webbrowser dargestellt werden. Diese Auszeichnungssprache soll zur Darstellung des Projektes im Webbrowser dienen und somit die gesammelten Messdaten u.v.m. anzeigen.
 
 \subsection{\ac{PHP}}
-\textsc{Günther Pomaska} schreibt in seinem Buch Webseiten-Programmierung Sprachen, Werkzeuge, Entwicklung \cite{pomaska2012webseiten-programmierung}, dass \ac{PHP} für die Web-Programmierung entwickelt wurde. Typische Aufgaben von Internetanwendungen werden durch die Sprache abgedeckt, z.B.: Übermittlung von Formulardaten, Anbindung von Datenbanken oder Erzeugen von Webseiten. Gründe für den Einsatz von \ac{PHP} sind, die weite Verbreitung des Open Source-Projekts mit der plattformubergreifenden Anwendung auf unterschiedlichen Betriebssystemen und der Entwickler profitiert von der Verfügbarkeit von Programmierbausteinen.
+%TODO: Zitieren im passiv
+\textsc{Günther Pomaska} schreibt in seinem Buch "'Webseiten-Programmierung Sprachen, Werkzeuge, Entwicklung"' \cite{pomaska2012webseiten-programmierung}, dass \ac{PHP} für die Web-Programmierung entwickelt wurde. Typische Aufgaben von Internetanwendungen werden durch die Sprache abgedeckt, z.B.: Übermittlung von Formulardaten, Anbindung von Datenbanken oder Erzeugen von Webseiten. Gründe für den Einsatz von \ac{PHP} sind, die weite Verbreitung des Open Source-Projekts mit der plattformübergreifenden Anwendung auf unterschiedlichen Betriebssystemen. Der Entwickler profitiert von der Verfügbarkeit von Programmierbausteinen.
+%TODO: Transfersatz einbauen
 
-\subsection{Javascript}
-Laut \textsc{Günther Pomaska} \cite{pomaska2012webseiten-programmierung} ist JavaScript nicht mit der objektorientierten Programmiersprache Java in Verbindung zu bringen, obwohl die Syntax der Sprachelemente in vielen Fällen gleich ist. JavaScript ergänzt die Funktionalität von Web-Browsern und ist eine objektbasierte Skriptsprache. Der Browser kann den Inhalt einer Webseite nur statisch abbilden, durch JavaScript können Inhalte dynamisch dargestellt werden. Elemente werden durch Benutzerzugriffe dynamisch verändert, ohne die Seite neu zu laden.
+\subsection{JavaScript}
+%TODO: Zitieren im passiv
+Laut \textsc{Günther Pomaska} \cite{pomaska2012webseiten-programmierung} ist JavaScript nicht mit der objektorientierten Programmiersprache Java in Verbindung zu bringen, obwohl die Syntax der Sprachelemente in vielen Fällen gleich ist. JavaScript ergänzt die Funktionalität von Web-Browsern und ist eine objektbasierte Skriptsprache. Der Browser kann den Inhalt einer Webseite nur statisch abbilden, mit Hilfe von JavaScript können Inhalte dynamisch dargestellt werden. Elemente werden durch Benutzerzugriffe dynamisch verändert, ohne die Seite neu laden zu müssen.
+%TODO: Transfersatz einbauen
 
+%Alex
 \section{Sensoren}\label{Sensoren_Planung}
 \input{Kapitel/2/sensoren.tex}
+
+%Harm
 \section{WLAN}
 \subsection{Standard}
-
+%TODO: "Ich will mehr, viel mehr" - Rammstein
 Die Vernetzung erfolgt über ein Funknetz nach dem WLAN-Standard 802.11n. 
 
 \subsection{Verschlüsselung}
+%TODO: Einleitung
 WEP, WPA, WPA2
 
 Der Vorteil gegenüber der älteren Alternative TKIP ist, dass \ac{CCMP} auf dem AES-Verschlüsselungsstandard basiert. Bei \ac{CCMP} wird ein 128 Bit Schlüssel mit 48 Bit Initialisierungsvektor verwendet.

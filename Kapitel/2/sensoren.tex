@@ -1,23 +1,27 @@
-Der Raspberry Pi besitzt mit den \ac{GPIO} Pins eine Möglichkeit sensoren anzusteuern. Nach der Dokumentation der Raspberry Pi Foundation\cite{GPIOMode77:online} können die \ac{GPIO} Pins 3.3V liefern und digitale Signale annehmen. Schematisch wird die \ac{GPIO} Schnittstelle wie folgt dargestellt.
+
+Der Raspberry Pi besitzt mit den \ac{GPIO} Pins eine Möglichkeit Sensoren anzusteuern. Nach der Dokumentation der Raspberry Pi Foundation\cite{GPIOMode77:online} können die \ac{GPIO} Pins 3.3V liefern und digitale Signale annehmen. Schematisch wird die \ac{GPIO} Schnittstelle wie folgt dargestellt.
 \begin{figure}[h]
 	\includegraphics[width=\textwidth]{Bilder/Kapitel2/gpio_pins_pi2.png}
-	\caption[Schema GPIO Pins]{Schematische Darstellung der GPIO Pins des Raspberry Pi Modelle 2 und 3. Entnommen aus der Raspberry Pi Dokumentation\cite{GPIOMode77:online}.}
+	\caption[Schema GPIO Pins]{Schematische Darstellung der GPIO Pins. Entnommen aus der Raspberry Pi Dokumentation\cite{GPIOMode77:online}.}
 	\label{fig:Kapitel2/gpio_pins_pi2.png}
 \end{figure}\\
-Durch die vorgegebenen 3.3V und 5V Anschlüsse können Sensoren an disen betrieben werden. Dennoch sind nicht alle Sensoren hier einsatzfähig. Der Raspberry Pi verfügt nur über die Möglichkeit digitale Signale an den \ac{GPIO} Pins zu verarbeiten. Es werden jedoch neben digitalen Sensoren auch analoge benötigt. Diese können nicht direkt an die Pins angeschlossen werden. Das Problem wird mit einem \ac{A/D-Wandler} gelöst. Die Erweiterungsplatine RPi-Explorer 700 von Joy-IT \cite{joyitrpi87:online} beinhaltet einen \ac{A/D-Wandler} an dem Analoge Pins angeschlossen werden. Durch die Erweiterung können bis zu vier Analoge Sensoren an einem Sensorknoten betrieben werden.\\
+%TODO: GPIO Pin belegung 2 und 3 gleich kenntlich machen!
+An den vorhandenen 3.3V und 5V Anschlüsse können Sensoren betrieben werden. Dennoch sind nicht alle Sensoren verwendbar. Der Raspberry Pi verfügt nur über die Möglichkeit digitale Signale an den \ac{GPIO} Pins zu verarbeiten. Es werden jedoch neben digitalen auch analoge Sensoren benötigt. Diese können nicht direkt an die Pins angeschlossen werden, aber das Problem wird mit einem \ac{A/D-Wandler} gelöst. Die Erweiterungsplatine RPi-Explorer 700 von Joy-IT \cite{joyitrpi87:online} beinhaltet einen \ac{A/D-Wandler} an dem Analoge Pins angeschlossen werden können. Durch die Erweiterung ist es möglich bis zu vier Analoge Sensoren an einem Sensorknoten betrieben werden.\\
 %TODO: Verknpfüng zum Verdarhtungskapitel später einfügen
-Die Sensoren sind bestimmten Pins zugewiesen, damit sowohl erfahrene als auch unerfahrene Nutzer dieses Sensorknotensystem nachbauen können. Folgende Sensoren von Allnet\cite{111861pd90:online} werden verwendet.
+%TODO: "3.3V" Angaben überall rausnehmen und hier oben hinpacken
+Folgende Sensoren von Allnet\cite{111861pd90:online} werden verwendet:
 \begin{description}
 \item[Temperatur und Luftfeuchtigkeitssensor] \hfill \\
-	Dieser Sensor, KY-015, vom Typ DHT11 kann Temperaturen von 0 bis 50$^\circ$C mit einer ungenauigkeit von $\pm$ 2$^\circ$C messen. Die Luftfeuchtigkeit kann im Bereich von 20 bis 95\% ($\pm$ 5\%) gemessen werden. Hierbei handelt es sich um einen digitalen Sensor, der mit 3.3V betrieben wird.  
+	Der Sensor, KY-015, vom Typ DHT11 kann Temperaturen von 0 bis 50$^\circ$C mit einer Messungenauigkeit von $\pm$ 2$^\circ$C. Die Luftfeuchtigkeit kann im Bereich von 20 bis 95\% ($\pm$ 5\%) gemessen werden. Hierbei handelt es sich um einen digitalen Sensor, der mit 3.3V betrieben wird.  
 \item[Flammensensor]\hfill \\
-	Der KY-026 besteht aus einer Fotodiode und einem \ac{Poti}. Die Fotodiode kann Wellenlängen im bereich von etwa 720 - 1100 nm erfassen. Die Diode hat einen Erfassungswinkel von etwa 60$^\circ$. Der \ac{Poti} wird zur Empfindlichkeitseinstellung genutzt, somit kann eine Reichweite von etwa  ein bis sieben Metern abgedeckt werden. Der Sensor besitzt einen Digital Out-Ausgang, der high active geschalten wird. Sobald eine Flamme erkannt wird, liegt eine logische 1 auf dem Pin. Der Analog Out-Ausgang liefert ein analoges Signal, an welchem bei einer gemessener Flamme ein niedriges Potential anliegt. Dieser Sensor kann mit 3.3V betrieben werden.
+	Der KY-026 besteht aus einer Fotodiode und einem \ac{Poti}. Die Fotodiode kann Wellenlängen im Bereich von etwa 720 - 1100 nm detektieren. Die Diode hat einen Erfassungswinkel von etwa 60$^\circ$. Der \ac{Poti} wird zur Empfindlichkeitseinstellung genutzt, somit kann eine Reichweite von etwa  ein bis sieben Metern abgedeckt werden. Der Sensor besitzt einen "'Digital Out"'-Pin, der high active geschalten wird. Sobald eine Flamme erkannt wird, liegt eine logische 1 auf dem Pin. Der "'Analog Out"'-Pin liefert ein analoges Signal, an welchem bei einer gemessenen Flamme eine niedrige Spannung anliegt. Dieser Sensor kann mit 3.3V betrieben werden.
 \item[Lichtschranke]\hfill \\
 	Das KY-010 Modul ist eine Lichtschranke, die beim Unterbrechen eine logische 1 an dem digitalen Ausgangspin liefert.
 \item[Mikrofon]\hfill \\
-	Das Mikrofon, KY-038, hat den gleichen Aufbau wie der Flammensonser. Im Gegensatz zum Flammensensor wird hierbei ein Microfonmodul, statt einer Fotodiode genutzt. Die Signale am Digital Out und Analog Out sind funktionieren gleich. Dieses Modul dient hauptsächlich zur Detektion von kurzen aber lauten Tönen. Ein Beispiel wäre das Aufschließgeräusch eines Türschlosses. Damit ist eine Alarmfunktion realisierbar.
+	Das Mikrofon, KY-038, hat den gleichen Aufbau wie der Flammensonser. Im Gegensatz zum Flammensensor wird hierbei ein Mikrofonmodul, statt einer Fotodiode genutzt. Die Signale am Digital Out und Analog Out haben die gleiche Funktionalität wie beim Flammensensor. Dieses Modul dient hauptsächlich zur Detektion von kurzen aber lauten Tönen. %TODO: Besseres Beispiel!
+	. Damit ist eine Alarmfunktion realisierbar.
 \item[Lichtsensor]\hfill \\
-	Der Fotowiderstand, KY-018, hat bei Dunkelheit einen Widerstand $>$20M$\Omega$ und bei Helligkeit $<$ 80$\Omega$. Damit kann bestimmt werden, ob in einem Zimmer das Licht brennt. Problematisch ist hierbei das Tageslicht, da es das gleiche Verhalten beim Sensor auslöst. Der Lichtsensor liefert ein analoges Signal.
+	Der Lichtsensor KY-018, bestehend aus einem Fotowiderstand, hat bei Dunkelheit einen Widerstand $>$20M$\Omega$ und bei Helligkeit $<$ 80$\Omega$. Damit kann bestimmt werden, ob in einem Zimmer das Licht brennt. Der Lichtsensor liefert ein analoges Signal.
 \item[Schocksensor]\hfill \\
-	Der Erschütterungssensor liefert eine logische 1 an dem Ausgangspin, falls eine Erschütterung festgestellt wurde. Das dient exemplarisch zur umsetzung einer Schritterkennung am Boden. Eine Umsetzung mit diesem Modell ist nicht mögich, da eine starke Erschütterung zum detektieren benötigt.
+	Der Erschütterungssensor liefert eine logische 1 an dem Ausgangspin, falls eine Erschütterung festgestellt wurde. Das dient exemplarisch zur Umsetzung einer Schritterkennung am Boden.
 \end{description}
