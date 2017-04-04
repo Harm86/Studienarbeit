@@ -41,7 +41,7 @@ an die Zentraleinheit gesendet. Dort werden die Daten in die Datenbank
 geschrieben.\\
 Der Webserver greift auf die Datenbank zu und stellt die Daten auf einer Website
 übersichtlich dar. (\nameref{Darstellung_Umgebung})
-
+%TODO: Feinschliff Netzplan
 \begin{figure} [htb]
 \begin{centering}
 \includegraphics[scale=0.4]{Bilder/Netzplan.pdf}
@@ -79,17 +79,21 @@ Für das Projekt ist die richtige Programmiersprache essenziell. Die Sprache mus
 	Schnittstelle für die Datenübertragung & vorhanden & vorhanden
 	\end{tabular}
 \end{table}
-\noindent Da die Raspberry Pi's für schnelle kleine Hardwarenahe Projekte ausgelegt sind, fiel die Entscheidung auf die Sprache Python, da Java nur bedingt hardwarenah ist und die Speicherkapazität der Raspberry Pi's begrenzt ist. Ein weitere Vorteil von Python, sind die bereits vorhandenen Bibliotheken und die kurze Einarbeitungszeit. Die kürzere Einabreitungs- und Umsetzungszeit, kommt dem engmaschigen Zeitplan zu gute.
+\noindent Da die Raspberry Pi's für schnelle kleine hardwarenahe Projekte ausgelegt sind, fiel die Entscheidung auf die Sprache Python. Java nur bedingt hardwarenah ist und die Speicherkapazität der Raspberry Pi's begrenzt ist. Ein weiterer Vorteil von Python, sind die bereits vorhandenen Bibliotheken und die kurze Einarbeitungszeit. Die kürzere Einabreitungs- und Umsetzungszeit, kommt der engmaschigen \nameref{Zeitplanung} zu gute. %TODO: Verweis auf den Zeitplan
 
+%Alex
 \subsection{Auslesen der Sensoren}
 %TODO: Priorisierung der Sensoren
 %TODO: Allgemeine Messdatenformat
+%Jan
 \section{Zentraleinheit}
+%Jan
 \subsection{Datenbank}
+%Harm
 \subsection{Website}
-
-Auf der Website kann man sich einloggen und einen neuen Benutzer registrieren.
-Nach dem Login kommt man auf eine Übersicht auf der alle Sensorknoten in
+%TODO: Sätze überarbeiten
+Auf der Website soll sich ein Benutzer einloggen oder registrieren können.
+Nach dem Login soll der Nutzer aus eine Übersicht weitergeleitet werden.auf der alle Sensorknoten in
 Tabellenform abgebildet sind mit den aktuell gemessenen Werten. \\
 Auf der Statistik-Seite wird ein Verlauf über mehrere Tage zu einem Sensor
 abgebildet.\\
@@ -101,7 +105,7 @@ Auf der Logout-Seite bekommt man die Meldung, dass man ausgeloggt ist und die
 Möglichkeit zurück zur Login-Seite zu kommen.
 (\nameref{Darstellung_Website_einfach})
 
-
+%TODO: Legende: Navigationspfeile
 \begin{figure} [htb]
 \begin{centering}
 \includegraphics[scale=0.8]{Bilder/struktur_website_einfach.pdf}
@@ -111,14 +115,12 @@ Darstellung der geplanten Website}
 \end{centering}
 \end{figure}
 
-
-\section*{Soll-Zustand}
+%Alle
+\section{Planungsresultat}
+%TODO: Wortwahl: kein "werden" sondern "sollen"
 Die Sensoren werden kontinuierlich abgefragt und senden die gemessenen Werte an
 die Datenbank auf der Zentraleinheit. Dort werden die Daten entsprechend dem
 meldenden Sensorknoten abgespeichert. Die Website greift auf die Datenbank zu
 und lädt die Daten in eine tabellarische Darstellung, die der Benutzer dann
 sieht. Durch einen Zeitstempel ist es möglich bei Daten der Temperatursensoren
 und der Feuchtigkeitssensoren einen Verlauf darzustellen.
-
-\section*{Datendiagramme}
-xfdtrdzhftjgzjfkzjtderdsfrtdrthztjswtqw

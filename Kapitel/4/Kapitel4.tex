@@ -10,39 +10,41 @@ auf der Zentraleinheit installiert ist vergeben.\\
 Die Website wird durch einen Apache-Webserver auf der Zentraleinheit
 bereitgestellt.
 
+%Harm
 \section{Netzwerkkonfiguration}
+%TODO: Einleitender satz
 
-
+%TODO: Acro WLAN
 \subsection{WLAN}
-
+%TODO: Wird von der Zentraleinheit aufgespannt
 Es wird ein Funknetz auf Basis des 802.11n Standards verwendet. Als Name wurde
 Pinet festgelegt, der von allen gesehen werden kann. In der Tabelle
 (\nameref{tab:WLAN-Konfiguration}) sind die einzelnen Optionen
 aufgeführt und erläutert.
 
-
+%TODO: SSID, Preshared Key, AES Acro 
 \begin{table}
 \caption{WLan-Konfigurationsdetails}
 \label{tab:WLAN-Konfiguration}
 \begin{tabular}{p{0.5\textwidth} p{0.45\textwidth}}
-Befehl & Erklärung \\
+\textbf{Befehl} & \textbf{Erklärung} \\
 interface=wlan0 & Das Interface auf dem das Funknetz ausgestrahlt wird \\
-ssid=Pinet & Der name des Funknetzes \\
+ssid=Pinet 		& Der Name des Funknetzes \\
 country\_code=DE & Über die Festlegung der Region wird sichergestellt, dass das
 Funknetz die spezifischen Grenzwerte für Kanäle oder Sendestärke einhält \\
-hw\_mode=g & legt fest, dass das Funknetz im 2,4 GHz-Band ausgestrahlt wird \\
-channel=6 & Der Funkkanal 6 wird verwendet \\
-macaddr\_acl=0 & MAC-Adressenfilterung ist deaktiviert \\
-auth\_algs=1 & Legt fest, dass als Verschlüsselung WPA verwendet wird \\
+hw\_mode=g 		& Legt fest, dass das Funknetz im 2,4 GHz-Band ausgestrahlt wird \\
+channel=6 		& Der Funkkanal 6 wird verwendet \\
+macaddr\_acl=0 	& MAC-Adressenfilterung ist deaktiviert \\
+auth\_algs=1 	& Legt fest, dass als Verschlüsselung WPA verwendet wird \\
 ignore\_broadcast\_ssid=0 & Die SSID wird ausgestrahlt und nicht versteckt. \\
 wpa=2 & Legt die WPA-Version fest auf WPA2 \\
-wpa\_passphrase=IrgendeinbloedesPasswort & Legt den Pre-Shared-Key fest \\
-wpa\_key\_mgmt=WPA-PSK & Legt fest, dass ein Pre-Shared-Key verwendet wird \\
-wpa\_pairwise=CCMP & Legt fest, dass nur der AES-Verschlüsselungsalgorithmus
+wpa\_passphrase=********** & Legt den Pre-Shared-Key fest \\
+wpa\_key\_mgmt=WPA-PSK 	& Legt fest, dass ein Pre-Shared-Key verwendet wird \\
+wpa\_pairwise=CCMP 		& Legt fest, dass nur der AES-Verschlüsselungsalgorithmus
 verwendet wird \\
 wpa\_group\_rekey=86400 & Legt fest, dass alle 86400 Sekunden ein neuer
 Schlüssel verwendet werden muss \\
-ieee80211n=1 & Aktiviert den n-Standard \\
+ieee80211n=1 	& Aktiviert den n-Standard \\
 wme\_enabled=1 & Aktiviert Quality-of-Service - Voraussetzung für die Verwendung
 des n-Standards \\
  \end{tabular}
@@ -52,18 +54,19 @@ des n-Standards \\
 
 Wie aus der Tabelle WLAN-Konfigurationsdetails (\nameref{tab:WLAN-Konfiguration}) hervorgeht ist das WLAN mit WPA2 verschlüsselt. WPA2 gilt aktuell als sicher, was nicht für die Alternativen WEP oder WPA gilt. Zur Authentifizierung wird ein Pre-Shared-Key (PSK) verwendet. Als Verschlüsselungsprotokoll wird CCMP verwendet. 
 
+%TODO: DHCP Acro
 \subsection{DHCP}
-
+%TODO: Lease-Time erklähren 
 Als DHCP-Server wird der ISC-DHCP-Server verwendet.\\
 Die IP-Adressen werden nur über das wlan0-Interface der Zentraleinheit vergeben.
 Als Netz wurde das Private Netz 192.168.178.0 /24 verwendet. In diesem Netz hat
-Die Zentraleinheit als DHCP-Server die Adresse 192.168.178.1 /24. Diese Adresse
+die Zentraleinheit als DHCP-Server die Adresse 192.168.178.1 /24. Diese Adresse
 ist Statisch eingetragen. Alle anderen Geräte erhalten dynamische IP-Adressen
 aus dem Bereich 192.168.178.10 - 192.168.178.250. Die Lease-Time wurde auf
 604800 sekunden festgelegt. Dies entspricht 7 Tagen. Da nur wenige Geräte im
 Netz verfügbar sind und auch keine häufigen Änderungen erwartet werden wird dies
 als ausreichend angesehen.
-
+%TODO: Kästchen aus um den Quellcode!
 \begin{verbatim}
 /etc/dhcp/dhcpd.conf
 
@@ -86,31 +89,34 @@ subnet 192.168.178.0 netmask 255.255.255.0
 
 \end{verbatim}
 
-\subsection{Mesh}
+%Alex
 \section{Sensorknoten} %Allgemein Vorinstalation!
 %TODO: Erweiterungsplatine erwähnen
 %TODO: Notwendige Librarys
-Python bietet mit Hilfe der Adafruit\cite{Adafruit60:online} Bibliotheken eine Schnittstelle zu den Sensoren. Die Adafruitbibliothek kann mithilfe des pythoneigenen Packetmanager installiert werden.
+%TODO: Verweis auf vorheriges Kapitel
+Python bietet mit Hilfe der Adafruit\cite{Adafruit60:online} Bibliotheken eine Schnittstelle zu den Sensoren. Die Adafruitbibliothek kann mit Hilfe des pythoneigenen Paketmanager installiert werden.
+%TODO: Kasten um den Code
 \begin{verbatim}
 pip install adafruit_python_dht
 \end{verbatim}
-Dieses Packet wird zum Ansteuern des DHT-11 Sensors benötigt. Des Weiteren muss der I$^2$C Bus in der Raspi-config Datei aktiviert werden.
+Dieses Paket wird zum Ansteuern des DHT-11 Sensors benötigt. Des Weiteren muss der I$^2$C Bus in der Raspi-config Datei aktiviert werden.
 \subsection{Verdrahtung der Sensoren}
+%TODO: Verweis fehlt
 %Die Sensoren werden bestimmten Pins zugewiesen, damit sowohl erfahrene als auch unerfahrene Nutzer dieses Sensorknotensystem nachbauen können.
-Die Sensoren haben eine feste Zuweisung an die jeweiligen Pins, damit andere Nutzer das System einfacher nachbauen können, ohne Probleme bei der Verbindung der Sensoren zu bekommen. Die Pins sind wie folgt belegt.
-
+Die Sensoren haben eine feste Zuweisung an die jeweiligen Pins, damit andere Nutzer das System einfacher und schneller nachbauen können, ohne Probleme bei der Verbindung der Sensoren zu bekommen. Die Pins sind wie folgt belegt:
+%TODO: Caption anpassen
 \begin{table}[h]
 	\caption{GPIO Pinbelegung der Sensoren}
 	\label{tab:GPIO-Pinbelegung}
 	\begin{tabular}{p{0.15\textwidth} p{0.2\textwidth} p{0.6\textwidth}}
 		\textbf{GPIO-Pin}	& \textbf{Sensor} & \textbf{Beschreibung} \\
-		Pin 5 		& Schocksensor 	& Funktiontsweise über die Flankendetektion\\	
+		Pin 5 		& Schocksensor 	& Funktionsweise über die Flankendetektion\\	
 		Pin 17		& Flammensensor	& True oder False Wert vom Sensor\\
 		Pin 18		& Mikrofon		& True oder False Wert vom Sensor\\
 		Pin 24		& Lichtschranke	& True oder False Wert vom Sensor\\
-		Pin 25		& DHT11 Sensor	& Luftfeuchtigkeits und Temperaturwerte werden als Digitale Werte geliefert
+		Pin 25		& DHT11 Sensor	& Luftfeuchtigkeits- und Temperaturwerte werden als digitale Werte geliefert
 	\end{tabular}
-	\caption{Analog Pinbelegung der Sensoren}
+	%TODO: Abstand anpassen
 	\begin{tabular}{p{0.15\textwidth} p{0.2\textwidth} p{0.6\textwidth}}
 		\textbf{Analog-Pin}	& \textbf{Sensor} & \textbf{Beschreibung} \\
 		A0	& Mikrofon 		& Analoge Messwerte des Mikrofons. Werden zur Fehlererkennung genutzt. \\
@@ -126,18 +132,20 @@ Die feste Pinbelegung hat ebenfalls einen Einfluss auf die Implementierung der S
 \subsection{Konfiguraton \& Testen der Sensoren}
 \subsection{Priorisierung der Sensoren}
 \subsection{Übertragung der Sensordaten}
+%TODO: Abstimmen mit jan - gleiche Struktur
 
+%Jan
 \section{Zentraleinheit}%Allgemein Vorinstalation!
 \subsection{Empfagen der Sensordaten}
 \subsection{Befüllen der Datenbank}
 \subsection{Problematik Zeitsynchronisierung}
  
 \section{Website}
-
+%Harm
 \subsection{Login}
 
 Der Login, die Registrierung und der Logout ist nach der Anleitung von
-wikiHow erstellt und entsprechend angepasst worden. (\cite{PHP-Login})
+wikiHow (\cite{PHP-Login}) erstellt und entsprechend angepasst worden. 
 \\
 Der Login besteht aus mehreren Dateien, deren Funktion in der Tabelle
 (\nameref{tab:Login-Dateien}) aufgezählt ist.
@@ -146,22 +154,22 @@ Der Login besteht aus mehreren Dateien, deren Funktion in der Tabelle
 \caption{PHP-Login-Dateien und Funktion}
 \label{tab:Login-Dateien}
 \begin{tabular}{p{0.5\textwidth} p{0.45\textwidth}}
-Datei & Erklärung \\
-Login.php & Die Loginseite - Gleichzeitig auch die Startseite bei Aufruf der
+\textbf{Datei} 	& \textbf{Erklärung} \\
+Login.php 		& Die Loginseite - Gleichzeitig auch die Startseite bei Aufruf der
 Server-IP\\
-Register.php & Die Registrierungsseite \\
+Register.php 	& Die Registrierungsseite \\
 Register\_success.php & Die Seite, die nach einer erfolgreichen Registrierung
 angezeigt wird \\
-Logout.php & Die Seite, die nach einem erfolgreichen Logout angezeigt wird \\
+Logout.php 		& Die Seite, die nach einem erfolgreichen Logout angezeigt wird \\
 psl\_config.php & Festlegung von Variablen, die mehrfach verwendet werden \\
-db-connect.php & Datenbank-Connector \\
-functions.php & Relevante Funktionen, die benötigt werden \\
-process\_login.php & Code der die Logindaten der Loginseite überprüft und danach
+db-connect.php 	& Datenbank-Connector \\
+functions.php 	& Relevante Funktionen, die benötigt werden \\
+process\_login.php & Code der die Logindaten der Loginseite überprüft und danach auf die Übersichtsseite
 weiterleitet \\
-register\_inc & Code der abläuft wenn sich ein User neu registriert \\
-forms.js & Javascriptdatei, für das Hashen und überprüfen der Passwörter \\
-sha512.js & Hashfunktion \\
-style.css & CSS-Datei für zentrale Designeinstellungen \\
+register\_inc 	& Code der abläuft wenn sich ein User neu registriert \\
+forms.js 		& Javascriptdatei, für das Hashen und Überprüfen der Passwörter \\
+sha512.js 		& Hashfunktion nach Standard SHA-512 \\
+style.css 		& CSS-Datei für zentrale Designeinstellungen \\
  \end{tabular}
 \end{table}
 
@@ -169,28 +177,32 @@ In der Datei functions.php sind zentrale Funktionen gesammelt, die nachfolgend
 beschrieben werden:
 
 \subsubsection{sec\_session\_start}
+%TODO: Session-ID und Cookie erklähren
 Diese Funktion vergibt eine Session-ID und legt fest, dass Cookies verwendet werden.
 
 \subsubsection{login}
-Diese Funktion steuert alle notwendigen Abläufe den Login betreffend.\\
-Aufgerufen wird die Funktion mit den Parametern Username, Passwort und der Datenbankverbindung. Die Parameter Username und Passwort werden aus POST-Werten der Loginseite übergeben während die Datenbankverbindung in der Datei db-connect.php definiert ist. Durch ein Prepared-Statement werden die Werte mit den eingetragenen Werten der Datenbank verglichen. Existiert der Benutzer, wird zuerst überprüft ob der User momentan gesperrt ist durch die Funktion 'checkbrute'. Ist dies nicht der Fall wird das Passwort überprüft und dAnwender wird gegebenenfalls auf die Seite 'Übersicht' weitergeleitet. Ist das Passwort nicht korrekt wird der fehlgeschlagene Loginversuch in der Datenbank vermerkt.
+Diese Funktion steuert alle notwendigen Abläufe, die den Login betreffend.\\
+Aufgerufen wird die Funktion mit den Parametern Username, Passwort und der Datenbankverbindung. Die Parameter Username und Passwort werden aus POST-Werten der Loginseite übergeben während die Datenbankverbindung in der Datei db-connect.php definiert ist. 
+%TODO: Prepared-STMT hat keine logik. Gibt nur Daten aus der DB zurück
+Durch ein Prepared-Statement werden die Werte mit den eingetragenen Werten der Datenbank verglichen. Existiert der Benutzer, wird zuerst durch die Funktion 'checkbrute' überprüft, ob der Benutzer momentan gesperrt ist. Ist der Benutzer nicht gesperrt, wird das Passwort überprüft und der Anwender wird auf die Seite 'Übersicht' weitergeleitet. Ist das Passwort nicht korrekt, wird der fehlgeschlagene Loginversuch in der Datenbank vermerkt.
 
 \subsubsection{checkbrute}
 
 \subsubsection{login\_check}
 Diese Funktion prüft ob ein Anwender eingeloggt ist und setzt den entsprechenden
-Parameter, der dann entscheidet was der Anwender auf der Website sieht.
+Parameter, der entscheidet was der Anwender auf der Website sieht.
 
 \subsubsection{esc\_url}
 
-
+%Jan
 \subsection{Übersicht}
-
+%Alex
 \subsection{Statistik}
-
+%Alex+Jan
 \subsection{Webcam}
-
+%Harm
 \subsection{Impressum}
-
+%Alle
 \section{Refactoring}
+%Alle
 \section{Systemtest}
