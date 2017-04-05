@@ -23,7 +23,7 @@ Aufgrund der Vielzahl der mittlerweile verfügbaren Modelle konzentriert sich di
 
 \begin{table}[h]
 \centering
-\caption{Vergleich von Raspberry Pi 2 und 3}
+\caption{Vergleich von Raspberry Pi 2 und 3 \cite{CortexA7} \cite{CortexA57}}
 \label{tab:VergleichRaspberry}
 \begin{tabular}{lll}
 Kriterium                    & Raspberry Pi 2        					& Raspberry Pi 3           \\
@@ -39,7 +39,7 @@ Bluetooth                    & \multicolumn{1}{c}{-} 					& Bluetooth 4.1 Low En
 Anzahl GPIO-Pins             & 26                    					& 26                      
 \end{tabular}
 \end{table}
-\cite{CortexA7} \cite{CortexA57}
+ 
 Die Modelle Raspberry Pi 2 Modell B und Raspberry Pi 3 Modell B unterscheiden sich nur in wenigen Eigenschaften. Der Raspberry Pi 3 hat eine höher getaktete CPU, WLAN und Bluetooth.
 
 %Jan
@@ -86,13 +86,32 @@ Die Vernetzung erfolgt über ein Funknetz nach dem WLAN-Standard 802.11n.
 
 \subsection{Verschlüsselung}
 %TODO: Einleitung
+Da WLAN die Luft als Übertragungsmedium verwendet und jeder darauf zugreifen kann, verdient die Verschlüsselung des Datenverkehrs besondere Aufmerksamkeit. Die Verschlüsselung verhindert, dass dritte die Kommunikation des Endgeräts mit dem Access-Point mitlesen können. Verschlüsselung hat allerdings das Problem, dass beide Geräte ein Geheimnis teilen müssen. Dieses Geheimnis wird Schlüssel genannt. Es gibt aktuell drei Verschlüsselungsverfahren, die verwendet werden können. \ac{WEP} und \ac{WPA} sind aber bereits geknackt und somit nicht mehr sicher.
+
 \subsubsection{\ac{WEP}}
+Bei der Standardisierung des Standards 802.11b, 802.11g und 802.11a wurde \ac{WEP} integriert. \{WEP} basiert auf einem Stream Ciphering-Algorithmus, bei dem die Daten mit einer Ciphersquenz verschlüsselt werden. Die Sequenz wird mit einem \ac{IV} und einem Schlüssel berechnet. Der \ac{IV} ändert sich für jedes Frame und erzeugt somit wechselnde Ciphering Keys. Der daraus berechnete Schlüssel wird mit den Daten der Nachricht verodert. \cite{SWB-430171331}
+
+\begin{figure} [htb]
+\begin{centering}
+\includegraphics{Bilder/wep_funktionsweise.jpg}
+\caption[WEP-Verschlüsselung]{WEP-Verschlüsselung \cite{SWB-430171331}}
+\label{wep_funktionsweise}
+\end{centering}
+\end{figure}
+
+Problematisch an diesem Verfahren ist, dass der Schlüssel bei jedem Teilnehmer eingetragen werden muss und somit nicht Geheim gehalten werden kann. Schwerwiegender ist allerdings, dass jedes verschlüsselte Frame am Anfang die gleiche Bytefolge des \ac{LLC}-Headers beinhaltet. Bestimmte \ac{IV}s werden im Klartext übertragen wodurch ein Angreifer nach 5-6 Millionen Paketen den Schlüssel berechnen kann. Mittlerweile sind auch Anwendungen verfügbar, die selbst Datenpakete erzeugen und so in sehr kurzer Zeit, den Schlüssel berechnen können.\cite{SWB-430171331}
+%TODO: Kann bei Seitenbedarf noch ausgebaut werden
 
 \subsubsection{\ac{WPA}} 
 
+Da \ac{WEP} die beschriebenen Schwächen hat ist \ac{WPA2} entwickelt worden. Da \ac{WPA2} aber \ac{CCMP} voraussetzt, was mehr Leistung benötigt, wurde durch die Industrie \ac{WPA} entwickelt, das auch auf schwächerer Hardware funktioniert. Als Verschlüsselungsmethode wird \ac{TKIP} und Optional \ac{CCMP} verwendet. Beschrieben wird hier die Funktionsweise mit \ac{TKIP}. \\
+\ac{TKIP} verwendet wie \ac{WEP} den RC4-Algorithmus zur Verschlüsselung. Der Umgang mit Daten und Schlüsseln ist aber komplexer. 
+
+
+\cite{SWB-378541420}
 \subsubsection{\ac{WPA2}}
 
-Der Vorteil gegenüber der älteren Alternative \ac{TKIP} ist, dass \ac{CCMP} auf dem \ac{AES}-Verschlüsselungsstandard basiert. Bei \ac{CCMP} wird ein 128 Bit Schlüssel mit 48 Bit Initialisierungsvektor verwendet. \cite{Tanenbaum}
+Der Vorteil gegenüber \ac{TKIP} ist, dass \ac{CCMP} auf dem \ac{AES}-Verschlüsselungsstandard basiert. Bei \ac{CCMP} wird ein 128 Bit Schlüssel mit 48 Bit Initialisierungsvektor verwendet. \cite{Tanenbaum}
 %%
 
 
