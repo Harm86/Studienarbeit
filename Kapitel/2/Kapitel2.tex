@@ -89,7 +89,7 @@ Die Vernetzung erfolgt über ein Funknetz nach dem WLAN-Standard 802.11n.
 Da WLAN die Luft als Übertragungsmedium verwendet und jeder darauf zugreifen kann, verdient die Verschlüsselung des Datenverkehrs besondere Aufmerksamkeit. Die Verschlüsselung verhindert, dass dritte die Kommunikation des Endgeräts mit dem Access-Point mitlesen können. Verschlüsselung hat allerdings das Problem, dass beide Geräte ein Geheimnis teilen müssen. Dieses Geheimnis wird Schlüssel genannt. Es gibt aktuell drei Verschlüsselungsverfahren, die verwendet werden können. \ac{WEP} und \ac{WPA} sind aber bereits geknackt und somit nicht mehr sicher.
 
 \subsubsection{\ac{WEP}}
-Bei der Standardisierung des Standards 802.11b, 802.11g und 802.11a wurde \ac{WEP} integriert. \{WEP} basiert auf einem Stream Ciphering-Algorithmus, bei dem die Daten mit einer Ciphersquenz verschlüsselt werden. Die Sequenz wird mit einem \ac{IV} und einem Schlüssel berechnet. Der \ac{IV} ändert sich für jedes Frame und erzeugt somit wechselnde Ciphering Keys. Der daraus berechnete Schlüssel wird mit den Daten der Nachricht verodert. \cite{SWB-430171331}
+Bei der Standardisierung des Standards 802.11b, 802.11g und 802.11a wurde \ac{WEP} integriert. \{WEP} basiert auf einem Stream Ciphering-Algorithmus, bei dem die Daten mit einer Ciphersquenz verschlüsselt werden. Die Sequenz wird mit einem \ac{IV} und einem Schlüssel berechnet. Der \ac{IV} ändert sich für jedes Frame und erzeugt somit wechselnde Ciphering Keys. Der daraus berechnete Schlüssel wird mit den Daten der Nachricht verodert. (vgl. \cite{SWB-430171331})
 
 \begin{figure} [htb]
 \begin{centering}
@@ -99,16 +99,25 @@ Bei der Standardisierung des Standards 802.11b, 802.11g und 802.11a wurde \ac{WE
 \end{centering}
 \end{figure}
 
-Problematisch an diesem Verfahren ist, dass der Schlüssel bei jedem Teilnehmer eingetragen werden muss und somit nicht Geheim gehalten werden kann. Schwerwiegender ist allerdings, dass jedes verschlüsselte Frame am Anfang die gleiche Bytefolge des \ac{LLC}-Headers beinhaltet. Bestimmte \ac{IV}s werden im Klartext übertragen wodurch ein Angreifer nach 5-6 Millionen Paketen den Schlüssel berechnen kann. Mittlerweile sind auch Anwendungen verfügbar, die selbst Datenpakete erzeugen und so in sehr kurzer Zeit, den Schlüssel berechnen können.\cite{SWB-430171331}
+Problematisch an diesem Verfahren ist, dass der Schlüssel bei jedem Teilnehmer eingetragen werden muss und somit nicht Geheim gehalten werden kann. Schwerwiegender ist allerdings, dass jedes verschlüsselte Frame am Anfang die gleiche Bytefolge des \ac{LLC}-Headers beinhaltet. Bestimmte \ac{IV}s werden im Klartext übertragen wodurch ein Angreifer nach 5-6 Millionen Paketen den Schlüssel berechnen kann. Mittlerweile sind auch Anwendungen verfügbar, die selbst Datenpakete erzeugen und so in sehr kurzer Zeit, den Schlüssel berechnen können.(vgl. \cite{SWB-430171331})
 %TODO: Kann bei Seitenbedarf noch ausgebaut werden
 
 \subsubsection{\ac{WPA}} 
+%TODO: Schluessel in PPE-Schluessel muss geändert werden. Mal mit Alex sprechen warum das ü nicht gefressen wird
+Da \ac{WEP} die beschriebenen Schwächen hat ist 802.11i von der \ac{IEEE} entwickelt worden. Da \ac{WPA2} aber \ac{CCMP} voraussetzt, was mehr Leistung benötigt, wurde durch die Industrie \ac{WPA} entwickelt. \ac{WPA} funktioniert auch auf schwächerer Hardware. Als Verschlüsselungsmethode wird \ac{TKIP} und Optional \ac{CCMP} verwendet. Beschrieben wird hier die Funktionsweise mit \ac{TKIP}. \\
+\ac{TKIP} verwendet wie \ac{WEP} den RC4-Algorithmus zur Verschlüsselung der Daten aber der Umgang mit Daten und Schlüsseln ist komplexer. \\
+Nach \textsc{Klaus Schmeh} \cite{SWB-378541420} ist die Grundlage von \ac{TKIP} der \ac{PMK}, der beiden Seiten bekannt sein muss. Er hat eine Länge von 256 Bit und wird nur zur Ableitung anderer Schlüssel verwendet. Aus einem \ac{IV}, der MAC-Adresse und dem Daten-Schlüssel wird ein \ac{PPE-Schluessel} gebildet. Der \ac{PPE-Schluessel} ist 128 Bit lang und wird für jedes Datenpaket neu generiert.
+Der \ac{IV} teilt sich in zwei Teile von denen der erste 16 Bit und der zweite 32 Bit lang ist. Dies ergibt eine Länge von 48 Bit was bereits mehr ist als der 24 Bit \ac{IV} von WEP. Der erste Teil erhöht sich von Paket zu Paket um 1.\\
+Der MICHAEL-Schlüssel und die unverschlüsselten Daten werden an die schlüsselabhängige Hashfunktion MICHAEL übergeben, die einen Hashwert berechnet. Die Daten und der Hashwert werden zusammengefügt und es wird mit CRC ein zweiter Hashwert generiert. Verschlüsselt werden die Daten mit beiden Hashwerten nun mit dem RC4-Verfahren und dem jeweils gültigen \ac{PPE-Schluessel}. (vgl. \cite{SWB-378541420})
 
-Da \ac{WEP} die beschriebenen Schwächen hat ist \ac{WPA2} entwickelt worden. Da \ac{WPA2} aber \ac{CCMP} voraussetzt, was mehr Leistung benötigt, wurde durch die Industrie \ac{WPA} entwickelt, das auch auf schwächerer Hardware funktioniert. Als Verschlüsselungsmethode wird \ac{TKIP} und Optional \ac{CCMP} verwendet. Beschrieben wird hier die Funktionsweise mit \ac{TKIP}. \\
-\ac{TKIP} verwendet wie \ac{WEP} den RC4-Algorithmus zur Verschlüsselung. Der Umgang mit Daten und Schlüsseln ist aber komplexer. 
+\begin{figure} [htb]
+\begin{centering}
+\includegraphics[scale=0.6]{Bilder/wpa_funktionsweise.jpg}
+\caption[WPA-Verschlüsselung]{WPA-Verschlüsselung \cite{Heise-WLAN}}
+\label{wpa_funktionsweise}
+\end{centering}
+\end{figure}
 
-
-\cite{SWB-378541420}
 \subsubsection{\ac{WPA2}}
 
 Der Vorteil gegenüber \ac{TKIP} ist, dass \ac{CCMP} auf dem \ac{AES}-Verschlüsselungsstandard basiert. Bei \ac{CCMP} wird ein 128 Bit Schlüssel mit 48 Bit Initialisierungsvektor verwendet. \cite{Tanenbaum}
