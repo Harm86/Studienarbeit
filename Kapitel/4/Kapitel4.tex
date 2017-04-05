@@ -13,7 +13,7 @@ bereitgestellt.
 %Harm
 \section{Netzwerkkonfiguration}
 %TODO: Einleitender satz
-
+%TODO: WLAN-Stick
 %TODO: Acro WLAN Anmerkung: WLAN ist eine allgemein bekannte Abkürzung und muss nicht erklärt werden!!
 \subsection{WLAN}
 %TODO: Wird von der Zentraleinheit aufgespannt
@@ -21,7 +21,7 @@ Es wird ein Funknetz auf Basis des 802.11n Standards verwendet. Aufgespannt wird
 
  
 \begin{table}
-\caption{WLan-Konfigurationsdetails}
+\caption{WLAN-Konfigurationsdetails}
 \label{tab:WLAN-Konfiguration}
 \begin{tabular}{p{0.5\textwidth} p{0.45\textwidth}}
 \textbf{Befehl} 						& \textbf{Erklärung} \\
@@ -55,7 +55,7 @@ Die IP-Adressen werden nur über das wlan0-Interface der Zentraleinheit vergeben
 %TODO: Kästchen aus um den Quellcode!
 
 
-\begin{lstlisting}[caption=Konfiguration des ISC-DHCP-Server]
+\begin{lstlisting}[caption=Konfiguration des ISC-DHCP-Server,frame=single]
 #Rogue-DHCP-Server nicht erlauben (Doppelter DHCP-Server)
 authoritative;
 
@@ -128,7 +128,7 @@ Die feste Pinbelegung hat ebenfalls einen Einfluss auf die Implementierung der S
  
 \section{Website}
 %Harm
-\subsection{Login}
+\subsection{Login und Logout}
 
 Der Login, die Registrierung und der Logout ist nach der Anleitung von
 wikiHow (\cite{PHP-Login}) erstellt und entsprechend angepasst worden. 
@@ -161,7 +161,7 @@ beschrieben werden:
 
 \subsubsection{sec\_session\_start}
 %TODO: Session-ID und Cookie erklähren
-Diese Funktion vergibt eine Session-ID und legt fest, dass Cookies verwendet werden.
+Diese Funktion vergibt eine Session-ID und legt fest, dass Cookies verwendet werden. Die Session-ID ermöglicht es Anfragen eines Clients zuordnen zu können und Antworten oder Aktualisierungen an diesen zu senden. Die Session-ID wird vom Server generiert und per Cookie an den Client übertragen. Der Client speichert das Cookie ab und sendet bei jeder Anfrage das Cookie (mit der Session-ID) an den Server. Wird keine oder eine falsche Session-ID übertragen erhält der Benutzer, die Meldung, dass er sich zuerst am System anmelden muss. Durch den Anmelde-Vorgang wird dem Client eine neue Session-ID zugewiesen.
 
 \subsubsection{login}
 Diese Funktion steuert alle notwendigen Abläufe, die den Login betreffend.\\

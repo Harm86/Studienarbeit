@@ -13,12 +13,12 @@ NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1562
 NormalPos.bottom=539
-Class=LaTeXView
-Document=Projektarbeit.tex
+Class=BibTeXView
+Document=Literaturverzeichnis.bib
 
 [Frame0_View0,0]
 TopLine=0
-Cursor=908
+Cursor=1479
 
 [Frame1]
 Flags=0
@@ -32,11 +32,11 @@ NormalPos.top=26
 NormalPos.right=1562
 NormalPos.bottom=539
 Class=LaTeXView
-Document=Kapitel\1\Kapitel1.tex
+Document=Projektarbeit.tex
 
 [Frame1_View0,0]
 TopLine=0
-Cursor=21
+Cursor=908
 
 [Frame2]
 Flags=0
@@ -50,11 +50,11 @@ NormalPos.top=26
 NormalPos.right=1562
 NormalPos.bottom=539
 Class=LaTeXView
-Document=Kapitel\2\Kapitel2.tex
+Document=Kapitel\1\Kapitel1.tex
 
 [Frame2_View0,0]
-TopLine=97
-Cursor=7548
+TopLine=0
+Cursor=21
 
 [Frame3]
 Flags=0
@@ -68,11 +68,11 @@ NormalPos.top=26
 NormalPos.right=1562
 NormalPos.bottom=539
 Class=LaTeXView
-Document=Kapitel\3\Kapitel3.tex
+Document=Kapitel\2\Kapitel2.tex
 
 [Frame3_View0,0]
-TopLine=106
-Cursor=5064
+TopLine=97
+Cursor=7548
 
 [Frame4]
 Flags=0
@@ -86,11 +86,11 @@ NormalPos.top=26
 NormalPos.right=1562
 NormalPos.bottom=539
 Class=LaTeXView
-Document=Kapitel\4\Kapitel4.tex
+Document=Kapitel\3\Kapitel3.tex
 
 [Frame4_View0,0]
-TopLine=7
-Cursor=4079
+TopLine=106
+Cursor=5064
 
 [Frame5]
 Flags=0
@@ -104,11 +104,11 @@ NormalPos.top=26
 NormalPos.right=1562
 NormalPos.bottom=539
 Class=LaTeXView
-Document=Kapitel\5\Kapitel5.tex
+Document=Kapitel\4\Kapitel4.tex
 
 [Frame5_View0,0]
-TopLine=0
-Cursor=112
+TopLine=183
+Cursor=7484
 
 [Frame6]
 Flags=0
@@ -122,11 +122,11 @@ NormalPos.top=26
 NormalPos.right=1562
 NormalPos.bottom=539
 Class=LaTeXView
-Document=Anhang\abkuerzungsverzeichnis.tex
+Document=Kapitel\5\Kapitel5.tex
 
 [Frame6_View0,0]
 TopLine=0
-Cursor=1243
+Cursor=112
 
 [Frame7]
 Flags=0
@@ -139,14 +139,14 @@ NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1562
 NormalPos.bottom=539
-Class=BibTeXView
-Document=Literaturverzeichnis.bib
+Class=LaTeXView
+Document=Anhang\abkuerzungsverzeichnis.tex
 
 [Frame7_View0,0]
 TopLine=0
-Cursor=1479
+Cursor=1243
 
 [SessionInfo]
 FrameCount=8
-ActiveFrame=2
+ActiveFrame=5
 
