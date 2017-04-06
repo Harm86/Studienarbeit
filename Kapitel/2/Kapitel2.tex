@@ -89,11 +89,11 @@ Die Vernetzung erfolgt über ein Funknetz nach dem WLAN-Standard 802.11n.
 Da WLAN die Luft als Übertragungsmedium verwendet und jeder darauf zugreifen kann, verdient die Verschlüsselung des Datenverkehrs besondere Aufmerksamkeit. Die Verschlüsselung verhindert, dass dritte die Kommunikation des Endgeräts mit dem Access-Point mitlesen können. Verschlüsselung hat allerdings das Problem, dass beide Geräte ein Geheimnis teilen müssen. Dieses Geheimnis wird Schlüssel genannt. Es gibt aktuell drei Verschlüsselungsverfahren, die verwendet werden können. \ac{WEP} und \ac{WPA} sind aber bereits geknackt und somit nicht mehr sicher.
 
 \subsubsection{\ac{WEP}}
-Bei der Standardisierung des Standards 802.11b, 802.11g und 802.11a wurde \ac{WEP} integriert. \{WEP} basiert auf einem Stream Ciphering-Algorithmus, bei dem die Daten mit einer Ciphersquenz verschlüsselt werden. Die Sequenz wird mit einem \ac{IV} und einem Schlüssel berechnet. Der \ac{IV} ändert sich für jedes Frame und erzeugt somit wechselnde Ciphering Keys. Der daraus berechnete Schlüssel wird mit den Daten der Nachricht verodert. (vgl. \cite{SWB-430171331})
+Bei der Standardisierung des Standards 802.11b, 802.11g und 802.11a wurde \ac{WEP} integriert. \ac{WEP} basiert auf einem Stream Ciphering-Algorithmus, bei dem die Daten mit einer Ciphersquenz verschlüsselt werden. Die Sequenz wird mit einem \ac{IV} und einem Schlüssel berechnet. Der \ac{IV} ändert sich für jedes Frame und erzeugt somit wechselnde Ciphering Keys. Der daraus berechnete Schlüssel wird mit den Daten der Nachricht verodert. (vgl. \cite{SWB-430171331})
 
 \begin{figure} [htb]
 \begin{centering}
-%\includegraphics{Bilder/wep_funktionsweise.jpg}
+\includegraphics{Bilder/wep_funktionsweise.jpg}
 \caption[WEP-Verschlüsselung]{WEP-Verschlüsselung \cite{SWB-430171331}}
 \label{wep_funktionsweise}
 \end{centering}
@@ -112,7 +112,7 @@ Der MICHAEL-Schlüssel und die unverschlüsselten Daten werden an die schlüssel
 
 \begin{figure} [htb]
 \begin{centering}
-%\includegraphics[scale=0.6]{Bilder/wpa_funktionsweise.jpg}
+\includegraphics[scale=0.6]{Bilder/wpa_funktionsweise.jpg}
 \caption[WPA-Verschlüsselung]{WPA-Verschlüsselung \cite{Heise-WLAN}}
 \label{wpa_funktionsweise}
 \end{centering}
