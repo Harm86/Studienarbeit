@@ -35,7 +35,7 @@ Class=BibTeXView
 Document=Literaturverzeichnis.bib
 
 [Frame1_View0,0]
-TopLine=49
+TopLine=50
 Cursor=2585
 
 [Frame2]
@@ -71,7 +71,7 @@ Class=LaTeXView
 Document=Kapitel\2\Kapitel2.tex
 
 [Frame3_View0,0]
-TopLine=123
+TopLine=138
 Cursor=9595
 
 [Frame4]
