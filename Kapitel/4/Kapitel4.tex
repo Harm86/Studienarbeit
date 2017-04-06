@@ -86,14 +86,14 @@ Python bietet mit Hilfe der Adafruit\cite{Adafruit60:online} Bibliotheken eine S
 pip install adafruit_python_dht
 \end{verbatim}
 Dieses Paket wird zum Ansteuern des DHT-11 Sensors benötigt. Des Weiteren muss der I$^2$C Bus in der Raspi-config Datei aktiviert werden.
-\subsection{Verdrahtung der Sensoren}
-%TODO: Verweis fehlt
+\subsection{Verdrahtung der Sensoren}\label{Verdrahtung_der_Sensoren}
 %Die Sensoren werden bestimmten Pins zugewiesen, damit sowohl erfahrene als auch unerfahrene Nutzer dieses Sensorknotensystem nachbauen können.
-Die Sensoren haben eine feste Zuweisung an die jeweiligen Pins, damit andere Nutzer das System einfacher und schneller nachbauen können, ohne Probleme bei der Verbindung der Sensoren zu bekommen. Die Pins sind wie folgt belegt:
+Die Sensoren, aus dem \fullref{Sensoren_Planung}, haben eine feste Zuweisung an die jeweiligen Pins, damit andere Nutzer das System einfacher und schneller nachbauen können, ohne Probleme bei der Verbindung der Sensoren zu bekommen. Die Pins sind wie folgt belegt:
 %TODO: Caption anpassen
 \begin{table}[h]
-	\caption{GPIO Pinbelegung der Sensoren}
-	\label{tab:GPIO-Pinbelegung}
+	\caption{GPIO und analoge Pinbelegung der Sensoren}
+	\label{tab:Pinbelegung}
+	\subcaption*{GPIO Pinbelegung}
 	\begin{tabular}{p{0.15\textwidth} p{0.2\textwidth} p{0.6\textwidth}}
 		\textbf{GPIO-Pin}	& \textbf{Sensor} & \textbf{Beschreibung} \\
 		Pin 5 		& Schocksensor 	& Funktionsweise über die Flankendetektion\\	
@@ -102,7 +102,8 @@ Die Sensoren haben eine feste Zuweisung an die jeweiligen Pins, damit andere Nut
 		Pin 24		& Lichtschranke	& True oder False Wert vom Sensor\\
 		Pin 25		& DHT11 Sensor	& Luftfeuchtigkeits- und Temperaturwerte werden als digitale Werte geliefert
 	\end{tabular}
-	%TODO: Abstand anpassen
+	\bigskip
+	\subcaption*{Analoge Pinbelegung}
 	\begin{tabular}{p{0.15\textwidth} p{0.2\textwidth} p{0.6\textwidth}}
 		\textbf{Analog-Pin}	& \textbf{Sensor} & \textbf{Beschreibung} \\
 		A0	& Mikrofon 		& Analoge Messwerte des Mikrofons. Werden zur Fehlererkennung genutzt. \\
