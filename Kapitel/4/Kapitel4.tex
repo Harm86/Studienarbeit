@@ -107,12 +107,8 @@ Die Sensoren, aus dem \fullref{Sensoren_Planung}, haben eine feste Zuweisung an 
 		A2	& Lichtsensor	& Analoge Messwerte des Lichtsensors.
 	\end{tabular}
 \end{table}
-%TODO: Erklären, wieso wir die Pins so belegt haben
-%TODO: Auswirkungen der festen verdrahtung  erklären
-%TODO: Sauberen Übergang schaffen!
 \\
-Der Lichtsensor besitzt als einziger Sensor keine direkte Anschlussmöglichkeit an einen \ac{GPIO} Pin. Somit wird der zusätzliche analoge Ausgang des Flammensensor und des Mikrofons zur Messwertüberprüfung genutzt.
-Die feste Pinbelegung hat ebenfalls einen Einfluss auf die Implementierung der Sensoren.
+Der Lichtsensor besitzt als einziger Sensor keine direkte Anschlussmöglichkeit an einen \ac{GPIO} Pin. Somit wird der zusätzliche analoge Ausgang des Flammensensors und des Mikrofons zur Messwertüberprüfung genutzt. Der Aufbau der \ac{GPIO} Steckplatine hat einen Einfluss auf die Pinbelegung der Sensoren genommen. Wie in \fullref{fig:Kapitel2/gpio_pins_pi2.png} zusehen ist, sind die Pins 9, 14, 20 und 25 Masseanschlüsse. Die genutzten Sensoren befinden sich in unmittelbarer nähe zu diesen. Zu einem können sich Nutzer an den Positionen der Masseanschlüsse orientieren und somit ebenfalls schneller den korrekten Pin finden. Ein weiterer Vorteils ist, dass im Falle eines versehentlichen Fehlanschließens keine Gefahr für den Sensor entsteht, da beispielsweise auf den digitalen Ausgangspin keine 5V Eingangsspannung gelangen kann. Durch die feste Pinbelegung entsteht eine feste Vorgabe der Anschlussarchitektur. Die Sensoren können falsch angeschlossen werden und würden dabei ebenfalls Messdaten erzeugen, doch eine korrekte Zuweisung der Messdaten an die Sensoren wäre nicht möglich. Des Weiteren hat die feste Pinbelegung ebenso einen Einfluss auf die Implementierung der Sensoren. 
 \subsection{Implementierung der Sensoren}
 %TODO: Alles erklären ...
 % Lichtsensor: Problematisch ist hierbei das Tageslicht, da es das gleiche Verhalten beim Sensor auslöst.
