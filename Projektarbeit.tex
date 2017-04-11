@@ -17,7 +17,16 @@
 \usepackage{caption}					% Um Bildunterschriften zu konfigurieren (mit, ohne erscheinen im Abkürzungsverzeichnis)
 \usepackage{setspace}						% für Zeilenabstand
 \usepackage{url}   							% Package zur Darstellung von URL's
+\usepackage{xcolor}
+\definecolor{mygray}{rgb}{0.5,0.5,0.6}
+\usepackage{bbding}
 \usepackage{listings}
+%TODO: Abstimen, welche farben gewählt werden sollen
+\lstset{
+	commentstyle=\color{mygray},
+	escapeinside={<@}{@>},
+	keywordstyle=\color{blue},
+	texcl=true}
 \usepackage{eurosym}  					% Package zur Darstellung von €-Zeichen
 \usepackage{booktabs}
 \usepackage{subcaption}

@@ -77,12 +77,11 @@ subnet 192.168.178.0 netmask 255.255.255.0
 
 %Alex
 \section{Sensorknoten} %Allgemein Vorinstalation!
-%TODO: Verweis auf vorheriges Kapitel
 Python bietet mit Hilfe der Adafruit\cite{Adafruit60:online} Bibliotheken eine Schnittstelle zu den Sensoren. Die Adafruitbibliothek kann mit Hilfe des pythoneigenen Paketmanagers, "'pip"', installiert werden.
 \begin{lstlisting}[caption=Installation der Adafruit Bibliothek mit pip,frame=single]
 pip install adafruit_python_dht
 \end{lstlisting}
-Dieses Paket wird zum Ansteuern des DHT-11 Sensors benötigt. Die genutzte Erweiterungsplatine RPI - Explorer 700 benötigt keine zusätzliche Software. Die Platine muss fest auf die \ac{GPIO} Pins gesteckt werden, um funktional zu sein. Der \ac{A/D-Wandler} befindet sich neben den \ac{GPIO} Anschlüssen und hat eine gelbe Platinenfarbe. Bevor der \ac{A/D-Wandler} einsatzfähig ist muss der I$^2$C Bus in der Raspi-config Datei aktiviert werden. Mit dem aktiven I$^2$C Bus können die Sensoren angeschlossen werden.
+Dieses Paket wird zum Ansteuern des DHT-11 Sensors, der im \fullref{Sensoren_Planung} beschrieben wird, benötigt. Die genutzte Erweiterungsplatine RPI - Explorer 700 benötigt keine zusätzliche Software. Die Platine muss fest auf die \ac{GPIO} Pins gesteckt werden, um funktional zu sein. Der \ac{A/D-Wandler} befindet sich neben den \ac{GPIO} Anschlüssen und hat eine gelbe Platinenfarbe. Bevor der \ac{A/D-Wandler} einsatzfähig ist muss der I$^2$C Bus in der Raspi-config Datei aktiviert werden. Mit dem aktiven I$^2$C Bus können die Sensoren angeschlossen werden.
 \subsection{Verdrahtung der Sensoren}\label{Verdrahtung_der_Sensoren}
 %Die Sensoren werden bestimmten Pins zugewiesen, damit sowohl erfahrene als auch unerfahrene Nutzer dieses Sensorknotensystem nachbauen können.
 Die Sensoren, aus dem \fullref{Sensoren_Planung}, haben eine feste Zuweisung an die jeweiligen Pins, damit andere Nutzer das System einfacher und schneller nachbauen können, ohne Probleme bei der Verbindung der Sensoren zu bekommen. Die Pins sind wie folgt belegt:
@@ -113,6 +112,21 @@ Der Lichtsensor besitzt als einziger Sensor keine direkte Anschlussmöglichkeit 
 %TODO: Alles erklären ...
 % Lichtsensor: Problematisch ist hierbei das Tageslicht, da es das gleiche Verhalten beim Sensor auslöst.
 % Schocksensor:Eine Umsetzung mit diesem Modell ist nicht mögich, da eine starke Erschütterung zum detektieren benötigt.
+Bevor die Sensoren implementiert werden können, muss eine Softwarearchitektur aufgebaut werden. Zuerst gibt es die Auswahl eines objektorientierten oder nicht objektorientierten Ansatzes.
+%TODO: Quelle raussuchen! 
+Ein Vorteil der \ac{OOP} ist die Erweiterungsfähigkeit. Eine neue Funktion kann in der Klasse niedergeschrieben werden und zur Laufzeit ausgeführt werden. Des Weiteren können mehrere Instanzen einer Klasse zur Laufzeit erzeugt werden. Somit kann eine Hauptklasse erstellt werden, die dann zur Laufzeit mehrere Objekte erzeugen kann, die jeweils eine eigene Funktionalität ausüben. Eine weitere Problemstellung in der Entwicklung der Softwarearchitektur ist die Klassenhierarchie. Statt den gewöhnlichen Ansatz einer Hauptklasse und dann jeweils einer Unterklasse mit einer Funktionalität auszubauen, wird hierbei der Ansatz einer monolithischen Architektur gewählt. Im Sensorknoten werden nur Sensoren implementiert. Damit würde es eine Überklasse geben, wovon jeder Sensor erben würde. Beim monolithischen Ansatz gibt es nur eine Klasse, die alle Methoden enthält. Erst bei der Initialisierung kann entschieden werden, welche Funktion ausgeführt werden soll. Ein Instanz einer monolithischen Klasse kann somit, falls es einen Anlass dafür gibt, unabhängig von der Initialisierung ihre Funktionsweise wechseln. Bei klassischen objektorientierten Ansatz müsse eine komplett neue Instanz erzeugt werden. Ein Nachteil der monolithischen Architektur ist die Anhäufung von Methoden in einer Klasse. Ab einem gewissen Grad wird die Klasse schwer wartbar, da zu viele Methoden kontrolliert werden müssen. Diese Größe der Klasse kann weitere Fehler, wie das nicht korrekte Bereinigen von Bugs mit sich bringen. Das größte Problem dieser Architektur ist fehlerhafte Instanziierung eines Objektes. Zur Darstellung des Problems dient folgendes Programmbeispiel:
+
+\begin{lstlisting}[caption=Fehlerhafte Instanziierung eines Sensorobjektes,frame=single,numbers=left,language=Python]
+# Initialisierung des Mikrofons
+ sensor1 = Sensor(5, A0, 18)
+# Korrekte Ausführung des Mikrofonsensors
+<@ \textcolor{green}{\Checkmark} @> sensor1.mikrofon()
+# Versuchte Ausführung der der Flammensensor Funktion mit dem Mikrofonobjekt
+<@ \textcolor{red}{\XSolid} @> sensor1.flammensensor() 
+\end{lstlisting}
+Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor1"', mit 3 Eingabeparametern initialisiert. Diese werden im späteren Verlauf weiter erläutert. Sensor1 kann jetzt jede Methode der Sensorklasse ausführen. Dei der Initialisierung wurden die festen Angaben eines Mikrofonsensors angegeben. Damit ist die Zeile 4 die einzig korrekte Ausführung für dieses Sensorobjekt. Die Fehlerprüfung durch den Compiler wird bei dieser Architektur nicht unterstützt. Wie in Zeile 6 zu sehen ist, kann die Flammensensorfunktion aufgerufen werden. Für den Compiler ist es ein korrekter Aufruf der Flammensensormethode, jedoch würde diese lediglich fehlerhafte Messdaten zurückgeben.
+
+
 \subsection{Konfiguraton \& Testen der Sensoren}
 %TODO: Unseren Code nochmal anschauen
 \subsection{Priorisierung der Sensoren}
