@@ -77,7 +77,15 @@ subnet 192.168.178.0 netmask 255.255.255.0
 
 %Alex
 \section{Sensorknoten} %Allgemein Vorinstalation!
-Python bietet mit Hilfe der Adafruit\cite{Adafruit60:online} Bibliotheken eine Schnittstelle zu den Sensoren. Die Adafruitbibliothek kann mit Hilfe des pythoneigenen Paketmanagers, "'pip"', installiert werden.
+Für die Umsetzung des Sensorknotens werden vorab Pythonbibliotheken benötigt. Sie werden mit dem folgenden Befehl im Quellcode hinzugefügt:
+\begin{lstlisting}[caption=Importbefehl in Python,frame=single,numbers=left,language=Python]
+# Hinzufügen eines kompletten Paketes
+import <Paketname> as <Aliasname>
+# Hinzufügen einer Methode aus einem Paket
+from <Paketname> import <Methodenname>
+\end{lstlisting}
+Die benötigten Pakete sind wie folgt: \\
+'RPi.GPIO', 'smbus', 'socket', 'json' und 'Adafruit\_DHT'. RPi.GPIO ist die Bibliothek zur Nutzung der \ac{GPIO} Schnittstelle in Python. Das Paket smbus ermöglicht den Zugriff auf die I$^2$C Schnittstelle. Das Paket socket ermöglicht die Nutzung der TCP/IP Socketverbindung. Mittels json kann das Datenformat \ac{JSON} genutzt werden. Python bietet mit Hilfe der Adafruit\cite{Adafruit60:online} Bibliotheken eine Schnittstelle zu den Sensoren. Die Adafruitbibliothek kann mit Hilfe des pythoneigenen Paketmanagers, "'pip"', installiert werden.
 \begin{lstlisting}[caption=Installation der Adafruit Bibliothek mit pip,frame=single]
 pip install adafruit_python_dht
 \end{lstlisting}
@@ -124,9 +132,38 @@ Ein Vorteil der \ac{OOP} ist die Erweiterungsfähigkeit. Eine neue Funktion kann
 # Versuchte Ausführung der der Flammensensor Funktion mit dem Mikrofonobjekt
 <@ \textcolor{red}{\XSolid} @> sensor1.flammensensor() 
 \end{lstlisting}
-Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor1"', mit 3 Eingabeparametern initialisiert. Diese werden im späteren Verlauf weiter erläutert. Sensor1 kann jetzt jede Methode der Sensorklasse ausführen. Dei der Initialisierung wurden die festen Angaben eines Mikrofonsensors angegeben. Damit ist die Zeile 4 die einzig korrekte Ausführung für dieses Sensorobjekt. Die Fehlerprüfung durch den Compiler wird bei dieser Architektur nicht unterstützt. Wie in Zeile 6 zu sehen ist, kann die Flammensensorfunktion aufgerufen werden. Für den Compiler ist es ein korrekter Aufruf der Flammensensormethode, jedoch würde diese lediglich fehlerhafte Messdaten zurückgeben.
+Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor1"', mit 3 Eingabeparametern initialisiert. Diese werden im späteren Verlauf weiter erläutert. Sensor1 kann jetzt jede Methode der Sensorklasse ausführen. Dei der Initialisierung wurden die festen Angaben eines Mikrofonsensors angegeben. Damit ist die Zeile 4 die einzig korrekte Ausführung für dieses Sensorobjekt. Die Fehlerprüfung durch den Compiler wird bei dieser Architektur nicht unterstützt. Wie in Zeile 6 zu sehen ist, kann die Flammensensorfunktion aufgerufen werden. Für den Compiler ist es ein korrekter Aufruf der Flammensensormethode, jedoch würde diese lediglich fehlerhafte Messdaten zurückgeben. Die Funktionsweise der Sensorklasse wir in den folgenden Schritten erläutert.
 
+\subsubsection*{Der Konstruktor}
+	Wie in anderen Programmiersprachen, wird ebenfalls in Python ein Konstruktor für das Objekt benötigt. Der Konstruktor initialisiert alle notwendigen Variablen für das Objekt der Klasse. Im Falle des Sensorknotens sieht der Konstruktor wie folgt aus:
+	
+	\lstinputlisting[caption=Konstruktor der Sensorklasse,frame=single,numbers=left,language=Python, firstline=10, lastline=26]{Quellcode/sensor.py}
 
+	\textsc{Eric Matthes} beschreibt in seinem Buch "Python crash course"\cite{1593276036} die Funktion \_\_init\_\_ als eine geschützte Funktionalität von Python. Der Zweck der doppelten Unterstriche seie die Abgrenzung von möglichen Namen, die ein Programmierer vergeben dürfe. Es ist üblich, dass einfache Unterstriche zum verbinden von mehreren Wörtern genutzt werden. Somit, weiß der Programmierer, dass diese besondere Funktion nicht im anders verwendet werden darf. Eine weitere Auffälligkeit ist die 'self' Variable. Nach \textsc{Eric Matthes} müsse der Parameter an erster Stelle im Konstruktor stehen. Dieser seie für den Bezug auf das Objekt relevant. Das self ist in der Funktionalität ähnlich wie das 'this' aus Java. Die weiteren Übergabeparameter haben folgende Bedeutung:
+	\begin{description}
+		\item[SEN\_ID] \hfill \\
+			Die SEN\_ID ist die feste Nummer des Sensors. Die Nummerierung entstammt dem \fullref{Sensoren_Planung}. Hierbei Hat der Temperatursensor die Nummer 1 und der Luftfeuchtigkeitssensor die Nummer 2. Die restlichen Sensoren werden entsprechend gezählt. Die SEN\_ID wird für die Zuordnung des Messwertes zum Sensor in der Datenbank benötigt. 
+		\item[Analog\_PIN] \hfill \\
+			Der Analog\_PIN Übergabeparameter wird für das Ansprechen des A/D-Wanderls benötigt. Die Angaben können aus der \fullref{tab:Pinbelegung} entnommen werden.
+		\item[Digital\_PIN] \hfill \\
+			Der Digital\_Pin kann ebenfalls aus der \fullref{tab:Pinbelegung} entnommen werden. Die Angabe wird für Sicherheitsüberprüfungen und zum Auslesen von den digitalen Sensorwerten benutzt.
+   	\end{description}
+	Der Sensorname ermittelt mit Hilfe der socket Bibliothek den Namen des Betriebssystems. Damit wird der Name des Sensorknotens ermittelt. Dieser wird für die Zuweisung der Sensoren zum Sensorknoten in der Datenbank genutzt. Der eigentliche Name des jeweiligen Sensors ist für den Sensorknoten nicht von Bedeutung, den die SEN\_ID ist immer eindeutig. Der Name des Sensors wird mit Hilfe der Datenbank bestimmt.
+	%TODO: Verknüpfung zur Zentraleinheit : Datenbank. Übersetzung SEN_ID zum Sensornamen
+	Neben der SEN\_ID ist der Messwert in der zu übertragenden Nachricht an die Zentraleinheit enthalten. Der Messwert wird zu Beginn, als ein leerer String vorgeladen. Python setzt keine Deklaration vor der Nutzung einer Variable voraus. Die Messwertvariable wird dennoch deklariert, damit der Quellcode wartbarer wird. Die Status Variable dient als Zustandskontrolle des Sensors. Der Status des Sensors wird auf der Website wie im Kapitel BLAARRRGH %TODO: Verweis auf Website Übersicht mit dem Statusbit!
+	erläutert, dargestellt. Der Zustand ändert sich explizit sobald ein Sensor detektiert wird. Die Status Variable kann folgende Zustände annehmen:
+	\begin{description}
+		\item[Status = 0] \hfill \\
+			Bedeutet, dass der Sensor nicht angeschlossen wird. Dies ist ebenso der Defaultzustand aller Sensorobjekte.
+		\item[Status = 1] \hfill \\
+			Bedeutet, dass der Sensor angeschlossen ist. Dieser Zustand soll dem Benutzer signalisieren, dass der Sensor korrekt arbeitet.
+		\item[Status = 2] \hfill \\
+			Bedeutet, dass der Sensor defekt ist. Anders als beim Zustand 0 tritt dieser Fall erst auf, wenn ein unmöglicher Messwert gemessen wurde. Ein Beispiel hierfür ist: Falls der Temperatursensor, welcher einen Messbereich von 0 bis 50$^\circ$C hat, Messwerte unter dem Gefrierpunkt oder über 50$^\circ$C liefert.
+	\end{description}
+	Der Befehl in der Zeile neun dient zur Einstellung der GPIO-Pinbezeichnung. \textsc{MATT} beschreibt in sienem Blogeintrag "Simple Guide to the RPi Header and Pins"\cite{SimpleGu6:online}, dass es zwei mögliche Modi für diesen Befehl gebe. Zu einem gebe den Übergabeparameter "GPIO.BOARD" und zum anderen "GPIO.BCM". Sie würden für die verschiedenen Nummerierungsmöglichkeiten der \ac{GPIO} Schnittstelle stehen. GPIO.BOARD würde die Nummerierung der Pins nach der Position auf dem Board durchführen. Im Gegensatz dazu nutze die GPIO.BCM Nummerierung die eigentliche GPIO Pinbelegung. Diese wir in der \fullref{fig:Kapitel2/gpio_pins_pi2.png} dargestellt.\\
+	Die Ausgabe von Warnungen der GPIO Bibliothek wird mit dem Befehl in der zehnten Zeile deaktiviert. Diese sind nicht notwendig, da zu einem die Sensorenknoten an keiner graphischen Ausgabe angeschlossen sind und zum anderen werden Fehler separat behandelt.\\
+	Falls der Sensor einen Digitalen Anschluss hat, muss dieser initialisiert werden. Dazu dient die Kontrollstruktur von Zeile elf bis vierzehn. \textsc{Chris Hager} beschreibt in der "RPIO 0.10.0 documentation - RPIO, the Python module" den Befehl "GPIO.setup()" wie folgt. Der Befehl benötige als Übergabeparameter den Pin, den Modus - entweder GPIO.IN oder GPIO.OUT und die Angabe, ob der Pull-up oder Pull-down Widerstand aktiv sein solle. Im Falle der Sensoren muss das Signal als "GPIO.IN" deklariert werden. Es wird weder ein Pull-up noch ein Pull-down Widerstand angeschlossen, aus diesem Grund wird als letzter Parameter "GPIO.PUD\_OFF" angegeben. \\
+	Die letzten zwei Befehle dienen zum Initialisieren des I$^2$C Buses. Der 'smbus.SMBus(X)' nimmt entweder den Wert 0 oder Wert 1 an. Nach einem empirischen Test hat es sich herausgestellt, dass die Raspberry Pis in der Version 2 und 3 das i2c-dev1 Interface standardmäßig nutzten. Somit muss der Befehl "smbus.SMBUS(1)" ausgeführt werden. Die Adresse des I$^2$C Ports muss ebenfalls angegeben werden. Nach dem Blogeintrag "GPIO Interface library for the Raspberry Pi"\cite{I2CPCF8592:online} von Wiring Pi seie die Adresse "0x46$_H$" die Standardadresse des Raspberry Pis.
 \subsection{Konfiguraton \& Testen der Sensoren}
 %TODO: Unseren Code nochmal anschauen
 \subsection{Priorisierung der Sensoren}
