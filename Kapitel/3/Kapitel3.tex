@@ -103,12 +103,33 @@ Für das Projekt ist die richtige Programmiersprache essenziell. Die Sprache mus
 %TODO: Allgemeine Messdatenformat
 %Jan
 \section{Zentraleinheit}
+Die Zentraleinheit soll dafür zuständig sein, die ausgelesenen Daten der Sensorknoten, die im Kapitel \nameref{Sensoren_Planung} beschrieben sind, in einer Datenbank zu speichern. Dazu wird eine Schnittstelle benötigt, die die gesendeten Sensordaten der \nameref{Sensorknoten} annimmt, verarbeitet und in der Datenbank ablegt. Zusätzlich soll auf der Zentraleinheit eine Webseite entstehen, die die zuvor gesammelten Daten aus der Datenbank ausliest und diese auf der Webseite möglichst zeitnah aunzeigt.
 %Jan
 \subsection{Datenbank}
+Damit die Daten struktieriert gesammelt werden können, muss eine Datenbankentwurf gemacht werden. Dieser soll schematisch zeigen wie die Datenbank aufgebaut und die Daten abgespeichert werden sollen. Der Datenbankentwurf sieht wie folgt aus:
+Damit die Daten struktieriert gesammelt werden können, muss eine Datenbankentwurf gemacht werden. Dieser soll schematisch zeigen wie die Datenbank aufgebaut und die Daten abgespeichert werden sollen. Der Datenbankentwurf sieht wie folgt aus:
+%TODO: Datenbankentwurf überarbeiten
+%\begin{landscape}
+%	\begin{figure}[h]
+%		\includegraphics[width=\linewidth, height=.9\textheight]{{Bilder/Kapitel3/Datenbankentwurf.pdf}
+%			\caption[Schematische Darstellung des Datenbankentwurfs]{Schematische Darstellung des Datenbankentwurfs}
+%			\label{fig:Datenbankentwurf}
+%		\end{figure}
+%	\end{landscape}
+\begin{description}
+	\item[Tabelle Sensorknoten:] \hfill \\
+		In der Tabelle Sensorknoten sollen alle im Netzwerk befindlichen Sensorknoten abgelegt werden. Die Sensorknoten werden mit ihrem Knotennamen und ihrer IP-Adresse abgespeichert.
+	\item[Tabelle Sensorknoten\_Messwerte:] \hfill \\
+		Die Tabelle Sensorknoten\_Messwerte soll als Hilftabelle dienen und den Sensorknoten ihre Messwerte zuordenen. Dies soll über die Fremdschlüssel KN\_ID und Mess\_ID geschehen.
+	\item[Tabelle Messwerte:] \hfill \\
+		In der Tabelle Messwerte, sollen die Messwerte der Sensorknoten in das Attribut Messwerte gespeichert werden. Damit erkennbar ist welchem Sensor der Messwert zuzuordenen ist, soll die SEN\_ID als Fremdschlüssel zeigen um welchen Sensor es sich handelt. Zusätzlich soll ein Attribute Timestamp der Tabelle hinzugefügt werden, hier soll der jeweilige Zeitstempel beim erzeugen des Eintrags hinterlegt werden.
+	\item[Tabelle Sensoren:] \hfill \\	
+		Die Tabelle Sensoren, soll alle Sensoren beinhalten, die an die Sensorknoten angeschlossen werden können. Die Sensoren sollen mit einer festen SEN\_ID und einem festen Namen versehen werden.
+\end{description}
 %Harm
-\subsection{Website}
+\subsection{Webseite}
 
-Auf der Website soll sich ein Benutzer einloggen oder registrieren können.
+Auf der Webseite soll sich ein Benutzer einloggen oder registrieren können.
 Nach dem Login soll der Benutzer zu einer Übersicht weitergeleitet werden, auf der alle Sensorknoten in
 Tabellenform abgebildet sind mit den aktuell gemessenen Werten. \\
 Auf einer Statistik-Seite soll ein Verlauf über mehrere Tage zu einem Sensor sichtbar sein.\\
