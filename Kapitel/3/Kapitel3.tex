@@ -32,14 +32,14 @@ Im zweiten Semester werden folgende Punkte umgesetzt:
 Die geannten Punkte des Kapitels \nameref{Zeitplanung} müssen zeitlich strukturiert in einem GANTT-Diagramm festgehalten werden.
 Die folgenden GANTT-Diagramme wurden im Rahmen der Zeitplanung erstellt:
 \begin{landscape}
-	\begin{figure}[h]
+	\begin{figure}[htb]
 		\includegraphics[width=\linewidth, height=.9\textheight]{Bilder/GANTT/Studienarbeit_erste_Phase.pdf}
 		\caption[GANTT-Diagramm: Studienarbeit erste Phase]{Studienarbeit erste Phase}
 		\label{fig:Studienarbeit_erste_Phase}
 	\end{figure}
 \end{landscape}
 \begin{landscape}
-	\begin{figure}[h]
+	\begin{figure}[htb]
 		\includegraphics[width=\linewidth, height=.9\textheight]{Bilder/GANTT/Studienarbeit_zweite_Phase.pdf}
 		\caption[GANTT-Diagramm: Studienarbeit zweite Phase]{Studienarbeit zweite Phase}
 		\label{fig:Studienarbeit_zweite_Phase}
@@ -49,15 +49,16 @@ Die folgenden GANTT-Diagramme wurden im Rahmen der Zeitplanung erstellt:
 
 \section{Netzwerkplanung}
 Eine zentrale Funktionalität ist, die Datenübertragung weshalb das Netzwerk eine besonders kritische Komponente ist. Das Netzwerk ist so auch eines der ersten Komponenten, die funktionieren muss, damit beim späteren Entwickeln auf eine funktionierende Infrastruktur zurückgegriffen werden kann.
+
 %Harm
 \subsection{Netzwerkplan}
-%TODO: Einleitungssatz
+Der Netzwerkplan soll schematisch darstellen, wie das Netzwerk funktioniert. Er gibt einen Überblick über die beteiligten Komponenten und illustriert schematisch wie die Verbindungen aussehen.\\
 Die Sensoren sind an den Sensorknoten angeschlossen. Die Daten werden per WLAN
 an die Zentraleinheit gesendet. Dort werden die Daten in die Datenbank
 geschrieben.\\
 Der Webserver greift auf die Datenbank zu und stellt die Daten auf einer Website
 übersichtlich dar. (\nameref{Darstellung_Umgebung})
-%TODO: Feinschliff Netzplan
+%TODO: Feinschliff Netzplan - Nachfragen was gemacht werden soll
 \begin{figure} [htb]
 \begin{centering}
 \includegraphics[scale=0.4]{Bilder/Netzplan.pdf}
@@ -69,9 +70,8 @@ Darstellung der geplanten Umgebung}
 
 %Harm
 \subsection{Kommunikation}
-%Bsp
-Für die Kommunikation der einzelnen Komponenten ist ein DHCP-Server, der über das WLan eine Verbindung zwischen der Zentraleinheit und der Sensorknoten herstellt.
-%TODO: Schnittstelle erwähnen
+Die Kommunikation basiert auf IP-Adressen und TCP-Sockets in einem WLAN-Funknetz. Ein Sensorknoten erhält über den \ac{DHCP}-Server eine IP-Adresse. Die IP-Adresse ist notwendig, damit der Sensorknoten einen Socket öffnen kann und die Daten an die Zentraleinheit absenden kann. 
+%TODO: Schnittstelle erwähnen - Nachfragen was gemeint ist...
 
 %Alex
 \section{Sensorknoten}
@@ -81,7 +81,7 @@ Ein Raspberry Pi, an dem die Messdaten der Sensoren gesammelt werden, wird als S
 \subsection{Python vs. Java}
 Für das Projekt ist die richtige Programmiersprache essenziell. Die Sprache muss nicht nur die Daten der Sensoren auslesen, sondern diese auch in Pakete packen und an die Zentraleinheit weitergeben. Die Weitergabe der Datenpakete soll über eine Schnittstelle erfolgen, die von der ausgewählten Sprache erstellt werden kann. Hierzu werden zwei Programmiersprachen verglichen, \nameref{Java} und \nameref{Python}. Folgende Tabelle vergleicht die Funktionalitäten der Sprachen, die für das Projekt notwendig sind:\hfill
 
-\begin{table}[h]
+\begin{table}[htb]
 	\centering
 	\caption{Python vs. Java}
 	\label{tab:phytionvsjava}
@@ -95,7 +95,7 @@ Für das Projekt ist die richtige Programmiersprache essenziell. Die Sprache mus
 	Schnittstelle für die Datenübertragung & vorhanden & vorhanden
 	\end{tabular}
 \end{table}
-\noindent Da die Raspberry Pi's für schnelle kleine hardwarenahe Projekte ausgelegt sind, fiel die Entscheidung auf die Sprache Python. Java nur bedingt hardwarenah ist und die Speicherkapazität der Raspberry Pi's begrenzt ist. Ein weiterer Vorteil von Python, sind die bereits vorhandenen Bibliotheken und die kurze Einarbeitungszeit. Die kürzere Einabreitungs- und Umsetzungszeit, kommt der engmaschigen \nameref{Zeitplanung} zu gute. %TODO: Verweis auf den Zeitplan
+\noindent Da die Raspberry Pi's für schnelle kleine hardwarenahe Projekte ausgelegt sind, fiel die Entscheidung auf die Sprache Python. Java nur bedingt hardwarenah ist und die Speicherkapazität der Raspberry Pi's begrenzt ist. Ein weiterer Vorteil von Python, sind die bereits vorhandenen Bibliotheken und die kurze Einarbeitungszeit. Die kürzere Einarbeitungs- und Umsetzungszeit, kommt der engmaschigen \nameref{Zeitplanung} zu gute. %TODO: Verweis auf den Zeitplan
 
 %Alex
 \subsection{Auslesen der Sensoren}
@@ -103,11 +103,11 @@ Für das Projekt ist die richtige Programmiersprache essenziell. Die Sprache mus
 %TODO: Allgemeine Messdatenformat
 %Jan
 \section{Zentraleinheit}
-Die Zentraleinheit soll dafür zuständig sein, die ausgelesenen Daten der Sensorknoten, die im Kapitel \nameref{Sensoren_Planung} beschrieben sind, in einer Datenbank zu speichern. Dazu wird eine Schnittstelle benötigt, die die gesendeten Sensordaten der \nameref{Sensorknoten} annimmt, verarbeitet und in der Datenbank ablegt. Zusätzlich soll auf der Zentraleinheit eine Webseite entstehen, die die zuvor gesammelten Daten aus der Datenbank ausliest und diese auf der Webseite möglichst zeitnah aunzeigt.
+Die Zentraleinheit soll dafür zuständig sein, die ausgelesenen Daten der Sensorknoten, die im Kapitel \nameref{Sensoren_Planung} beschrieben sind, in einer Datenbank zu speichern. Dazu wird eine Schnittstelle benötigt, die die gesendeten Sensordaten der Sensorknoten annimmt, verarbeitet und in der Datenbank ablegt. Zusätzlich soll auf der Zentraleinheit eine Webseite entstehen, die die zuvor gesammelten Daten aus der Datenbank ausliest und diese auf der Webseite möglichst zeitnah anzeigt.
 %Jan
 \subsection{Datenbank}
-Damit die Daten struktieriert gesammelt werden können, muss eine Datenbankentwurf gemacht werden. Dieser soll schematisch zeigen wie die Datenbank aufgebaut und die Daten abgespeichert werden sollen. Der Datenbankentwurf sieht wie folgt aus:
-Damit die Daten struktieriert gesammelt werden können, muss eine Datenbankentwurf gemacht werden. Dieser soll schematisch zeigen wie die Datenbank aufgebaut und die Daten abgespeichert werden sollen. Der Datenbankentwurf sieht wie folgt aus:
+Damit die Daten strukturiert gesammelt werden können, muss eine Datenbankentwurf gemacht werden. Dieser soll schematisch zeigen wie die Datenbank aufgebaut und die Daten abgespeichert werden sollen. Der Datenbankentwurf sieht wie folgt aus:
+Damit die Daten strukturiert gesammelt werden können, muss eine Datenbankentwurf gemacht werden. Dieser soll schematisch zeigen wie die Datenbank aufgebaut und die Daten abgespeichert werden sollen. Der Datenbankentwurf sieht wie folgt aus:
 %TODO: Datenbankentwurf überarbeiten
 %\begin{landscape}
 %	\begin{figure}[h]
@@ -126,6 +126,7 @@ Damit die Daten struktieriert gesammelt werden können, muss eine Datenbankentwu
 	\item[Tabelle Sensoren:] \hfill \\	
 		Die Tabelle Sensoren, soll alle Sensoren beinhalten, die an die Sensorknoten angeschlossen werden können. Die Sensoren sollen mit einer festen SEN\_ID und einem festen Namen versehen werden.
 \end{description}
+
 %Harm
 \subsection{Webseite}
 
@@ -149,10 +150,9 @@ Darstellung der geplanten Website}
 
 %Alle
 \section{Planungsresultat}
-%TODO: Wortwahl: kein "werden" sondern "sollen"
-Die Sensoren werden kontinuierlich abgefragt und senden die gemessenen Werte an
-die Datenbank auf der Zentraleinheit. Dort werden die Daten entsprechend dem
-meldenden Sensorknoten abgespeichert. Die Website greift auf die Datenbank zu
-und lädt die Daten in eine tabellarische Darstellung, die der Benutzer dann
-sieht. Durch einen Zeitstempel ist es möglich bei Daten der Temperatursensoren
+
+Die Sensoren sollen kontinuierlich abgefragt werden und senden die gemessenen Werte an
+die Datenbank auf der Zentraleinheit. Dort sollen die Daten entsprechend dem
+meldenden Sensorknoten abgespeichert werden. Die Website greift auf die Datenbank zu
+und lädt die Daten in eine tabellarische Darstellung, die dem Benutzer angezeigt wird. Durch einen Zeitstempel ist es möglich bei Daten der Temperatursensoren
 und der Feuchtigkeitssensoren einen Verlauf darzustellen.
