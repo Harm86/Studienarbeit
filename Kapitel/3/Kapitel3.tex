@@ -1,4 +1,4 @@
-\chapter{Planung}
+\chapter{Planung}\label{Planung}
 Bevor mit der Umsetzung begonnen wird, muss geklärt werden, welche Schritte notwendig sind und in welcher Reihenfolge sie sinnvoll sind. Die Planung schafft die Grundlage auf der die spätere Umsetzung aufsetzt um eine reibungslosere Entwicklung zu ermöglichen.
 
 %Harm
@@ -105,17 +105,17 @@ Für das Projekt ist die richtige Programmiersprache essenziell. Die Sprache mus
 \section{Zentraleinheit}
 Die Zentraleinheit soll dafür zuständig sein, die ausgelesenen Daten der Sensorknoten, die im Kapitel \nameref{Sensoren_Planung} beschrieben sind, in einer Datenbank zu speichern. Dazu wird eine Schnittstelle benötigt, die die gesendeten Sensordaten der Sensorknoten annimmt, verarbeitet und in der Datenbank ablegt. Zusätzlich soll auf der Zentraleinheit eine Webseite entstehen, die die zuvor gesammelten Daten aus der Datenbank ausliest und diese auf der Webseite möglichst zeitnah anzeigt.
 %Jan
-\subsection{Datenbank}
+\subsection{Datenbank}\label{sub:Datenbank}
 Damit die Daten strukturiert gesammelt werden können, muss eine Datenbankentwurf gemacht werden. Dieser soll schematisch zeigen wie die Datenbank aufgebaut und die Daten abgespeichert werden sollen. Der Datenbankentwurf sieht wie folgt aus:
 Damit die Daten strukturiert gesammelt werden können, muss eine Datenbankentwurf gemacht werden. Dieser soll schematisch zeigen wie die Datenbank aufgebaut und die Daten abgespeichert werden sollen. Der Datenbankentwurf sieht wie folgt aus:
 %TODO: Datenbankentwurf überarbeiten
-%\begin{landscape}
-%	\begin{figure}[h]
-%		\includegraphics[width=\linewidth, height=.9\textheight]{{Bilder/Kapitel3/Datenbankentwurf.pdf}
-%			\caption[Schematische Darstellung des Datenbankentwurfs]{Schematische Darstellung des Datenbankentwurfs}
-%			\label{fig:Datenbankentwurf}
-%		\end{figure}
-%	\end{landscape}
+\begin{landscape}
+	\begin{figure}[ht]
+		\includegraphics[width=\linewidth, height=.9\textheight]{Bilder/Kapitel3/Datenbankentwurf.pdf}
+			\caption[Schematische Darstellung des Datenbankentwurfs]{Schematische Darstellung des Datenbankentwurfs}
+			\label{fig:Datenbankentwurf}
+		\end{figure}
+	\end{landscape}
 \begin{description}
 	\item[Tabelle Sensorknoten:] \hfill \\
 		In der Tabelle Sensorknoten sollen alle im Netzwerk befindlichen Sensorknoten abgelegt werden. Die Sensorknoten werden mit ihrem Knotennamen und ihrer IP-Adresse abgespeichert.
@@ -128,7 +128,7 @@ Damit die Daten strukturiert gesammelt werden können, muss eine Datenbankentwur
 \end{description}
 
 %Harm
-\subsection{Webseite}
+\subsection{Webseite}\label{sub:Webseite}
 
 Auf der Webseite soll sich ein Benutzer einloggen oder registrieren können.
 Nach dem Login soll der Benutzer zu einer Übersicht weitergeleitet werden, auf der alle Sensorknoten in
