@@ -101,6 +101,7 @@ Folgende Sensoren von Allnet\cite{111861pd90:online} werden  im \fullref{Verdrah
 
 %Harm
 \section{WLAN}
+%TODO: Ja ich weiß hier muss noch was hin... nur was?
 \subsection{Standard}
 Mitte der 90er Jahre hat die \ac{IEEE} den Auftrag bekommen WLAN zu Standardisieren. Die Bezeichnung WLAN ist in soweit korrekt, da WLAN in weiten Teilen auf den 802.X Standards, welche Umgangssprachlich als Ethernet bezeichnet werden. Wie aus der Zeichnung \nameref{osi-wlan} hervorgeht ist der Physical Layer komplett neu erstellt worden und der Data Link Layer erweitert worden. Die restlichen Schichten wurden unverändert übernommen.
 
@@ -116,7 +117,7 @@ Die \ac{IEEE} hat 1997 den Standard 802.11 veröffentlicht. Der Standard sieht v
 
 \begin{table}[htb]
 \centering
-\caption{Übersicht der WLAN-Standards}
+\caption{Übersicht der WLAN-Standards \cite{SWB-430171331}}
 \label{tab:WLAN-Standards}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{l|l|l|l}
@@ -131,12 +132,23 @@ WLAN Standard & Veröffentlichungsjahr & Frequenzband       & Theoretische Maxim
 }
 \end{table} 
 
-Der Standard 802.11a ist nicht sehr erfolgreich da aus Gründen der Rückwärtskompatibilität zu 802.11b/g zwei Frequenzbänder unterstützt werden müssen. Die Unterstützung von beiden Frequenzbändern erhöht die Kosten und die Komplexität. Den Durchbruch erlangte WLAN mit dem Standard 802.11b. Schnellere Internetanbindungen und steigende Anforderungen machten es notwendig mehr Bandbreite zur Verfügung zu stellen. Dies wurde durch den Standard 802.11g realisiert. Da das 2,4 GHz-Band bereits sehr ausgelastet ist und außerdem noch weitere Geräte wie DECT-Funktelefone oder Mikrowellen den Empfang stören können, ist beim Standard 802.11n auch die Nutzung des 5 GHz-Bandes möglich.\\
+Der Standard 802.11a ist nicht sehr erfolgreich da aus Gründen der Rückwärtskompatibilität zu 802.11b/g zwei Frequenzbänder unterstützt werden müssen. Die Unterstützung von beiden Frequenzbändern erhöht die Kosten und die Komplexität. Den Durchbruch erlangte WLAN mit dem Standard 802.11b. Schnellere Internetanbindungen und steigende Anforderungen machten es notwendig mehr Bandbreite zur Verfügung zu stellen. Dies wurde durch den Standard 802.11g realisiert. Da das 2,4 GHz-Band bereits sehr ausgelastet ist und außerdem noch weitere Geräte wie DECT-Funktelefone oder Mikrowellen den Empfang stören können, ist beim Standard 802.11n auch die Nutzung des 5 GHz-Bandes möglich. (vgl. \cite{SWB-430171331})\\
 
 \subsubsection{Betriebsmodi von WLAN}
 WLAN kann in zwei verschiedenen Modi betrieben werden. Der Ad-Hoc-Modus ist vergleichbar mit einem Crossover-Kabel im Ethernetbereich während der Infrastrukturmodus so ähnlich wie ein Switch funktioniert.\\
 Beim Ad-Hoc-Modus müssen die beteiligten Benutzer sich über die Einstellungen einigen und diese an ihrem Gerät entsprechend eingeben. Die Kommunikation findet dann direkt zwischen den Endgeräten statt. Andere Geräte können die Datenpakete empfangen, verwerfen diese jedoch, wenn die Zieladresse nicht ihre eigene ist.\\
-Der Infrastrukturmodus ist der häufiger anzutreffende Modus. Im Infrastrukturmodus wird das WLAN mit seinen Einstellungen auf einem Access-Point konfiguriert und ein Anwender kann sich mit diesem Netz unter Angabe der \ac{SSID} und einem eventuell vergebenen Passwort verbinden. Die Verbindung mit einem Access-Point hat auch den Vorteil, dass ein Gerät erreicht werden kann, dass bei einem Ad-Hoc-Netzwerk zu weit entfernt wäre um es per Funk zu erreichen. Außerdem muss der Anwender nicht wissen ob der Kommunikationspartner ein kabelgebundenes Gerät oder ebenfalls im WLAN zu finden ist. Der Access-Point muss dazu nur über ein Kabel an einen Switch angeschlossen sein. 
+Der Infrastrukturmodus ist der häufiger anzutreffende Modus. Im Infrastrukturmodus wird das WLAN mit seinen Einstellungen auf einem Access-Point konfiguriert und ein Anwender kann sich mit diesem Netz unter Angabe der \ac{SSID} und einem eventuell vergebenen Passwort verbinden. Die Verbindung mit einem Access-Point hat auch den Vorteil, dass ein Gerät erreicht werden kann, dass bei einem Ad-Hoc-Netzwerk zu weit entfernt wäre um es per Funk zu erreichen. Außerdem muss der Anwender nicht wissen ob der Kommunikationspartner ein kabelgebundenes Gerät oder ebenfalls im WLAN zu finden ist. Der Access-Point muss dazu nur über ein Kabel an einen Switch angeschlossen sein. (vgl. \cite{SWB-430171331})
+
+%TODO: Bessere Überschrift? Mal in Gruppe überlegen
+\subsubsection{Frequenzwahl}
+Die Frequenzbänder des 2,4 GHz-Bandes und des 5 GHz-Bandes sind in einzelne Kanäle unterteilt. Das 2,4 GHz-Band ist je nach Land in bis zu 13 Kanäle aufgeteilt, die jeweils eine Breite von 5 MHz haben. Eine Übertragung benötigt jedoch 25 MHz was bedeutet, dass es nur 3 überlappungsfreie Kanäle gibt: Kanal 1, 6 und 11. Im 5 GHz-Band stehen 455 MHz zur Verfügung. Bei einer Übertragung mit 25 MHz ergibt dies 18 mögliche überlappungsfreie Funknetze. Da bei 802.11n und 802.11ac die Übertragung auch 40-160 MHz betragen kann reduziert sich die Anzahl von 18 möglichen Netzen relativ schnell (40 MHz=11 Netze 80MHz=5 Netze 160 MHz=2 Netze). (vgl. \cite{SWB-430171331})
+
+%TODO: Überschrift benötigt!!!!!!!!!!
+\subsubsection{Bla Bla}
+Damit ein Endgerät sich mit einem WLAN-Netz verbinden kann muss es wissen auf welcher Frequenz, in welchem Kanal usw. es arbeitet. Damit dies gewährleistet ist sendet der Access-Point etwa alle 100 ms ein sogenanntes Beacon aus. In diesem Beacon stecken alle notwendigen Informationen, die ein Client benötigt um sich mit dem Netz zu verbinden. Nachdem der Client die Einstellungen übernommen hat sendet er eine Authentifizierungsanfrage an den Access-Point. Diese Anfrage ist keine "`echte"' Authentifizierung, in der Authentifizierungsanfrage der Authentifizierungsalgorithmus Open System mitgeteilt wird. Genügt dem Access-Point diese "`Authentifizierung"' wird diese mit einem positiven Statuscode beantwortet.\\
+Im zweiten Schritt wird ein Schlüssel benötigt, der beiden Geräten bekannt ist. Der Access-Point sendet dem Client einen zufälligen Text, den der Client verschlüsselt zurückschicken muss. Entspricht der verschlüsselte Text den Erwartungen, so ist der Client erfolgreich Authentifiziert. (vgl. \cite{SWB-430171331})
+
+
 
 \subsection{Verschlüsselung}
 
@@ -158,7 +170,6 @@ Problematisch an diesem Verfahren ist, dass der Schlüssel bei jedem Teilnehmer 
 %TODO: Kann bei Seitenbedarf noch ausgebaut werden
 
 \subsubsection{\ac{WPA}} 
-%TODO: Schluessel in PPE-Schluessel muss geändert werden. Mal mit Alex sprechen warum das ü nicht gefressen wird
 Da \ac{WEP} die beschriebenen Schwächen hat ist 802.11i von der \ac{IEEE} entwickelt worden. Da \ac{WPA2} aber \ac{CCMP} voraussetzt, was mehr Leistung benötigt, wurde durch die Industrie \ac{WPA} entwickelt. \ac{WPA} funktioniert auch auf schwächerer Hardware. Als Verschlüsselungsmethode wird \ac{TKIP} und Optional \ac{CCMP} verwendet. Beschrieben wird hier die Funktionsweise mit \ac{TKIP}. \\
 \ac{TKIP} verwendet wie \ac{WEP} den RC4-Algorithmus zur Verschlüsselung der Daten aber der Umgang mit Daten und Schlüsseln ist komplexer. \\
 Nach \textsc{Klaus Schmeh} \cite{SWB-378541420} ist die Grundlage von \ac{TKIP} der \ac{PMK}, der beiden Seiten bekannt sein muss. Er hat eine Länge von 256 Bit und wird nur zur Ableitung anderer Schlüssel verwendet. Aus einem \ac{IV}, der MAC-Adresse und dem Daten-Schlüssel wird ein \ac{PPE}-Schlüssel gebildet. Der \ac{PPE}-Schlüssel ist 128 Bit lang und wird für jedes Datenpaket neu generiert.

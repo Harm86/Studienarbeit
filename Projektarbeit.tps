@@ -12,7 +12,7 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1712
-NormalPos.bottom=539
+NormalPos.bottom=674
 Class=LaTeXView
 Document=Kapitel\1\Kapitel1.tex
 
@@ -30,13 +30,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1712
-NormalPos.bottom=539
+NormalPos.bottom=674
 Class=LaTeXView
 Document=Kapitel\2\Kapitel2.tex
 
 [Frame1_View0,0]
-TopLine=24
-Cursor=1127
+TopLine=229
+Cursor=19931
 
 [Frame2]
 Flags=0
@@ -48,13 +48,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1712
-NormalPos.bottom=539
+NormalPos.bottom=674
 Class=LaTeXView
 Document=Kapitel\3\Kapitel3.tex
 
 [Frame2_View0,0]
-TopLine=150
-Cursor=5826
+TopLine=141
+Cursor=3131
 
 [Frame3]
 Flags=0
@@ -66,13 +66,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1712
-NormalPos.bottom=539
+NormalPos.bottom=674
 Class=LaTeXView
 Document=Kapitel\4\Kapitel4.tex
 
 [Frame3_View0,0]
-TopLine=260
-Cursor=21423
+TopLine=384
+Cursor=31052
 
 [Frame4]
 Flags=0
@@ -84,7 +84,7 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1712
-NormalPos.bottom=539
+NormalPos.bottom=674
 Class=LaTeXView
 Document=Kapitel\5\Kapitel5.tex
 
@@ -102,7 +102,7 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1712
-NormalPos.bottom=539
+NormalPos.bottom=674
 Class=LaTeXView
 Document=Projektarbeit.tex
 
@@ -120,13 +120,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1712
-NormalPos.bottom=539
+NormalPos.bottom=674
 Class=LaTeXView
 Document=Anhang\abkuerzungsverzeichnis.tex
 
 [Frame6_View0,0]
-TopLine=3
-Cursor=1016
+TopLine=0
+Cursor=0
 
 [Frame7]
 Flags=0
@@ -138,13 +138,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1712
-NormalPos.bottom=539
+NormalPos.bottom=674
 Class=BibTeXView
 Document=Literaturverzeichnis.bib
 
 [Frame7_View0,0]
-TopLine=68
-Cursor=3177
+TopLine=42
+Cursor=1826
 
 [Frame8]
 Flags=0
@@ -156,15 +156,15 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1712
-NormalPos.bottom=539
+NormalPos.bottom=674
 Class=LaTeXView
 Document=Kapitel\2\sensoren.tex
 
 [Frame8_View0,0]
 TopLine=0
-Cursor=423
+Cursor=3912
 
 [SessionInfo]
 FrameCount=9
-ActiveFrame=1
+ActiveFrame=3
 
