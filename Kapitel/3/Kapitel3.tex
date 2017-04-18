@@ -108,14 +108,16 @@ Die Zentraleinheit soll dafür zuständig sein, die ausgelesenen Daten der Senso
 \subsection{Datenbank}\label{sub:Datenbank}
 Damit die Daten strukturiert gesammelt werden können, muss eine Datenbankentwurf gemacht werden. Dieser soll schematisch zeigen wie die Datenbank aufgebaut und die Daten abgespeichert werden sollen. Der Datenbankentwurf sieht wie folgt aus:
 Damit die Daten strukturiert gesammelt werden können, muss eine Datenbankentwurf gemacht werden. Dieser soll schematisch zeigen wie die Datenbank aufgebaut und die Daten abgespeichert werden sollen. Der Datenbankentwurf sieht wie folgt aus:
-%TODO: Datenbankentwurf überarbeiten
+%TODO: Datenbankentwurf überarbeiten und horizontal zentrieren
 \begin{landscape}
 	\begin{figure}[ht]
-		\includegraphics[width=\linewidth, height=.9\textheight]{Bilder/Kapitel3/Datenbankentwurf.pdf}
+		\begin{center}
+			\includegraphics[width=\paperwidth]{Bilder/Kapitel3/Datenbankentwurf.jpeg}
 			\caption[Schematische Darstellung des Datenbankentwurfs]{Schematische Darstellung des Datenbankentwurfs}
 			\label{fig:Datenbankentwurf}
-		\end{figure}
-	\end{landscape}
+		\end{center}
+	\end{figure}
+\end{landscape}
 \begin{description}
 	\item[Tabelle Sensorknoten:] \hfill \\
 		In der Tabelle Sensorknoten sollen alle im Netzwerk befindlichen Sensorknoten abgelegt werden. Die Sensorknoten werden mit ihrem Knotennamen und ihrer IP-Adresse abgespeichert.
