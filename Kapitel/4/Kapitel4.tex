@@ -52,7 +52,7 @@ Wie aus der Tabelle WLAN-Konfigurationsdetails (\nameref{tab:WLAN-Konfiguration}
  
 Als \ac{DHCP}-Server wird der ISC-DHCP-Server verwendet.\\
 Die IP-Adressen werden nur über das wlan0-Interface der Zentraleinheit vergeben. Als Netz wurde das Private Netz 192.168.178.0 /24 verwendet. In diesem Netz hat die Zentraleinheit als \ac{DHCP}-Server die Adresse 192.168.178.1 /24. Diese Adresse ist Statisch eingetragen. Alle anderen Geräte erhalten dynamische IP-Adressen aus dem Bereich 192.168.178.10 - 192.168.178.250. Die Lease-Time wurde auf 604800 sekunden festgelegt. Dies entspricht 7 Tagen. Als Lease-Time wird der Zeitraum bezeichnet, in dem ein Netzwerkgerät, die gleiche IP-Adresse erhält. So wird verhindert, dass viele Adressänderungen stattfinden. Da nur wenige Geräte im Netz verfügbar sind und auch keine häufigen Änderungen erwartet werden wird der Zeitraum von 7 Tagen als ausreichend angesehen. Damit der \ac{DHCP}-Server die IP-Adressen nur im WLAN vergibt wurde die IP-Adress-Vergabe auf das Interface wlan0 eingeschränkt.
-%TODO: Kästchen aus um den Quellcode!
+
 
 
 \begin{lstlisting}[caption=Konfiguration des ISC-DHCP-Server,frame=single]

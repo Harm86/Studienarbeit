@@ -26,18 +26,18 @@ Aufgrund der Vielzahl der mittlerweile verfügbaren Modelle konzentriert sich di
 \centering
 \caption{Vergleich von Raspberry Pi 2 und 3 \cite{CortexA7} \cite{CortexA57}}
 \label{tab:VergleichRaspberry}
-\begin{tabular}{lll}
-Kriterium                    & Raspberry Pi 2        					& Raspberry Pi 3           \\
-Veröffentlichungsdatum       & Februar 2015          					& Februar 2016             \\
-CPU                          & ARM Cortex-A7   & ARM Cortex-A57           \\
-CPU-Geschwindigkeit (in MHz) & 900             & 1200                     \\
-CPU-Kerne                    & 4                              & 4                        \\
-Arbeitsspeicher (in MB)      & 1024                  					& 1024                     \\
-USB 2.0-Anschlüsse           & 4                     					& 4                        \\
-Ethernetschnittstelle        & 10/100 MBit Ethernet  					& 10/100 MBit Ethernet     \\
-W-Lan                        & \multicolumn{1}{c}{-} 					& 802.11b/g/n (2,4 Ghz)    \\
-Bluetooth                    & \multicolumn{1}{c}{-} 					& Bluetooth 4.1 Low Energy \\
-Anzahl GPIO-Pins             & 26                    					& 26                      
+\begin{tabular}{l|l|l}
+Kriterium                    & Raspberry Pi 2        					& Raspberry Pi 3           \\ \hline
+Veröffentlichungsdatum       & Februar 2015          					& Februar 2016             \\ \hline
+CPU                          & ARM Cortex-A7   								& ARM Cortex-A57           \\ \hline
+CPU-Geschwindigkeit (in MHz) & 900             								& 1200                     \\ \hline
+CPU-Kerne                    & 4                              & 4                        \\ \hline
+Arbeitsspeicher (in MB)      & 1024                  					& 1024                     \\ \hline
+USB 2.0-Anschlüsse           & 4                     					& 4                        \\ \hline
+Ethernetschnittstelle        & 10/100 MBit Ethernet  					& 10/100 MBit Ethernet     \\ \hline
+W-Lan                        & \multicolumn{1}{c}{-} 					& 802.11b/g/n (2,4 Ghz)    \\ \hline
+Bluetooth                    & \multicolumn{1}{c}{-} 					& Bluetooth 4.1 Low Energy \\ \hline
+Anzahl GPIO-Pins             & 26                    					& 26                       \\
 \end{tabular}
 \end{table}
  
@@ -102,8 +102,41 @@ Folgende Sensoren von Allnet\cite{111861pd90:online} werden  im \fullref{Verdrah
 %Harm
 \section{WLAN}
 \subsection{Standard}
-Die \ac{IEEE} hat 1997 den Standard 802.11 veröffentlicht. Der Standard sieht vor, dass im 2,4 GHz-Band eine Datenrate von 1-2 Mbit/s gewährleistet ist. 1999 ist der Standard durch 802.11a und 802.11b erweitert worden. 802.11a sieht vor, dass im 5 GHz-Band eine Datenrate von 54 Mbit/s möglich ist. 802.11b funkt im 2,4 GHz-Band und bietet eine Datenrate von 11 Mbit/s. 2003 ist 802.11g veröffentlicht worden welcher auch im 2,4 GHz-Band Datenraten von 54 Mbit/s ermöglicht. Im September 2009 ist der Standard 802.11n veröffentlicht worden. Dieser Standard ermöglicht Datenraten von bis zu 150 Mbit/s. Wird 4x4-Mimo verwendet sind theoretisch sogar bis zu 600 Mbit/s möglich. Als Frequenzband sind sowohl das 2,4 GHz-Band als auch das 5 GHz-Band erlaubt.
- 
+Mitte der 90er Jahre hat die \ac{IEEE} den Auftrag bekommen WLAN zu Standardisieren. Die Bezeichnung WLAN ist in soweit korrekt, da WLAN in weiten Teilen auf den 802.X Standards, welche Umgangssprachlich als Ethernet bezeichnet werden. Wie aus der Zeichnung \nameref{osi-wlan} hervorgeht ist der Physical Layer komplett neu erstellt worden und der Data Link Layer erweitert worden. Die restlichen Schichten wurden unverändert übernommen.
+
+\begin{figure} [htb]
+\begin{centering}
+\includegraphics{Bilder/Kapitel2/osi_wlan.jpg}
+\caption[WLAN-Protokollstack]{WLAN-Protokollstack \cite{SWB-430171331}}
+\label{osi-wlan}
+\end{centering}
+\end{figure}
+
+Die \ac{IEEE} hat 1997 den Standard 802.11 veröffentlicht. Der Standard sieht vor, dass im 2,4 GHz-Band eine Datenrate von 1-2 Mbit/s gewährleistet ist. 1999 ist der Standard durch 802.11a und 802.11b erweitert worden. 802.11a sieht vor, dass im 5 GHz-Band eine Datenrate von 54 Mbit/s möglich ist. 802.11b funkt im 2,4 GHz-Band und bietet eine Datenrate von 11 Mbit/s. 2003 ist 802.11g veröffentlicht worden welcher auch im 2,4 GHz-Band Datenraten von 54 Mbit/s ermöglicht. Im September 2009 ist der Standard 802.11n veröffentlicht worden. Dieser Standard ermöglicht Datenraten von bis zu 150 Mbit/s. Wird 4x4-\ac{MIMO} verwendet sind theoretisch sogar bis zu 600 Mbit/s möglich. Als Frequenzband sind sowohl das 2,4 GHz-Band als auch das 5 GHz-Band erlaubt. Im Jahr 2013 ist der Standard 802.11ac veröffentlicht worden. Dieser nutzt nur das 5 GHz-Band, nutzt bis zu 8x8-\ac{MIMO} und ermöglicht Datenraten von bis zu 6,9 Gbit/s. In der Tabelle \nameref{tab:WLAN-Standards} sind die einzelnen Standards zusammengefasst aufgeführt.
+
+\begin{table}[htb]
+\centering
+\caption{Übersicht der WLAN-Standards}
+\label{tab:WLAN-Standards}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l|l|l|l}
+WLAN Standard & Veröffentlichungsjahr & Frequenzband       & Theoretische Maximalgeschwindigkeit  	\\ \hline
+802.11        & 1997                  & 2,4 GHz            & 1-2 Mbit/s       											\\ \hline
+802.11a       & 1999                  & 5 GHz              & 54 Mbit/s        											\\ \hline
+802.11b       & 1999                  & 2,4 GHz            & 11 Mbit/s        											\\ \hline
+802.11g       & 2003                  & 2,4 GHz            & 54 Mbit/s        											\\ \hline
+802.11n       & 2009                  & 2,4 GHz oder 5 GHz & 150 - 600 Mbit/s 											\\ \hline
+802.11ac      & 2013                  & 5 GHz              & 6,9 Gbit/s       											\\ 
+\end{tabular}%
+}
+\end{table} 
+
+Der Standard 802.11a ist nicht sehr erfolgreich da aus Gründen der Rückwärtskompatibilität zu 802.11b/g zwei Frequenzbänder unterstützt werden müssen. Die Unterstützung von beiden Frequenzbändern erhöht die Kosten und die Komplexität. Den Durchbruch erlangte WLAN mit dem Standard 802.11b. Schnellere Internetanbindungen und steigende Anforderungen machten es notwendig mehr Bandbreite zur Verfügung zu stellen. Dies wurde durch den Standard 802.11g realisiert. Da das 2,4 GHz-Band bereits sehr ausgelastet ist und außerdem noch weitere Geräte wie DECT-Funktelefone oder Mikrowellen den Empfang stören können, ist beim Standard 802.11n auch die Nutzung des 5 GHz-Bandes möglich.\\
+
+\subsubsection{Betriebsmodi von WLAN}
+WLAN kann in zwei verschiedenen Modi betrieben werden. Der Ad-Hoc-Modus ist vergleichbar mit einem Crossover-Kabel im Ethernetbereich während der Infrastrukturmodus so ähnlich wie ein Switch funktioniert.\\
+Beim Ad-Hoc-Modus müssen die beteiligten Benutzer sich über die Einstellungen einigen und diese an ihrem Gerät entsprechend eingeben. Die Kommunikation findet dann direkt zwischen den Endgeräten statt. Andere Geräte können die Datenpakete empfangen, verwerfen diese jedoch, wenn die Zieladresse nicht ihre eigene ist.\\
+Der Infrastrukturmodus ist der häufiger anzutreffende Modus. Im Infrastrukturmodus wird das WLAN mit seinen Einstellungen auf einem Access-Point konfiguriert und ein Anwender kann sich mit diesem Netz unter Angabe der \ac{SSID} und einem eventuell vergebenen Passwort verbinden. Die Verbindung mit einem Access-Point hat auch den Vorteil, dass ein Gerät erreicht werden kann, dass bei einem Ad-Hoc-Netzwerk zu weit entfernt wäre um es per Funk zu erreichen. Außerdem muss der Anwender nicht wissen ob der Kommunikationspartner ein kabelgebundenes Gerät oder ebenfalls im WLAN zu finden ist. Der Access-Point muss dazu nur über ein Kabel an einen Switch angeschlossen sein. 
 
 \subsection{Verschlüsselung}
 
@@ -115,7 +148,7 @@ Bei der Standardisierung des Standards 802.11b, 802.11g und 802.11a wurde \ac{WE
 
 \begin{figure} [htb]
 \begin{centering}
-\includegraphics{Bilder/wep_funktionsweise.jpg}
+\includegraphics{Bilder/Kapitel2/wep_funktionsweise.jpg}
 \caption[WEP-Verschlüsselung]{WEP-Verschlüsselung \cite{SWB-430171331}}
 \label{wep_funktionsweise}
 \end{centering}
@@ -134,7 +167,7 @@ Wie aus der Grafik (\nameref{wpa_funktionsweise}) hervorgeht werden der MICHAEL-
 
 \begin{figure} [htb]
 \begin{centering}
-\includegraphics[scale=0.6]{Bilder/wpa_funktionsweise.jpg}
+\includegraphics[scale=0.6]{Bilder/Kapitel2/wpa_funktionsweise.jpg}
 \caption[WPA-Verschlüsselung]{WPA-Verschlüsselung \cite{Heise-WLAN}}
 \label{wpa_funktionsweise}
 \end{centering}
