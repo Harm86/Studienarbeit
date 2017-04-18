@@ -178,12 +178,19 @@ Der Hauptaspekt der Priorisierung ist die Sicherstellung, dass ein hoch priorisi
 %TODO: Abstimmen mit jan - gleiche Struktur
 
 %Jan
-\section{Zentraleinheit}%Allgemein Vorinstalation!
-Damit die Zentraleinheit die Anforderungen erfüllt, wurde folgende Software auf der Zentraleinheit vorinstalliert:
+\section{Zentraleinheit}%Allgemein Vorinstalation!%verweis auf Planung Zentraleinheit
+Damit die Zentraleinheit die Anforderungen die in der \nameref{Planung} festgelegt wurden erfüllt, wurde folgende Software auf der Zentraleinheit vorinstalliert:
 \begin{description}
 	\item[Apache2:] \hfill \\
+	Als Webserver zur Darstellung der \fullref{Webseite} wurde ein Apache2 installiert.
+	%AUSFÜHREN MIT QUELLE WAS IST APACHE2 etc.
 	\item[MySQL:] \hfill \\
-	\item[PhpMyAdmin:] \hfill \\		
+	Eine MySQL Datenbankserver wurde auf der Zentraleinheit vorinstalliert, dieser dient wie in Kapitel \nameref{Datenbank} vorgestellt, dem Sammeln der Sensordaten.
+	%AUSFÜHREN MIT QUELLE WAS IST MySQL etc.
+	Für das abspeichern der Sensordaten
+	\item[PhpMyAdmin:] \hfill \\
+	Zur einfacheren Erstellen und Testen, wurde eine PhpMyAdmin installiert. PhyMyAdmin ist eine grafische Oberfläche für den Webbrowser, mit dem der Inhalt angezeigt und bearbeiet werden kann.
+	%EVTL QUELLE		
 \end{description}
 \subsection{Empfagen der Sensordaten}
 \subsection{Befüllen der Datenbank}
