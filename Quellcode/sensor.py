@@ -29,10 +29,16 @@ class Sensor:
         GPIO.cleanup()
 
     def add_event_flammensensor(self):
-        GPIO.add_event_detect(self.Digital_PIN, GPIO.BOTH, callback=self.flammen_mikro_event, bouncetime=100)
+        GPIO.add_event_detect(
+            self.Digital_PIN, GPIO.BOTH,
+            callback=self.flammen_mikro_event,
+            bouncetime=100)
 
     def add_event_mikrofon(self):
-        GPIO.add_event_detect(self.Digital_PIN, GPIO.BOTH, callback=self.flammen_mikro_event, bouncetime=100)
+        GPIO.add_event_detect(
+            self.Digital_PIN, GPIO.BOTH,
+            callback=self.flammen_mikro_event,
+            bouncetime=100)
 
     def eventhandler(self, null):
         self.Status = 1
