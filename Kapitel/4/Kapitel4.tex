@@ -387,10 +387,12 @@ Parameter, der entscheidet was der Anwender auf der Website sieht.
 
 %Jan
 \subsection{Übersicht}
+Die Übersichtsseite zeigt einen Übersicht über die angeschlossenen Sensorknoten und die Werte der einzelnen Sensoren der Sensorknoten an. Auf der Webseite werden nur die Sensorknoten mit ihren Sensoren angezeigt die sich tatsächlich im Netz befinden. Dafür zuständig ist die Datei sensordaten.php. Die Datei sensordaten.php ladet die Werte aus der Datenbank und erstellt daraus dynamisch eine Anzeigetabelle der Sensorknoten und den zugehörigen Sensoren. Die Anzeigetabelle zeigt alle Sensoren an die an den jeweiligen Sensorknoten angeschlossen sind, falls Sensoren nicht angeschlossen sind, wird das in der Tabelle angezeigt. Zusätzlich wird unter jede Tabelle ein Symbol mit der Verlinkung zu den Statistiken(siehe \fullref{Statistik}) und der Webkameras(siehe \fullref{Webkamera}) angezeigt, dies hat den Zweck zum schnelleren wechsel auf die jeweilige Seite.Des weiteren wird die Seite alle fünf sekunden automatisch nachgeladen, dies geschieht über die uebersichtscript.js und soll dafür sorgen, dass die angezeigten Daten aktuell sind ohne die Seite manuell zu aktualisieren.
+
 %Alex
-\subsection{Statistik}
+\subsection{Statistik}\label{Statistik}
 %Alex+Jan
-\subsection{Webcam}
+\subsection{Webkamera}\label{Webkamera}
 %Harm
 \subsection{Impressum}
 
