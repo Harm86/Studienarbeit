@@ -236,7 +236,7 @@ while True:
 	Wert = str(data["Messwert"])
 	adresse = str(addr[0])
 \end{lstlisting}
-
+\label{Daten}
 \subsection{Befüllen der Datenbank}
 Damit mit Python eine Datenbank befüllt werden kann, muss zuerst eine Bibliothek eingebunden werden.
 \begin{lstlisting}[caption=Einbinden der Bibliothek für die Datenbank,frame=single,numbers=left,language=Python]
@@ -259,7 +259,7 @@ Der Datenbankkonnektor ist in zwei Blöcke unterteilt, dem try Block und dem exc
 
 \noindent Im zweiten Block, dem except\_mysql.Error, e Block wird der Fehlerfall abgedeckt. Sollte die Funktion mdb.connect keine erfolgreiche Verbindung herstellen, gibt die print Funktion die Meldung "SQL-Connection failed. Error \%d:\%s" aus. An die Stelle des Platzhalters \%d wird der Fehlercode und an den Platzhalter \%s die Fehlermeldung die zurückgegeben wird geschrieben, die die Datenbank liefert.
 
-Im nächsten Abschnitt ist der Quellcode der eigentliche Befüllung der Datenbank zu sehen.
+Im nächsten Abschnitt ist der komplette Quellcode der eigentliche Befüllung der Datenbank zu sehen.
 \begin{lstlisting}[caption=Befüllen der Datenbank,frame=single,numbers=left,language=Python]
 with con:
 	cur = con.cursor()
@@ -298,10 +298,42 @@ with con:
 		VALUES(%s, %s)""", (KN_ID, MessID))
 con.close()
 \end{lstlisting}
-In dem große Block, beginnend mit with con und endend mit con.close(), beinhaltet die Befüllung der Datenbank. with con bedeutet, dass der nachfolgenden Quellcode mit dem Konnektor aus \fullref{con} durchgeführt wird und das close.con(), dass die Verbindung getrennt wird. Im ersten Abschnitt wird mit dem Befehl con.cursor() ein Cursor-Objekt in der Variable cur gespeichert, dieses Cursor-Objekt wird dazu benötigt um die Datensätze in der Datenbank zu durchlaufen. Mit dem cur.execute Befehl werden die in der Select-Anweisung festgelegten Datensätze durchsucht und in die Variable row\_count gespeichert. Die Variable row\_count dient zur Auswertung, ob ein Datensatz vorhanden ist oder nicht.\hfill
-
-\noindent In der if Anweisung wird überprüft ob ein Datensatz vorhanden ist, ist ein Datensatz vorhanden springt das Programm in den nachfolgenden if Block.
-\noindent elif Block
+Der große Block, beginnend mit with con und endend mit con.close(), beinhaltet die Befüllung der Datenbank. with con bedeutet, dass der nachfolgenden Quellcode mit dem Konnektor aus \fullref{con} durchgeführt wird und das close.con(), dass die Verbindung getrennt wird. Im ersten Abschnitt wird mit dem Befehl con.cursor() ein Cursor-Objekt in der Variable cur gespeichert, dieses Cursor-Objekt wird dazu benötigt um die Datensätze in der Datenbank zu durchlaufen. Mit dem cur.execute Befehl werden die in der Select-Anweisung festgelegten Datensätze durchsucht und in die Variable row\_count gespeichert. Die Variable row\_count dient zur Auswertung, ob ein Datensatz vorhanden ist oder nicht.\hfill
+\begin{lstlisting}[caption=If-Anweisung des Befüllen der Datenbank,frame=single,numbers=left,language=Python]
+if row_count == 1:
+	KN_ID = cur.fetchone()
+	cur.execute("""UPDATE Sensorknoten SET
+	IPv4_Adresse = %s WHERE
+	Knotennamen = %s""", (adresse, Name))
+	cur.execute("""INSERT INTO Messwerte 
+	(SEN_ID, Messwert) VALUES(%s, %s)""",
+	(SEN_ID, Wert))
+	# Die zuletzt erstellte ID wird übergeben
+	MessID = cur.lastrowid
+	cur.execute("""INSERT INTO 
+	Sensorknoten_Messwerte (KN_ID, MESS_ID)
+	VALUES(%s, %s)""", (KN_ID, MessID))
+\end{lstlisting}\label{If-Anweisung}
+\noindent In der If-Anweisung wird überprüft ob ein Datensatz vorhanden ist, ist ein Datensatz vorhanden, springt das Programm in den nachfolgenden if Block.In diesem Block wird zuerst die zuvor selektierete Knotenid mit dem Befehl cur.fetchone() geholt und in die Variable KN\_ID gespeichert. Danach wird mit den Daten aus \fullref{Daten} der Datenbankeintrag mit dem SQL-Befehl UPDATE erneuert. Mit dem SQL-Befehl INSERT wird ein neuer Datensatz in der Datenbanktabelle Messwerte erzeugt. Die ID des zuletzt erstellten Datenbankeintrag wird mit dem Befehlt cur.lastrowid in die Variable MessID gespeichert. Diese MessID wird benötigt, damit die Verknüpfung der Datenbank Tabellen mit dem nächsten Befehlt stattfinden kann. Der letzte INSERT-Befehlt verknüpft die Datenbanken, dies ist wichtig für die spätere Suche nach den richtigen Werten für die Anzeige auf der Webseite. 
+\begin{lstlisting}[caption=Ifelse-Anweisung des Befüllen der Datenbank,frame=single,numbers=left,language=Python]
+	# Wenn kein Datenbankeintrag gefunden wird,
+	wird ein neuer Datenbankeintrag erstellt
+elif row_count == 0:
+	cur.execute("""INSERT INTO Sensorknoten
+	(Knotennamen, IPv4_Adresse) VALUES
+	(%s, %s)""", (Name, adresse))
+	# Die zuletzt erstellte ID wird übergeben
+	KN_ID = cur.lastrowid
+	cur.execute("""INSERT INTO Messwerte
+	(SEN_ID, Messwert)VALUES(%s, %s)""",
+	(SEN_ID, Wert))
+	# Die zuletzt erstellte ID wird übergeben
+	MessID = cur.lastrowid
+	cur.execute("""INSERT INTO 
+	Sensorknoten_Messwerte(KN_ID, MESS_ID)
+	VALUES(%s, %s)""", (KN_ID, MessID))
+\end{lstlisting}
+\noindent Wenn kein Datensatz gefunden wurde, springt das Programm in die Elseif-Anweisung.Diese Elseif-Anweisung funktioniert ähnlich wie die zuvor vorgestellte \fullref{If-Anweisung}, sie unterscheidet sich ausschließich in den ersten paar Zeilen. Anstatt wie zuvor den mit Hilfe der Knotenid selektierte Datensatz zu erneuern, wird hier ein neuer Datensatz mit den Daten aus \fullref{Daten} erstellt. Die Kontenid des zuvor erstellten Datensatz wird mit dem Befehl cur.lastrowid in die Variable KN\_ID für einen späteren SQL-Befehl gepseichert. Mit dem SQL-Befehl INSERT wird ein neuer Datensatz erstellt, dieser enthält Werte aus dem \fullref{Daten}. Auch hier wird wieder die ID, in diesem Fall die MessID, des zuvor erstellten Datensatzes in die Variable MessID gespeichert. Die letzte INSERT-Anweisung, verknüpft die Datenbanken mit Hilfe der zuvor gespeicherten ID's, KN\_ID und MessID.   
 \subsection{Problematik Zeitsynchronisierung}
  
 \section{Webseite}
