@@ -127,11 +127,9 @@ class Sensor:
             return
 
     def temperatur(self):
-        # humidity, temperatur = Adafruit_DHT.read_retry(11, 4)
-        # Read_Retry versucht innerhalb von 15 Sekunden Messungen durchzufuehren und gibt das Ergebnis aus
-        # als ein array, wo humidity, temp angegeben werden
-        temperatur = Adafruit_DHT.read_retry(11, self.Digital_PIN)[1]
-        # Die Messtemperatur muss zwischen 0 und 50C liegen, sonst ist der Sensor defekt
+        temperatur = Adafruit_DHT.read_retry(
+                        11, self.Digital_PIN)[1]
+
         if 0 < temperatur <= 50:
             self.Status = 1
             self.Messwert = str(temperatur)
@@ -151,7 +149,6 @@ class Sensor:
 
     def luftfeuchtigkeit(self):
         humidity = Adafruit_DHT.read_retry(11, self.Digital_PIN)[0]
-        # Die Messtemperatur muss zwischen 0 und 50C liegen, sonst ist der Sensor defekt
         if 0 < humidity <= 95:
             self.Status = 1
             self.Messwert = str(humidity)
@@ -233,16 +230,16 @@ class Sensor:
                                   "Messwert": self.Messwert}
             json_data = json.dumps(sensor_information)
             self.senden(json_data)
-
             return
 
     def lichtschranke(self):
-        # Eventgesteuertes Ereigniss wird mit der fallenden Flanke ausgeloest
-        GPIO.add_event_detect(self.Digital_PIN, GPIO.FALLING, callback=self.eventhandler, bouncetime=100)
-
+        GPIO.add_event_detect(self.Digital_PIN, GPIO.FALLING,
+                              callback=self.eventhandler,
+                              bouncetime=100)
     def schocksensor(self):
-        # Eventgesteuertes Ereigniss wird mit der fallenden Flanke ausgeloest
-        GPIO.add_event_detect(self.Digital_PIN, GPIO.FALLING, callback=self.eventhandler, bouncetime=100)
+        GPIO.add_event_detect(self.Digital_PIN, GPIO.FALLING,
+                              callback=self.eventhandler,
+                              bouncetime=100)
 
     def senden(self, json_data):
         s = socket.socket()
