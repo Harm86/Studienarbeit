@@ -2,7 +2,7 @@
 
 Die Sensoren werden an einen Raspberry Pi angeschlossen und melden die
 gemessenen Werte an einen zentralen Raspberry Pi. Der zentrale Raspberry Pi legt
-die gemeldeten Daten in einer Datenbank ab. Eine Website greift auf die
+die gemeldeten Daten in einer Datenbank ab. Eine Webseite greift auf die
 Datenbank zu und stellt die Daten dar.\\
 Die Kommunikation wird über ein eigenes WLAN-Netz abgewickelt das von der
 Zentraleinheit aufgespannt wird. IP-Adressen werden von einem \ac{DHCP}-Server, der
@@ -15,9 +15,10 @@ bereitgestellt.
 %TODO: Einleitender satz
 %TODO: WLAN-Stick
 %TODO: Acro WLAN Anmerkung: WLAN ist eine allgemein bekannte Abkürzung und muss nicht erklärt werden!!
+%Passt
 \subsection{WLAN}
 %TODO: Wird von der Zentraleinheit aufgespannt
-Es wird ein Funknetz auf Basis des 802.11n Standards verwendet. Aufgespannt wird das WLAN von der Zentraleinheit, auf der zentrale Dienste bereitgestellt werden. Als Name wurde Pinet festgelegt, der von allen gesehen werden kann. In der Tabelle (\nameref{tab:WLAN-Konfiguration}) sind die einzelnen Optionen aufgeführt und erläutert.
+Es wird ein Funknetz auf Basis des 802.11n Standards verwendet. Aufgespannt wird das WLAN von der Zentraleinheit, auf der zentrale Dienste bereitgestellt werden. Als Name wurde Pinet festgelegt, der von allen gesehen werden kann. In der Tabelle (siehe \fullref{tab:WLAN-Konfiguration}) sind die einzelnen Optionen aufgeführt und erläutert.
 
  
 \begin{table}
@@ -42,16 +43,16 @@ ieee80211n=1 								& Aktiviert den n-Standard \\
 wme\_enabled=1 							& Aktiviert \ac{QoS} - Voraussetzung für die Verwendung des n-Standards \\
  \end{tabular}
 \end{table}
-
+%passt
 \subsection{Verschlüsselung}
 
-Wie aus der Tabelle WLAN-Konfigurationsdetails (\nameref{tab:WLAN-Konfiguration}) hervorgeht ist das WLAN mit \ac{WPA2} verschlüsselt. \ac{WPA2} gilt aktuell als sicher, was nicht für die Alternativen \ac{WEP} oder \ac{WPA} gilt. Zur Authentifizierung wird ein \ac{PSK} verwendet. Als Verschlüsselungsprotokoll wird \ac{CCMP} verwendet. 
+Wie aus der \fullref{tab:WLAN-Konfiguration} hervorgeht, ist das WLAN mit \ac{WPA2} verschlüsselt. \ac{WPA2} gilt aktuell als sicher, was nicht für die Alternativen \ac{WEP} oder \ac{WPA} gilt. Zur Authentifizierung wird ein \ac{PSK} verwendet. Als Verschlüsselungsprotokoll wird \ac{CCMP} verwendet. 
 
-
+%passt
 \subsection{\ac{DHCP}}
  
 Als \ac{DHCP}-Server wird der ISC-DHCP-Server verwendet.\\
-Die IP-Adressen werden nur über das wlan0-Interface der Zentraleinheit vergeben. Als Netz wurde das Private Netz 192.168.178.0 /24 verwendet. In diesem Netz hat die Zentraleinheit als \ac{DHCP}-Server die Adresse 192.168.178.1 /24. Diese Adresse ist Statisch eingetragen. Alle anderen Geräte erhalten dynamische IP-Adressen aus dem Bereich 192.168.178.10 - 192.168.178.250. Die Lease-Time wurde auf 604800 sekunden festgelegt. Dies entspricht 7 Tagen. Als Lease-Time wird der Zeitraum bezeichnet, in dem ein Netzwerkgerät, die gleiche IP-Adresse erhält. So wird verhindert, dass viele Adressänderungen stattfinden. Da nur wenige Geräte im Netz verfügbar sind und auch keine häufigen Änderungen erwartet werden wird der Zeitraum von 7 Tagen als ausreichend angesehen. Damit der \ac{DHCP}-Server die IP-Adressen nur im WLAN vergibt wurde die IP-Adress-Vergabe auf das Interface wlan0 eingeschränkt.
+Die IP-Adressen werden nur über das wlan0-Interface der Zentraleinheit vergeben. Als Netz wird das private Netz 192.168.178.0 /24 verwendet. In diesem Netz hat die Zentraleinheit als \ac{DHCP}-Server die Adresse 192.168.178.1 /24. Diese Adresse ist statisch eingetragen. Alle anderen Geräte erhalten dynamische IP-Adressen aus dem Bereich 192.168.178.10 - 192.168.178.250. Die Lease-Time wurde auf 604800 Sekunden festgelegt. Dies entspricht 7 Tagen. Als Lease-Time wird der Zeitraum bezeichnet, in dem ein Netzwerkgerät, die gleiche IP-Adresse erhält. So wird verhindert, dass viele Adressänderungen stattfinden. Da nur wenige Geräte im Netz verfügbar sind und auch keine häufigen Änderungen erwartet werden, wird der Zeitraum von 7 Tagen als ausreichend angesehen. Damit der \ac{DHCP}-Server die IP-Adressen nur im WLAN vergibt, wird die IP-Adress-Vergabe auf das Interface wlan0 eingeschränkt.
 
 
 
@@ -76,6 +77,7 @@ subnet 192.168.178.0 netmask 255.255.255.0
 \end{lstlisting}
 
 %Alex
+%Passt
 \section{Sensorknoten} %Allgemein Vorinstalation!
 Für die Umsetzung des Sensorknotens werden vorab Pythonbibliotheken benötigt. Sie werden mit dem folgenden Befehl im Quellcode hinzugefügt:
 \begin{lstlisting}[caption=Importbefehl in Python,frame=single,numbers=left,language=Python]
@@ -84,19 +86,28 @@ import <Paketname> as <Aliasname>
 # Hinzufügen einer Methode aus einem Paket
 from <Paketname> import <Methodenname>
 \end{lstlisting}
-Die benötigten Pakete sind wie folgt: \\
-'RPi.GPIO', 'smbus', 'socket', 'json' und 'Adafruit\_DHT'. RPi.GPIO ist die Bibliothek zur Nutzung der \ac{GPIO} Schnittstelle in Python. Das Paket smbus ermöglicht den Zugriff auf die I$^2$C Schnittstelle. Das Paket socket ermöglicht die Nutzung der TCP/IP Socketverbindung. Mittels json kann das Datenformat \ac{JSON} genutzt werden. Python bietet mit Hilfe der Adafruit\cite{Adafruit60:online} Bibliotheken eine Schnittstelle zu den Sensoren. Die Adafruitbibliothek kann mit Hilfe des pythoneigenen Paketmanagers, "'pip"', installiert werden.
+%TODO: Tabelle daraus machen
+Folgende Pakete werden benötigt:
+\begin{enumerate}
+	\item RPi.GPIO
+	\item smbus
+	\item socket
+	\item json
+	\item Adafruit\_DHT
+\end{enumerate}
+
+RPi.GPIO ist die Bibliothek zur Nutzung der \ac{GPIO} Schnittstelle in Python. Das Paket smbus ermöglicht den Zugriff auf die I$^2$C Schnittstelle. Das Paket socket ermöglicht die Nutzung der TCP/IP Socketverbindung. Mittels json kann das Datenformat \ac{JSON} genutzt werden. Python bietet mit Hilfe der Adafruit\cite{Adafruit60:online} Bibliotheken eine Schnittstelle zu den Sensoren. Die Adafruitbibliothek kann mit Hilfe des pythoneigenen Paketmanagers, "'pip"', installiert werden.
 \begin{lstlisting}[caption=Installation der Adafruit Bibliothek mit pip,frame=single]
 pip install adafruit_python_dht
 \end{lstlisting}
-Dieses Paket wird zum Ansteuern des DHT-11 Sensors, der im \fullref{Sensoren_Planung} beschrieben wird, benötigt. Die genutzte Erweiterungsplatine RPI - Explorer 700 benötigt keine zusätzliche Software. Die Platine muss fest auf die \ac{GPIO} Pins gesteckt werden, um funktional zu sein. Der \ac{A/D-Wandler} befindet sich neben den \ac{GPIO} Anschlüssen und hat eine gelbe Platinenfarbe. Bevor der \ac{A/D-Wandler} einsatzfähig ist muss der I$^2$C Bus in der Raspi-config Datei aktiviert werden. Mit dem aktiven I$^2$C Bus können die Sensoren angeschlossen werden.
+Dieses Paket wird zum Ansteuern des DHT-11 Sensors, der im \fullref{Sensoren_Planung} beschrieben wird, benötigt. Die genutzte Erweiterungsplatine RPI - Explorer 700 benötigt keine zusätzliche Software. Die Platine muss auf die \ac{GPIO} Pins gesteckt werden, um funktional zu sein. Der \ac{A/D-Wandler} befindet sich neben den \ac{GPIO} Anschlüssen und hat eine gelbe Platinenfarbe. Bevor der \ac{A/D-Wandler} einsatzfähig ist muss der I$^2$C Bus in der Raspi-config Datei aktiviert werden. Mit dem aktiven I$^2$C Bus können die Sensoren ausgelesen werden.
+%Passt
 \subsection{Verdrahtung der Sensoren}\label{Verdrahtung_der_Sensoren}
 %Die Sensoren werden bestimmten Pins zugewiesen, damit sowohl erfahrene als auch unerfahrene Nutzer dieses Sensorknotensystem nachbauen können.
-Die Sensoren, aus dem \fullref{Sensoren_Planung}, haben eine feste Zuweisung an die jeweiligen Pins, damit andere Nutzer das System einfacher und schneller nachbauen können, ohne Probleme bei der Verbindung der Sensoren zu bekommen. Die Pins sind wie folgt belegt:
+Die Sensoren, aus dem \fullref{Sensoren_Planung}, haben eine feste Zuweisung an die jeweiligen Pins. Dies ermöglicht es anderen Nutzern das System einfacher und schneller nachzubauen, ohne Probleme bei der Verbindung der Sensoren zu bekommen. Die Tabelle \fullref{tab:Pinbelegung} beschreibt die Belegung der einzelnen Pins.
 \begin{table}[htp]
 	\caption{GPIO und analoge Pinbelegung der Sensoren}
 	\label{tab:Pinbelegung}
-	\subcaption*{GPIO Pinbelegung}
 	\begin{tabular}{p{0.15\textwidth} p{0.2\textwidth} p{0.6\textwidth}}
 		\textbf{GPIO-Pin}	& \textbf{Sensor} & \textbf{Beschreibung} \\
 		Pin 5 		& Schocksensor 	& Funktionsweise über die Flankendetektion\\	
@@ -105,8 +116,8 @@ Die Sensoren, aus dem \fullref{Sensoren_Planung}, haben eine feste Zuweisung an 
 		Pin 24		& Lichtschranke	& True oder False Wert vom Sensor\\
 		Pin 25		& DHT11 Sensor	& Luftfeuchtigkeits- und Temperaturwerte werden als digitale Werte geliefert
 	\end{tabular}
-	\bigskip
-	\subcaption*{Analoge Pinbelegung}
+\end{table}
+\begin{table}[htp]
 	\begin{tabular}{p{0.15\textwidth} p{0.2\textwidth} p{0.6\textwidth}}
 		\textbf{Analog-Pin}	& \textbf{Sensor} & \textbf{Beschreibung} \\
 		A0	& Mikrofon 		& Analoge Messwerte des Mikrofons. Werden zur Fehlererkennung genutzt. \\
@@ -114,15 +125,15 @@ Die Sensoren, aus dem \fullref{Sensoren_Planung}, haben eine feste Zuweisung an 
 		A2	& Lichtsensor	& Analoge Messwerte des Lichtsensors.
 	\end{tabular}
 \end{table}
-\\
-Der Lichtsensor besitzt als einziger Sensor keine direkte Anschlussmöglichkeit an einen \ac{GPIO} Pin. Somit wird der zusätzliche analoge Ausgang des Flammensensors und des Mikrofons zur Messwertüberprüfung genutzt. Der Aufbau der \ac{GPIO} Steckplatine hat einen Einfluss auf die Pinbelegung der Sensoren genommen. Wie in \fullref{fig:Kapitel2/gpio_pins_pi2.png} zusehen ist, sind die Pins 9, 14, 20 und 25 Masseanschlüsse. Die genutzten Sensoren befinden sich in unmittelbarer nähe zu diesen. Zu einem können sich Nutzer an den Positionen der Masseanschlüsse orientieren und somit ebenfalls schneller den korrekten Pin finden. Ein weiterer Vorteils ist, dass im Falle eines versehentlichen Fehlanschließens keine Gefahr für den Sensor entsteht, da beispielsweise auf den digitalen Ausgangspin keine 5V Eingangsspannung gelangen kann. Durch die feste Pinbelegung entsteht eine feste Vorgabe der Anschlussarchitektur. Die Sensoren können falsch angeschlossen werden und würden dabei ebenfalls Messdaten erzeugen, doch eine korrekte Zuweisung der Messdaten an die Sensoren wäre nicht möglich. Des Weiteren hat die feste Pinbelegung ebenso einen Einfluss auf die Implementierung der Sensoren. 
+
+ Der zusätzliche analoge Ausgang des Flammensensors und des Mikrofons wird zur Messwertüberprüfung genutzt. Als einziger Sensor der Lichtsensor besitzt keine direkte Anschlussmöglichkeit an einen \ac{GPIO} Pin und kann somit nicht zusätzlich auf Messfehler untersucht werden. Der Aufbau der \ac{GPIO} Steckplatine beeinflusst zusätzlich die Pinbelegung der Sensoren. Wie in \fullref{fig:Kapitel2/gpio_pins_pi2.png} zu sehen ist, sind die Pins 9, 14, 20 und 25 Masseanschlüsse. Die genutzten Sensoren befinden sich in unmittelbarer Nähe zu diesen. Zum einen können sich Nutzer an den Positionen der Masseanschlüsse orientieren und zum anderen ebenfalls schneller den korrekten Pin finden. Ein weiterer Vorteil ist, dass im Falle eines versehentlichen Fehlanschließens keine Gefahr für den Sensor entsteht, da beispielsweise auf den digitalen Ausgangspin keine 5V Eingangsspannung gelangen kann. Durch die feste Pinbelegung entsteht eine feste Vorgabe der Anschlussarchitektur. Die Sensoren können falsch angeschlossen werden und würden dabei ebenfalls Messdaten erzeugen, doch eine korrekte Zuweisung der Messdaten an die Sensoren wäre nicht möglich. Des Weiteren hat die feste Pinbelegung ebenso einen Einfluss auf die Implementierung der Sensoren. 
 \subsection{Implementierung der Sensoren}
 %TODO: Alles erklären ...
 % Lichtsensor: Problematisch ist hierbei das Tageslicht, da es das gleiche Verhalten beim Sensor auslöst.
 % Schocksensor:Eine Umsetzung mit diesem Modell ist nicht mögich, da eine starke Erschütterung zum detektieren benötigt.
 Bevor die Sensoren implementiert werden können, muss eine Softwarearchitektur aufgebaut werden. Zuerst gibt es die Auswahl eines objektorientierten oder nicht objektorientierten Ansatzes.
 %TODO: Quelle raussuchen! 
-Ein Vorteil der \ac{OOP} ist die Erweiterungsfähigkeit. Eine neue Funktion kann in der Klasse niedergeschrieben werden und zur Laufzeit ausgeführt werden. Des Weiteren können mehrere Instanzen einer Klasse zur Laufzeit erzeugt werden. Somit kann eine Hauptklasse erstellt werden, die dann zur Laufzeit mehrere Objekte erzeugen kann, die jeweils eine eigene Funktionalität ausüben. Eine weitere Problemstellung in der Entwicklung der Softwarearchitektur ist die Klassenhierarchie. Statt den gewöhnlichen Ansatz einer Hauptklasse und dann jeweils einer Unterklasse mit einer Funktionalität auszubauen, wird hierbei der Ansatz einer monolithischen Architektur gewählt. Im Sensorknoten werden nur Sensoren implementiert. Damit würde es eine Überklasse geben, wovon jeder Sensor erben würde. Beim monolithischen Ansatz gibt es nur eine Klasse, die alle Methoden enthält. Erst bei der Initialisierung kann entschieden werden, welche Funktion ausgeführt werden soll. Ein Instanz einer monolithischen Klasse kann somit, falls es einen Anlass dafür gibt, unabhängig von der Initialisierung ihre Funktionsweise wechseln. Bei klassischen objektorientierten Ansatz müsse eine komplett neue Instanz erzeugt werden. Ein Nachteil der monolithischen Architektur ist die Anhäufung von Methoden in einer Klasse. Ab einem gewissen Grad wird die Klasse schwer wartbar, da zu viele Methoden kontrolliert werden müssen. Diese Größe der Klasse kann weitere Fehler, wie das nicht korrekte Bereinigen von Bugs mit sich bringen. Das größte Problem dieser Architektur ist fehlerhafte Instanziierung eines Objektes. Zur Darstellung des Problems dient folgendes Programmbeispiel:
+Ein Vorteil der \ac{OOP} ist die Erweiterungsfähigkeit. Eine neue Funktion kann in der Klasse niedergeschrieben werden und zur Laufzeit ausgeführt werden. Des Weiteren können mehrere Instanzen einer Klasse zur Laufzeit erzeugt werden. Somit kann eine Hauptklasse erstellt werden, die dann zur Laufzeit mehrere Objekte erzeugen kann, die jeweils eine eigene Funktionalität ausüben. Eine weitere Problemstellung in der Entwicklung der Softwarearchitektur ist die Klassenhierarchie. Statt den gewöhnlichen Ansatz einer Hauptklasse und dann jeweils einer Unterklasse mit einer Funktionalität auszubauen, wird hierbei der Ansatz einer monolithischen Architektur gewählt. Im Sensorknoten werden nur Sensoren implementiert. Damit würde es eine Überklasse geben, wovon jeder Sensor erben würde. Beim monolithischen Ansatz gibt es nur eine Klasse, die alle Methoden enthält. Erst bei der Initialisierung kann entschieden werden, welche Funktion ausgeführt werden soll. Eine Instanz einer monolithischen Klasse kann somit, falls es einen Anlass dafür gibt, unabhängig von der Initialisierung ihre Funktionsweise wechseln. Beim klassischen objektorientierten Ansatz müsse eine komplett neue Instanz erzeugt werden. Ein Nachteil der monolithischen Architektur ist die Anhäufung von Methoden in einer Klasse. Ab einem gewissen Grad wird die Klasse schwer wartbar, da zu viele Methoden kontrolliert werden müssen. Diese Größe der Klasse kann weitere Fehler, wie das nicht korrekte Bereinigen von Bugs mit sich bringen. Das größte Problem dieser Architektur ist die fehlerhafte Instanziierung eines Objektes. Zur Darstellung des Problems dient folgendes Programmbeispiel:
 
 \begin{lstlisting}[caption=Fehlerhafte Instanziierung eines Sensorobjektes,frame=single,numbers=left,language=Python]
 # Initialisierung des Mikrofons
@@ -136,34 +147,39 @@ Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor
 
 \subsubsection*{Der Konstruktor} \label{Methode:Konstruktor}
 	Wie in anderen Programmiersprachen, wird ebenfalls in Python ein Konstruktor für das Objekt benötigt. Der Konstruktor initialisiert alle notwendigen Variablen für das Objekt der Klasse. Im Falle des Sensorknotens sieht der Konstruktor wie folgt aus:
-	
-	\lstinputlisting[caption=Konstruktor der Sensorklasse,frame=single,numbers=left,language=Python, firstline=10, lastline=26]{Quellcode/sensor.py}
+	%TODO: Listingreferenz hinzufügen
+	\lstinputlisting[caption=Konstruktor der Sensorklasse,frame=single,numbers=left,language=Python, firstline=10, lastline=26]{Quellcode/sensor.py} \label{LST:Konstruktor}
 
-	\textsc{Eric Matthes} beschreibt in seinem Buch "Python crash course"\cite{1593276036} die Funktion \_\_init\_\_ als eine geschützte Funktionalität von Python. Der Zweck der doppelten Unterstriche seie die Abgrenzung von möglichen Namen, die ein Programmierer vergeben dürfe. Es ist üblich, dass einfache Unterstriche zum verbinden von mehreren Wörtern genutzt werden. Somit, weiß der Programmierer, dass diese besondere Funktion nicht im anders verwendet werden darf. Eine weitere Auffälligkeit ist die 'self' Variable. Nach \textsc{Eric Matthes} müsse der Parameter an erster Stelle im Konstruktor stehen. Dieser seie für den Bezug auf das Objekt relevant. Das self ist in der Funktionalität ähnlich wie das 'this' aus Java. Die weiteren Übergabeparameter haben folgende Bedeutung:
+	\textsc{Eric Matthes} beschreibt in seinem Buch "Python crash course"\cite{1593276036} die Funktion \_\_init\_\_ als eine geschützte Funktionalität von Python. Der Zweck der doppelten Unterstriche seie die Abgrenzung von möglichen Namen, die ein Programmierer vergeben dürfe. Es ist üblich, dass einfache Unterstriche zum verbinden von mehreren Wörtern genutzt werden. Somit, weiß der Programmierer, dass diese besondere Funktion nicht anders verwendet werden darf. Eine weitere Auffälligkeit ist die 'self' Variable. Nach \textsc{Eric Matthes} müsse der Parameter an erster Stelle im Konstruktor stehen. Dieser seie für den Bezug auf das Objekt relevant. Das 'self' ist in der Funktionalität ähnlich wie das 'this' aus Java. Die weiteren Übergabeparameter haben folgende Bedeutung:
 	\begin{description}
 		\item[SEN\_ID] \hfill \\
-			Die SEN\_ID ist die feste Nummer des Sensors. Die Nummerierung entstammt dem \fullref{Sensoren_Planung}. Hierbei Hat der Temperatursensor die Nummer 1 und der Luftfeuchtigkeitssensor die Nummer 2. Die restlichen Sensoren werden entsprechend gezählt. Die SEN\_ID wird für die Zuordnung des Messwertes zum Sensor in der Datenbank benötigt. 
+			Die SEN\_ID ist die feste Nummer des Sensors. Die Nummerierung entstammt dem \fullref{Sensoren_Planung}. Hierbei hat der Temperatursensor die Nummer 1 und der Luftfeuchtigkeitssensor die Nummer 2. Die restlichen Sensoren werden entsprechend hochgezählt. Die SEN\_ID wird für die Zuordnung des Messwertes zum Sensor in der Datenbank benötigt. 
 		\item[Analog\_PIN] \hfill \\
 			Der Analog\_PIN Übergabeparameter wird für das Ansprechen des A/D-Wanderls benötigt. Die Angaben können aus der \fullref{tab:Pinbelegung} entnommen werden.
 		\item[Digital\_PIN] \hfill \\
-			Der Digital\_Pin kann ebenfalls aus der \fullref{tab:Pinbelegung} entnommen werden. Die Angabe wird für Sicherheitsüberprüfungen und zum Auslesen von den digitalen Sensorwerten benutzt.
+			Die Nummerierung der Digital\_Pins kann ebenfalls aus der \fullref{tab:Pinbelegung} gelesen werden. Die Angabe wird für Sicherheitsüberprüfungen und zum Auslesen von den digitalen Sensorwerten benutzt.
    	\end{description}
-	Der Sensorname ermittelt mit Hilfe der socket Bibliothek den Namen des Betriebssystems. Damit wird der Name des Sensorknotens ermittelt. Dieser wird für die Zuweisung der Sensoren zum Sensorknoten in der Datenbank genutzt. Der eigentliche Name des jeweiligen Sensors ist für den Sensorknoten nicht von Bedeutung, den die SEN\_ID ist immer eindeutig. Der Name des Sensors wird mit Hilfe der Datenbank bestimmt.
+	Der Sensorname ermittelt mit Hilfe der "'socket"' Bibliothek den Namen des Betriebssystems. Damit wird der Name des Sensorknotens ermittelt. Dieser wird für die Zuweisung der Sensoren zum Sensorknoten in der Datenbank genutzt. Der eigentliche Name des jeweiligen Sensors ist für den Sensorknoten nicht von Bedeutung, denn die SEN\_ID ist immer eindeutig. Der Name des Sensors wird mit Hilfe der Datenbank bestimmt.
 	%TODO: Verknüpfung zur Zentraleinheit : Datenbank. Übersetzung SEN_ID zum Sensornamen
-	Neben der SEN\_ID ist der Messwert in der zu übertragenden Nachricht an die Zentraleinheit enthalten. Der Messwert wird zu Beginn, als ein leerer String vorgeladen. Python setzt keine Deklaration vor der Nutzung einer Variable voraus. Die Messwertvariable wird dennoch deklariert, damit der Quellcode wartbarer wird. Die Status Variable dient als Zustandskontrolle des Sensors. Der Status des Sensors wird auf der Website wie im Kapitel BLAARRRGH %TODO: Verweis auf Website Übersicht mit dem Statusbit!
-	erläutert, dargestellt. Der Zustand ändert sich explizit sobald ein Sensor detektiert wird. Die Status Variable kann folgende Zustände annehmen:
+	Neben der SEN\_ID ist der Messwert in der zu übertragenden Nachricht an die Zentraleinheit enthalten. Der Messwert wird zu Beginn als ein leerer String vorgeladen. Python setzt keine Deklaration vor der Nutzung einer Variable voraus. Die Messwertvariable wird dennoch deklariert, damit der Quellcode wartbarer wird. Die Status Variable dient als Zustandskontrolle des Sensors. Der Status des Sensors wird auf der Webseite wie im Kapitel BLAARRRGH %TODO: Verweis auf Website Übersicht mit dem Statusbit!
+	erläutert, dargestellt. Der Zustand ändert sich explizit, sobald ein Sensor detektiert wird. Die Status-Variable kann folgende Zustände annehmen:
 	\begin{description}
 		\item[Status = 0] \hfill \\
-			Bedeutet, dass der Sensor nicht angeschlossen wird. Dies ist ebenso der Defaultzustand aller Sensorobjekte.
+			Bedeutet, dass der Sensor nicht angeschlossen ist. Dies ist außerdem der Defaultzustand aller Sensorobjekte.
 		\item[Status = 1] \hfill \\
 			Bedeutet, dass der Sensor angeschlossen ist. Dieser Zustand soll dem Benutzer signalisieren, dass der Sensor korrekt arbeitet.
 		\item[Status = 2] \hfill \\
 			Bedeutet, dass der Sensor defekt ist. Anders als beim Zustand 0 tritt dieser Fall erst auf, wenn ein unmöglicher Messwert gemessen wurde. Ein Beispiel hierfür ist: Falls der Temperatursensor, welcher einen Messbereich von 0 bis 50$^\circ$C hat, Messwerte unter dem Gefrierpunkt oder über 50$^\circ$C liefert.
 	\end{description}
-	Der Befehl in der Zeile neun dient zur Einstellung der GPIO-Pinbezeichnung. \textsc{MATT} beschreibt in sienem Blogeintrag "Simple Guide to the RPi Header and Pins"\cite{SimpleGu6:online}, dass es zwei mögliche Modi für diesen Befehl gebe. Zu einem gebe den Übergabeparameter "GPIO.BOARD" und zum anderen "GPIO.BCM". Sie würden für die verschiedenen Nummerierungsmöglichkeiten der \ac{GPIO} Schnittstelle stehen. GPIO.BOARD würde die Nummerierung der Pins nach der Position auf dem Board durchführen. Im Gegensatz dazu nutze die GPIO.BCM Nummerierung die eigentliche GPIO Pinbelegung. Diese wir in der \fullref{fig:Kapitel2/gpio_pins_pi2.png} dargestellt.\\
-	Die Ausgabe von Warnungen der GPIO Bibliothek wird mit dem Befehl in der zehnten Zeile deaktiviert. Diese sind nicht notwendig, da zu einem die Sensorenknoten an keiner graphischen Ausgabe angeschlossen sind und zum anderen werden Fehler separat behandelt.\\
-	Falls der Sensor einen Digitalen Anschluss hat, muss dieser initialisiert werden. Dazu dient die Kontrollstruktur von Zeile elf bis vierzehn. \textsc{Chris Hager} beschreibt in der "RPIO 0.10.0 documentation - RPIO, the Python module" den Befehl "GPIO.setup()"\space wie folgt. Der Befehl benötige als Übergabeparameter den Pin, den Modus - entweder GPIO.IN oder GPIO.OUT und die Angabe, ob der Pull-up oder Pull-down Widerstand aktiv sein solle. Im Falle der Sensoren muss das Signal als "GPIO.IN" deklariert werden. Es wird weder ein Pull-up noch ein Pull-down Widerstand angeschlossen, aus diesem Grund wird als letzter Parameter "'GPIO.PUD\_OFF"' angegeben. \\
-	Die letzten zwei Befehle dienen zum Initialisieren des I$^2$C Buses. Der 'smbus.SMBus(X)' nimmt entweder den Wert 0 oder Wert 1 an. Nach einem empirischen Test hat es sich herausgestellt, dass die Raspberry Pis in der Version 2 und 3 das i2c-dev1 Interface standardmäßig nutzten. Somit muss der Befehl "smbus.SMBUS(1)" ausgeführt werden. Die Adresse des I$^2$C Ports muss ebenfalls angegeben werden. Nach dem Blogeintrag "GPIO Interface library for the Raspberry Pi"\cite{I2CPCF8592:online} von Wiring Pi seie die Adresse "0x46$_H$"\space die Standardadresse des Raspberry Pis. Damit ist der Konstruktor abgeschlossen! und es folgen die Methoden der Sensorklasse.
+	%TODO: REFERENZ RICHTIG MACHEN!
+	In Zeile neun des \fullref{LST:Konstruktor} dient zur Einstellung der GPIO-Pinbezeichnung. \textsc{MATT} beschreibt in seinem Blogeintrag "'Simple Guide to the RPi Header and Pins'"\cite{SimpleGu6:online}, dass es zwei mögliche Modi für diesen Befehl gebe. Zum einen gibt es den Übergabeparameter "'GPIO.BOARD"' und zum anderen "'GPIO.BCM"'. Sie würden für die verschiedenen Nummerierungsmöglichkeiten der \ac{GPIO} Schnittstelle stehen. GPIO.BOARD würde die Nummerierung der Pins nach der Position auf dem Board durchführen. Im Gegensatz dazu nutze die GPIO.BCM Nummerierung die eigentliche GPIO Pinbelegung. Diese wir in der \fullref{fig:Kapitel2/gpio_pins_pi2.png} dargestellt.\\
+	Die Ausgabe von Warnungen der GPIO Bibliothek wird mit dem Befehl in der zehnten Zeile deaktiviert. Diese sind nicht notwendig, da zum einen die Sensorenknoten an keiner graphischen Ausgabe angeschlossen sind und zum anderen Fehler separat behandelt werden.\\
+	Falls der Sensor einen digitalen Anschluss hat, muss dieser initialisiert werden. Dazu dient die Kontrollstruktur von Zeile elf bis vierzehn. \textsc{Chris Hager} beschreibt in der "RPIO 0.10.0 documentation - RPIO, the Python module" den Befehl "GPIO.setup()"\space wie folgt: Der Befehl benötige als Übergabeparameter den Pin, den Modus - entweder GPIO.IN oder GPIO.OUT - die Angabe, ob der Pull-up oder Pull-down Widerstand aktiv sein solle. Im Falle der Sensoren muss das Signal als "GPIO.IN" deklariert werden. Es wird weder ein Pull-up noch ein Pull-down Widerstand angeschlossen. Aus diesem Grund wird als letzter Parameter "'GPIO.PUD\_OFF"' angegeben. \\
+	Die letzten zwei Befehle dienen zum Initialisieren des I$^2$C Buses. Der '"smbus.SMBus(X)"' nimmt entweder den Wert 0 oder Wert 1 an. Nach einem empirischen Test hat es sich herausgestellt, dass die Raspberry Pis in der Version 2 und 3 das i2c-dev1 Interface standardmäßig nutzten. Somit muss der Befehl "'smbus.SMBUS(1)"' ausgeführt werden. Die Adresse des I$^2$C Ports muss ebenfalls angegeben werden. Nach dem Blogeintrag "GPIO Interface library for the Raspberry Pi"\cite{I2CPCF8592:online} von Wiring Pi seie die Adresse "0x46$_H$"\space die Standardadresse des I$^2$C Ports im Raspberry Pi. Damit ist der Konstruktor abgeschlossen und es folgen die Methoden der Sensorklasse.
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Bis hier hin gelesen und bewertet
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{Aufräumfunktion}
 	Diese Funktion dient zum Aufräumen der \ac{GPIO} Anschlüsse. \textsc{Ben Croston} schreibt in seinem Artikel "'RPi.GPIO basics 3"' \cite{RPiGPIOb90:online}, dass die \ac{GPIO} Pins aufgeräumt werden sollten. Folgendes Problem bestehe beim Raspberry Pi. Falls in ein Port im Programm auf auf den Wert "'1"' gesetzt wurde behalte dieser den Wert ebenfalls nach dem Beenden des Programms. Würde der Nutzer versehentlich Anschluss mit einem Masseanschluss verwinden, so wäre es möglich, dass die Platte durch den Kurzschluss Schäden davon trage. Die Implementierung für die Sensorklasse sieht wie folgt aus:
 	\lstinputlisting[caption=Portbereinigungsmethode mittels GPIO.cleanup,frame=single,numbers=left,language=Python, firstline=28, lastline=29]{Quellcode/sensor.py}
@@ -200,7 +216,7 @@ Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor
 	Die Lichtschranke und der Schocksensor sind beide ereignisgesteuerten Sensoren, die mit einer Flankenerkennung arbeiten. Dazu wird die GPIO Funktion "'add\_event\_detect()"', die im \fullref{Methode:Konstruktor} erläutert wird, genutzt. Die Implementierung sieht wie folgt aus:
 	\lstinputlisting[caption=Implementierung der Lichtschranke und des Schocksensors,frame=single,numbers=left,language=Python, firstline=235, lastline=242]{Quellcode/sensor.py}
 	Ein Signal an einem der beiden Sensoren führt zur Ausführung der folgenden Funktion:
-	\lstinputlisting[caption=Ausführende Funktion der Flankenerkennung der Lichtschranke und des Schocksensors,frame=single,numbers=left,language=Python, firstline=43, lastline=50]{Quellcode/sensor.py}
+	\lstinputlisting[caption=Funktion der Flankenerkennung der Lichtschranke und des Schocksensors,frame=single,numbers=left,language=Python, firstline=43, lastline=50]{Quellcode/sensor.py}
 	Bei beiden Sensoren ist lediglich die Auskunft, ob es eine Unterbrechung der Lichtschranke oder das Auslösen des Schocksensors gibt. Daher muss nur der Messwert "'TRUE"' an den Server gesendet werden.
 \subsubsection*{Senden}
 	Sämtliche Informationen der Sensorknoten müssen an den Server überbracht werden. Hierfür dient die "'senden()"' Funktion, die auf einer Socketschnittstelle basiert. Die Herangehensweise hierbei ist wie folgt:
