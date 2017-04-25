@@ -243,19 +243,20 @@ Damit die Zentraleinheit die Anforderungen, welche im \fullref{Planung} festgele
 	Eine MySQL Datenbankserver wurde auf der Zentraleinheit installiert, dieser dient wie im \fullref{sub:Datenbank} vorgestellt, dem Sammeln der Sensordaten. Mit den vorgestellten Programmiersprachen im \fullref{Python} und im \fullref{PHP} ist es möglich eine Verbindung zur Datenbank zu erstellen. Zusätzlich kann die Datenbank mit den zuvor erwähnten Sprachen befüllt und ausgelesen werden.
 	%AUSFÜHREN MIT QUELLE WAS IST MySQL etc.
 	\item[PhpMyAdmin] \hfill \\
-	Zum einfacheren Erstellen und Testen, wurde eine PhpMyAdmin installiert. PhyMyAdmin ist eine grafische Oberfläche für den Webbrowser, mit der der Inhalt angezeigt und bearbeiet werden kann. Ebenso können Benutzerrechte festgelegt werden. Über die Oberfläche ist es möglich Cronjobs zu implementieren.
+	Zum einfacheren Erstellen und Testen, wurde eine PhpMyAdmin installiert. PhyMyAdmin ist eine grafische Oberfläche für den Webbrowser, mit der der Inhalt angezeigt und bearbeitet werden kann. Ebenso können Benutzerrechte festgelegt werden. Über die Oberfläche ist es möglich Cronjobs zu implementieren.
 	%EVTL QUELLE
 	\item[Apache2] \hfill \\
 	Zur Darstellung, der im \fullref{sub:Webseite} geplanten Webseite, wurde ein Apache2 als Webserver installiert.
 	%AUSFÜHREN MIT QUELLE WAS IST APACHE2 etc.		
 \end{description}
+\subsection{Erstellen der Datenbank}
 \subsection{Empfangen der Sensordaten}
 Die Scriptsprache Python muss mit folgenden Bibliotheken erweitert werden, damit eine Socketschnittstelle erstellt werden kann.
 \begin{lstlisting}[caption=Einbinden der Bibliotheken für die Schnittstelle,frame=single,numbers=left,language=Python]
 import socket
 import json
 \end{lstlisting}
-Die Bibliotheken socket und json werden eingebunden. Die Bibliothek socket ist dafür zuständig, die funktionalität der Socketschnittstellt bereitzustellen. Die Bibliothek json ist in diesem Fall nur für die Codierung zuständig.\hfill
+Die Bibliotheken socket und json werden eingebunden. Die Bibliothek socket ist dafür zuständig, die Funktionalität der Socketschnittstelle bereitzustellen. Die Bibliothek json ist in diesem Fall nur für die Verarbeitung der Daten zuständig.\hfill
 \noindent Nachfolgend sehen sie die Bereitstellung der Socketschnittstelle.
 % Referenz Methode:senden
 \begin{lstlisting}[caption=Bereitstellen der Socketschnittstelle,frame=single,numbers=left,language=Python]
@@ -266,8 +267,8 @@ s.bind((host, port))
 s.listen(5)
 msg = 'Thank you for connecting'
 \end{lstlisting}
-Mit dem Befehl socket.socket()....
-
+Mit dem Befehl "'socket.socket()"' wird eine neue Socket-Instanz erzeugt und in der Variable "'s"' gespeichert. Danach wird die IP-Adresse der Zentraleinheit in der Variable "'host"' und ein beliebiger Port der Zentraleinheit in die Variable "'port"' gespeichert. Durch den Aufruf "'s.bind((host, port))"' wird die zuvor gespeicherte IP-Adresse und der Port der Zentraleinheit, an den Socket gebunden. D.h. die Socketschnittstelle der Zentraleinheit ist Clientseitig auf den zuvor festgelegten IP-Adresse und Port erreichbar. Mit dem Befehl "'s.listen(5)"' wird die Zentraleinheit in den passiven Modus geschaltet und "'hört"' ob Verbindungsanfragen kommen. Der übergebene Parameter, in diesem Fall "'5"', bestimmt wie viele Verbindungsversuche gepuffert werden.
+\noindent Im nächsten Codeabschnitt wird beschrieben wie die Schnittstelle eine Verbindung annimmt und wie er die gesendeten Daten speichert.
 \begin{lstlisting}[caption=Speichern der Daten,frame=single,numbers=left,language=Python]
 while True:
 	c, addr = s.accept()
@@ -277,14 +278,15 @@ while True:
 	SEN_ID = str(data["SEN_ID"])
 	Wert = str(data["Messwert"])
 	adresse = str(addr[0])
-\end{lstlisting}
-\label{Daten}
+\end{lstlisting}\label{Daten}
+In einer Endlosschleife wartet der Socket mit dem Befehl "'s.accept()"' auf eingehende Verbindungsanfragen. Wenn eingehende Verbindungsanfragen eingehen, speichert er im ersten Tupel die empfangenen Daten und im zweiten Tupel Informationen des Absenders. Danach wird ausgeben das eine Verbindung mit der IP-Adresse des Absenders besteht. Der Befehl "'json.loads(c.recv(4096).encode('utf-8'))"' ist für mehrere dinge zuständigen. Der Befehlsteil "'.encode('utf-8')"' gibt vor, dass das empfangene Paket UTF-8-Kodiert sein soll, der Befehlsteil "'c.recv(4096)"' gibt die Paketlänge vor, die in diesem Fall maximal 4096 Bits groß sein darf. Der Befehl "'json.loads"' erzeugt aus dem empfangenen Daten ein JSON-Objekt, dies ist für die weiter Verarbeitung des Paketinhaltes notwendig. Das Erzeugen einen JSON-Objekts ist nur möglich, da im \fullref{Sensonknoten:JSON} das Paket als JSON-Objekt gepackt wird. Das erzeugte JSON-Objekt wird in der Variable "'data"' gespeichert. Nachfolgenden werden die übertragenen Daten herausgefiltert und in die jeweiligen Variablen gespeichert, diese Daten werden für die Befüllung der Datenbank benötigt.
+
 \subsection{Befüllen der Datenbank}
 Damit mit Python eine Datenbank befüllt werden kann, muss zuerst eine Bibliothek eingebunden werden.
 \begin{lstlisting}[caption=Einbinden der Bibliothek für die Datenbank,frame=single,numbers=left,language=Python]
 import MySQLdb as mdb
 \end{lstlisting}
-Die Bibliotheken MySQLdb wird einbunden und ihr Name in mdb geändert.\hfill
+Die Bibliotheken MySQLdb wird eingebunden und mdb wird als Alias festgelegt.\hfill
 \noindent Danach muss der Datenbankkonnektor implementiert werden. Nachfolgenden der Quellcode für den Datenbankkonnektor.
 \begin{lstlisting}[caption=Datenbankkonnekor,frame=single,numbers=left,language=Python]
 try:
@@ -375,8 +377,10 @@ elif row_count == 0:
 	Sensorknoten_Messwerte(KN_ID, MESS_ID)
 	VALUES(%s, %s)""", (KN_ID, MessID))
 \end{lstlisting}
-\noindent Wenn kein Datensatz gefunden wurde, springt das Programm in die Elseif-Anweisung.Diese Elseif-Anweisung funktioniert ähnlich wie die zuvor vorgestellte If-Anweisung aus Kapitel \fullref{If-Anweisung}, sie unterscheidet sich ausschließich in den ersten paar Zeilen. Anstatt wie zuvor den mit Hilfe der Knotenid selektierte Datensatz zu erneuern, wird hier ein neuer Datensatz mit den Daten aus Kapitel \fullref{Daten} erstellt. Die Kontenid des zuvor erstellten Datensatz wird mit dem Befehl cur.lastrowid in die Variable KN\_ID für einen späteren SQL-Befehl gepseichert. Mit dem SQL-Befehl INSERT wird ein neuer Datensatz erstellt, dieser enthält Werte aus dem \fullref{Daten}. Auch hier wird wieder die ID, in diesem Fall die MessID, des zuvor erstellten Datensatzes in die Variable MessID gespeichert. Die letzte INSERT-Anweisung, verknüpft die Datenbanken mit Hilfe der zuvor gespeicherten ID's, KN\_ID und MessID.   
+\noindent Wenn kein Datensatz gefunden wurde, springt das Programm in die Elseif-Anweisung.Diese Elseif-Anweisung funktioniert ähnlich wie die zuvor vorgestellte If-Anweisung aus Kapitel \fullref{If-Anweisung}, sie unterscheidet sich ausschließich in den ersten paar Zeilen. Anstatt wie zuvor den mit Hilfe der Knotenid selektierte Datensatz zu erneuern, wird hier ein neuer Datensatz mit den Daten aus Kapitel \fullref{Daten} erstellt. Die Kontenid des zuvor erstellten Datensatz wird mit dem Befehl cur.lastrowid in die Variable KN\_ID für einen späteren SQL-Befehl gespeichert. Mit dem SQL-Befehl INSERT wird ein neuer Datensatz erstellt, dieser enthält Werte aus dem \fullref{Daten}. Auch hier wird wieder die ID, in diesem Fall die MessID, des zuvor erstellten Datensatzes in die Variable MessID gespeichert. Die letzte INSERT-Anweisung, verknüpft die Datenbanken mit Hilfe der zuvor gespeicherten ID's, KN\_ID und MessID.   
 \subsection{Problematik Zeitsynchronisierung}
+Problematisch bei den Raspberry Pis ist die Zeitsynchronisierung. Die Zeit wird nur synchronisiert und somit aktuell gehalten, wenn der Raspberry Pi mit einem Netzwerk mit funktionierender Internetverbindung verbunden ist. In der Datenbank auf der Zentraleinheit werden Messwerte mit Zeitstempel gespeichert. Problematisch ist hierbei, dass ein täglicher Cronjob Messwerte löscht die älter als eine Woche sind. Um die Problematik mit der Zeitsynchronisierung und den verbunden Problemen zu lösen, musste eine schnelle und zuverlässige Lösung gefunden werden. Die in \fullref{Sensoren_Planung} vorgestellte Erweiterungsplatine RPi-Explorer 700 von Joy-IT beinhaltet eine interner Zeitgeber. Dieser Zeitgeber, kann die Uhrzeit des Raspberry Pi auf dem aktuellen Stand halten. Dazu muss auf der RPi-Explorer 700 eine Batterie montiert werden und die Funktionalität auf der Zentraleinheit aktiviert werden. Dies geschieht mit folgenden Befehlen auf der Zentraleinheit:
+%TODO: Befehle aus Pi auslesen
  
 \section{Webseite}
 %Harm
