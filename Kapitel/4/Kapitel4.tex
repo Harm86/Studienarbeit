@@ -218,10 +218,10 @@ Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor
 	Ein Signal an einem der beiden Sensoren führt zur Ausführung der folgenden Funktion:
 	\lstinputlisting[caption=Funktion der Flankenerkennung der Lichtschranke und des Schocksensors,frame=single,numbers=left,language=Python, firstline=43, lastline=50]{Quellcode/sensor.py}
 	Bei beiden Sensoren ist lediglich die Auskunft, ob es eine Unterbrechung der Lichtschranke oder das Auslösen des Schocksensors gibt. Daher muss nur der Messwert "'TRUE"' an den Server gesendet werden.
-\subsubsection*{Senden}
+\subsubsection*{Senden}\label{Sensorknoten:Senden}
 	Sämtliche Informationen der Sensorknoten müssen an den Server überbracht werden. Hierfür dient die "'senden()"' Funktion, die auf einer Socketschnittstelle basiert. Die Herangehensweise hierbei ist wie folgt:
 	\lstinputlisting[caption=Implementierung der Sende Funktion Seitens des Sensorknotens,frame=single,numbers=left,language=Python, firstline=244, lastline=254]{Quellcode/sensor.py}
-	Zu Erst muss ein Socketobjekt angelegt werden. Da der Sensorknoten die Rolle des Clienten hat, benötigt er zum Verbindungsaufbau die IP-Adresse und den Port des Servers. Exemplarisch dienen hierfür die Angaben in den Zeilen drei und vier. Eine fehlende Verbindung zum Server sollte den Programmfluss nicht terminieren lassen. Daher wird der Sendevorgang in einen try Block gekapselt, der einen Socketfehler erwartet. Sollte der Server nun nicht erreichbar sein wir die meldung "'Server nicht erreichbar!"' angezeigt und das Programm läuft weiter. Dieser Puffer vermeidet bei einer kurzen Unterbrechung zum Server ein kompletten Neustart des Sensorknotens. Der Sendevorgang geschieht wie folgt. Der Socket baut zunächst eine Verbindung zum Server auf. Danach übersendet es mit dem Befehl "'sendto()"' eine kodierte Nachricht an den Server. Hier wurde ein JSON Paket ausgewählt, dass mit der Kodierung "'utf-8"' kodiert ist. Wichtig ist hierbei, dass Seitens des Servers die gleiche Kodierung ausgewählt wird, da sonst die Nachricht nicht verwertet werden kann. 
+	Zuerst muss ein Socketobjekt angelegt werden. Da der Sensorknoten die Rolle des Clienten hat, benötigt er zum Verbindungsaufbau die IP-Adresse und den Port des Servers. Exemplarisch dienen hierfür die Angaben in den Zeilen drei und vier. Eine fehlende Verbindung zum Server sollte den Programmfluss nicht terminieren lassen. Daher wird der Sendevorgang in einen try Block gekapselt, der einen Socketfehler erwartet. Sollte der Server nun nicht erreichbar sein wir die Meldung "'Server nicht erreichbar!"' angezeigt und das Programm läuft weiter. Dieser Puffer vermeidet bei einer kurzen Unterbrechung zum Server ein kompletten Neustart des Sensorknotens. Der Sendevorgang geschieht wie folgt. Der Socket baut zunächst eine Verbindung zum Server auf. Danach übersendet es mit dem Befehl "'sendto()"' eine kodierte Nachricht an den Server. Hier wurde ein JSON Paket ausgewählt, dass mit der Kodierung "'utf-8"' kodiert ist. Wichtig ist hierbei, dass Seitens des Servers die gleiche Kodierung ausgewählt wird, da sonst die Nachricht nicht verwertet werden kann. 
 \subsection{Konfiguration \& Testen der Sensoren}
 %TODO: Unseren Code nochmal anschauen
 \subsection{Priorisierung der Sensoren}
@@ -232,9 +232,21 @@ Der Hauptaspekt der Priorisierung ist die Sicherstellung, dass ein hoch priorisi
 %TODO: Erweiterbarkeit
 %TODO: Unsere Priorisierung erklären
 %TODO: Übergang zur Übertragung!
-\subsection{Übertragung der Sensordaten}
+\subsection{Übertragung der Sensordaten}\label{Sensorknoten:JSON}
 %TODO: Abstimmen mit jan - gleiche Struktur
-
+Die im \fullref{Sensorknoten:Senden} beschriebene Funktion ist die Grundlage des Sendens an die Zentraleinheit. Das grundlegende Prinzip bei der Datenversendung die bedarfsgesteuerte Datenübermittlung. Entscheidungskriterien hierzu sind die verringerte Breitbandauslastung und die Entlastung der Zentraleinheit. Das erste Kriterium entsteht durch den variablen Aufbau des Überwachungssystems. Die maximale Anzahl von Sensorknoten, die mit einer Zentraleinheit verbunden sind, wird nicht begrenzt. Ohne eine bedarfsgesteuerte Datenübertragung würde breite Masse an Sensorknoten in einem kurzen Zeitraum viele Pakete an die Zentraleinheit schicken. Als Folge dessen wäre das Netz ausgelastet und wichtige Pakete, wie beispielsweise ein Paket mit einer positiven Flammendetektion, könnten verloren gehen. Das zweite Argument bezieht sich auf die begrenzten Ressourcen der Zentraleinheit, die ebenfalls mit einem Raspberry Pi realisiert wird. Die Vielzahl der übertragenen Pakete müssen an der Zentraleinheit verarbeitet und anschließend in der Datenbank abgelegt werden. Neben der Systemauslastung der Zentraleinheit würde ebenfalls die Datenbank in kürzester Zeit viel Speicherplatz beanspruchen und damit zusätzlich das System strapazieren. Um diese Masse an Paketen zu reduzieren wird eine Auswahl der zu sendenden Pakete getroffen. So ist beispielsweise eine im Sekundentakt erfolgende Meldung, dass es an der Lichtschranke kein Ereignis statt gefunden ist, für den Nutzer irrelevant. Auf der anderen Seite sollte beispielsweise die Meldung, dass ein Feuer erkannt wurde, unmittelbar an den Nutzer übermittelt werden. Aufgrund dessen wird sowohl die Bandbreitenauslastung als auch die Ressourcennutzung reduziert und zeitkritische Informationen gehen nicht verloren.\\
+Ein Paket enthält folgende Informationen:
+\begin{description}
+	\item[Name] \hfill \\
+		Der Name des Sensorknotens dient wird für die Zuweisung der Messung an den Sensorknoten benötigt.
+	\item[SEN\_ID] \hfill \\
+		Die SEN\_ID wird für die Identifikation des Sensors genutzt. Damit ist diese Information identisch zum Sensornamen. Im \fullref{sub:Datenbank} in der Tabelle Sensoren wird die Übersetzung von der Identifikationsnummer zum Namen durchgeführt.
+	\item[Status] \hfill \\
+		Der Status besagt den Zustand des Sensors. Im \fullref{Methode:Konstruktor} werden die möglichen Status-zustände erläutert.
+	\item[Messwert] \hfill \\
+		Der Messwert beinhaltet entweder einen boolischen oder nummerischen Wert.
+\end{description} 
+Bevor die Daten gesendet werden, müssen diese in ein \ac{JSON} Objekt gepackt werden. Vorteil des \ac{JSON} Formats ist der arrayähnliche Aufbau und die Möglichkeit Daten wie Objekte abzurufen. Beispielsweise kann ein Datum eines \ac{JSON} Objekts kann mittels "'Objekt.datum"' gelesen werden. Vor der Übertragung muss die Information mit Hilfe des Befehls "'json.dump(daten)"' beladen werden. Damit wird die geladene Information als ein \ac{JSON} Objekt behandelt und kann seitens der Zentraleinheit weiterverarbeitet werden.
 %Jan
 \section{Zentraleinheit}%Allgemein Vorinstallation!%verweis auf Planung Zentraleinheit
 Damit die Zentraleinheit die Anforderungen, welche im \fullref{Planung} festgelegt wurden erfüllt, wurde folgende Software auf der Zentraleinheit vorinstalliert:
