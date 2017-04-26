@@ -56,7 +56,7 @@ Die IP-Adressen werden nur über das wlan0-Interface der Zentraleinheit vergeben
 
 
 
-\begin{lstlisting}[caption=Konfiguration des ISC-DHCP-Server,frame=single]
+\begin{lstlisting}[caption=Konfiguration des ISC-DHCP-Server,frame=single,label=dhcpkonfig]
 #Rogue-DHCP-Server nicht erlauben (Doppelter DHCP-Server)
 authoritative;
 
@@ -403,7 +403,7 @@ Problematisch bei den Raspberry Pis ist die Zeitsynchronisierung. Die Zeit wird 
 \subsection{Login und Logout}
 
 Der Login, die Registrierung und der Logout ist nach der Anleitung von
-wikiHow (\cite{PHP-Login}) erstellt und entsprechend angepasst worden. 
+wikiHow (\cite{PHP-Login:online}) erstellt und entsprechend angepasst worden. 
 \\
 Der Login besteht aus mehreren Dateien, deren Funktion in der Tabelle
 (\nameref{tab:Login-Dateien}) aufgezählt ist.
@@ -423,7 +423,7 @@ functions.php 				& Relevante Funktionen, die benötigt werden \\
 process\_login.php 		& Code der die Logindaten der Loginseite überprüft und danach auf die Übersichtsseite weiterleitet \\
 register\_inc 				& Code der abläuft wenn sich ein User neu registriert \\
 forms.js 							& Javascriptdatei, für das Hashen und Überprüfen der Passwörter \\
-sha512.js 						& Hashfunktion nach Standard SHA-512 \\
+sha512.js 						& JavaScript-Implementierung der Hashfunktion SHA-512 (\cite{sha512js:online})\\
 style.css 						& CSS-Datei für zentrale Designeinstellungen \\
  \end{tabular}
 \end{table}
