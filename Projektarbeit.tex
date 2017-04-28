@@ -110,7 +110,8 @@ top=2.5cm, bottom=2.5cm]{geometry}
 \newcommand{\Studiengang}{Informationstechnik}
 \newcommand{\AbgabeDatum}{29.05.2017}
 \newcommand*{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1} \nameref*{#1}}}
-%
+%TODO: Den Befehl fixen
+\newcounter{savepage}
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Titelseite %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -165,6 +166,8 @@ Kurze Zusammenfassung (Abstract)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Verzeichnisse %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \cfoot[\pagemark]{\pagemark}							% Mitte Fußzeile Seitenzahl (selbe wie mit head (i,o,c))
+%TODO: den Befehl fixen!
+
 \pagenumbering{Roman}         						% Seitenzahlen für Verzeichnisse auf römisch
 
 \begin{singlespace}												% Zeilenabstand für Verzeichnisse 1	
@@ -180,7 +183,7 @@ Kurze Zusammenfassung (Abstract)
 \hypersetup{pageanchor=true} 							% ab hier werden wieder Anker gesetzt und damit richtige Referenzen gebildet
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Kapitel einbinden %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\setcounter{savepage}{\value{page}}
 \pagenumbering{arabic}                  % Ab hier Seitenzahl auf normal
 
 \input{Kapitel/1/Kapitel1.tex}
@@ -203,7 +206,9 @@ Kurze Zusammenfassung (Abstract)
 %\urldef{\newUrl}\url{http://www.htl-hl.ac.at/el/projekte/2011/DA_Spielekonsole/Sonstiges/GanttProject%20Tutorial.pdf}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Literaturverzeichnis %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TODO: Hier soll die römische Nummerierung fortgesetzt werden ! Fixen!
 
+\pagenumbering{Roman} \setcounter{page}{\value{savepage}}
 \addcontentsline{toc}{chapter}{Literaturverzeichnis}
 %\bibliographystyle{gerabbrv}					% Zitierformat (deutsch für Großschreibung)
 % [Häufigkeit] im Text
