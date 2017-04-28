@@ -440,16 +440,29 @@ Diese Funktion steuert alle notwendigen Abläufe, die den Login betreffend.\\
 Aufgerufen wird die Funktion mit den Parametern Username, Passwort und der Datenbankverbindung. Die Parameter Username und Passwort werden aus POST-Werten der Loginseite übergeben während die Datenbankverbindung in der Datei db-connect.php definiert ist. Durch ein Prepared-Statement werden die benötigten Werte aus der Datenbank abgerufen. Danach wird verglichen ob der übergebene Username in der Datenbank hinterlegt ist. Existiert der Benutzer, wird zuerst durch die Funktion 'checkbrute' überprüft, ob der Benutzer momentan gesperrt ist. Ist der Benutzer nicht gesperrt, wird das Passwort überprüft und der Anwender wird auf die Seite 'Übersicht' weitergeleitet. Ist das Passwort nicht korrekt, wird der fehlgeschlagene Loginversuch in der Datenbank vermerkt und der Benutzer erhält eine Meldung, dass der Anmeldeversuch fehlgeschlagen ist. 
 
 \subsubsection{checkbrute}
+%TODO: Belegen
+Die Funktion "`checkbrute()"' prüft ob möglicherweise versucht wird eine Brute-Force-Attacke durchzuführen. Eine Brute-Force-Attacke ist das systematische Ausprobieren von Kennwörtern. Ein Kennwort kann mittels Brute-Force-Attacke immer irgendwann herausgefunden werden. Die einzige Schutzmöglichkeit besteht darin, den Aufwand unermesslich groß zu machen. Ein handelsüblicher PC kann mittlerweile mehrere Millionen von Passwörtern pro Sekunde ausprobieren. Dies führt dazu, dass ein einfaches (kurzes) Passwort sehr schnell geknackt werden kann. Ein Passwort, dass nur aus Kleinbuchstaben besteht und ein Zeichen lang ist hat somit 26 verschiedene Möglichkeiten. Erhöht man die Länge um 2 hat man bereits $26^2$ verschiedene Möglichkeiten. Ein aktuelles Passwort sollte immer mindestens 8 Zeichen lang sein und mindestens einen Kleinbuchstaben, einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten. Daraus ergibt sich $94^8$ was 6.095.689.385.410.816 verschiedenen Möglichkeiten entspricht. Durch eine "`Bremse"' kann die Dauer bis alle potentiellen Passwörter ausprobiert wurden weiter erhöht werden. Eine solche "`Bremse"' ist beispielsweise das von der Funktion "`checkbrute()"' eingesetzte blockieren von weiteren Einloggversuchen nach 5 fehlgeschlagenen Eingaben.\\
+Die Funktion "`checkbrute()"' prüft ob in den letzten zwei Stunden mehr als 5 fehlgeschlagene Einloggversuche protokolliert wurden und sperrt den Benutzer. Der Benutzer muss erst über die Datenbank wieder freigeschaltet werden bevor ein erneutes Einloggen wieder möglich ist.
 
 \subsubsection{login\_check}
 Diese Funktion prüft ob ein Anwender eingeloggt ist und setzt den entsprechenden
-Parameter, der entscheidet was der Anwender auf der Website sieht.
+Parameter, der entscheidet was der Anwender auf der Website sieht. Ist der Anwender korrekt eingeloggt sieht er die korrekte Webseite. Für den Fall, dass der Anwender nicht eingeloggt ist sieht er wie in \fullref{notloggedin} die Information, dass er sich bitte einloggen soll.
+
+\begin{figure} [htb]
+\begin{centering}
+\includegraphics{Bilder/Kapitel4/notloggedin.jpg}
+\caption[Meldung wenn der Anwender nicht eingeloggt ist]{Meldung wenn der Anwender nicht eingeloggt ist}
+\label{notloggedin}
+\end{centering}
+\end{figure}
+
 
 \subsubsection{esc\_url}
-
+%TODO: prüfen
+Auf der Registrierungsseite finden Benutzereingabe statt, die in die Datenbank geschrieben werden. Um Cross-Site-Scripting zu verhindern, wird diese Funktion dafür verwendet um die Benutzereingaben zu "`bereinigen"'. Die Bereinigung findet über einen Regulären Ausdruck statt, der alle sinnvollen Zeichen ausschließt und durch "`nichts"' ersetzt. Als Folge daraus bleibt das "`Action"'-Attribut, des Eingabeformulars leer. Dies ist nicht weiter problematisch, da die Registrierung über die anderen Skripte abgewickelt wird.
 %Jan
 \subsection{Übersicht}
-Die Übersichtsseite zeigt einen Übersicht über die angeschlossenen Sensorknoten und die Werte der einzelnen Sensoren der Sensorknoten an. Auf der Webseite werden nur die Sensorknoten mit ihren Sensoren angezeigt die sich tatsächlich im Netz befinden. Dafür zuständig ist die Datei sensordaten.php. Die Datei sensordaten.php ladet die Werte aus der Datenbank und erstellt daraus dynamisch eine Anzeigetabelle der Sensorknoten und den zugehörigen Sensoren. Die Anzeigetabelle zeigt alle Sensoren an die an den jeweiligen Sensorknoten angeschlossen sind, falls Sensoren nicht angeschlossen sind, wird das in der Tabelle angezeigt. Zusätzlich wird unter jede Tabelle ein Symbol mit der Verlinkung zu den Statistiken(siehe \fullref{Statistik}) und der Webkameras(siehe \fullref{Webkamera}) angezeigt, dies hat den Zweck zum schnelleren wechsel auf die jeweilige Seite.Des weiteren wird die Seite alle fünf sekunden automatisch nachgeladen, dies geschieht über die uebersichtscript.js und sorgt dafür, dass die angezeigten Daten aktuell sind ohne die Seite manuell zu aktualisiert werden.
+Die Übersichtsseite zeigt einen Übersicht über die angeschlossenen Sensorknoten und die Werte der einzelnen Sensoren der Sensorknoten an. Auf der Webseite werden nur die Sensorknoten mit ihren Sensoren angezeigt die sich tatsächlich im Netz befinden. Dafür zuständig ist die Datei sensordaten.php. Die Datei sensordaten.php ladet die Werte aus der Datenbank und erstellt daraus dynamisch eine Anzeigetabelle der Sensorknoten und den zugehörigen Sensoren. Die Anzeigetabelle zeigt alle Sensoren an die an den jeweiligen Sensorknoten angeschlossen sind, falls Sensoren nicht angeschlossen sind, wird das in der Tabelle angezeigt. Zusätzlich wird unter jede Tabelle ein Symbol mit der Verlinkung zu den Statistiken(siehe \fullref{Statistik}) und der Webkameras(siehe \fullref{Webkamera}) angezeigt, dies hat den Zweck zum schnelleren wechsel auf die jeweilige Seite.Des weiteren wird die Seite alle fünf Sekunden automatisch nachgeladen, dies geschieht über die uebersichtscript.js und sorgt dafür, dass die angezeigten Daten aktuell sind ohne die Seite manuell zu aktualisiert werden.
 
 %Alex
 \subsection{Statistik}\label{Statistik}
