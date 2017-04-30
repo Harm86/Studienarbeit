@@ -263,8 +263,10 @@ Damit die Zentraleinheit die Anforderungen, welche im \fullref{Planung} festgele
 	%AUSFÜHREN MIT QUELLE WAS IST APACHE2 etc.		
 \end{description}
 \subsection{Erstellen der Datenbank}
+Da sich die Anforderungen während der Implementierung geändert haben, musste die Datenbank angepasst werden. Für den Login musste eine Datenbank erstellt werden und die vorhandene Datenbank musste erweitert bzw. verändert werden.
+%TODO: Datenbankentwurf mit ausführlicher Erklärung
 \subsection{Empfangen der Sensordaten}
-Die Scriptsprache Python muss mit folgenden Bibliotheken erweitert werden, damit eine Socketschnittstelle erstellt werden kann.
+Die Scriptsprache Python muss mit folgenden Bibliotheken erweitert werden, damit eine Socketschnittstelle erstellt werden kann und die Sensordaten somit empfangen werden können.
 \begin{lstlisting}[caption=Einbinden der Bibliotheken für die Schnittstelle,frame=single,numbers=left,language=Python]
 import socket
 import json
@@ -280,8 +282,8 @@ s.bind((host, port))
 s.listen(5)
 msg = 'Thank you for connecting'
 \end{lstlisting}
-Mit dem Befehl "'socket.socket()"' wird eine neue Socket-Instanz erzeugt und in der Variable "'s"' gespeichert. Danach wird die IP-Adresse der Zentraleinheit in der Variable "'host"' und ein beliebiger Port der Zentraleinheit in die Variable "'port"' gespeichert. Durch den Aufruf "'s.bind((host, port))"' wird die zuvor gespeicherte IP-Adresse und der Port der Zentraleinheit, an den Socket gebunden. D.h. die Socketschnittstelle der Zentraleinheit ist Clientseitig auf den zuvor festgelegten IP-Adresse und Port erreichbar. Mit dem Befehl "'s.listen(5)"' wird die Zentraleinheit in den passiven Modus geschaltet und "'hört"' ob Verbindungsanfragen kommen. Der übergebene Parameter, in diesem Fall "'5"', bestimmt wie viele Verbindungsversuche gepuffert werden.
-\noindent Im nächsten Codeabschnitt wird beschrieben wie die Schnittstelle eine Verbindung annimmt und wie er die gesendeten Daten speichert.
+Mit dem Befehl "'socket.socket()"' wird eine neue Socket-Instanz erzeugt und in der Variable "'s"' gespeichert. Danach wird die IP-Adresse der Zentraleinheit in der Variable "'host"' und ein beliebiger Port der Zentraleinheit in die Variable "'port"' gespeichert. Durch den Aufruf "'s.bind((host, port))"' wird die zuvor gespeicherte IP-Adresse und der Port der Zentraleinheit, an den Socket gebunden. D.h. die Socketschnittstelle der Zentraleinheit ist Clientseitig auf den zuvor festgelegten IP-Adresse und Port erreichbar. Mit dem Befehl "'s.listen(5)"' wird die Zentraleinheit in den passiven Modus geschaltet und "'hört"' ob Verbindungsanfragen ankommen. Der übergebene Parameter, in diesem Fall "'5"', bestimmt wie viele Verbindungsversuche gepuffert werden.
+\noindent Im nächsten Codeabschnitt wird beschrieben wie die Schnittstelle eine Verbindung annimmt und wie die gesendeten Daten gespeichert werden.
 \begin{lstlisting}[caption=Speichern der Daten,frame=single,numbers=left,language=Python]
 while True:
 	c, addr = s.accept()
@@ -312,11 +314,11 @@ except _mysql.Error, e:
 \end{lstlisting}
 Der Datenbankkonnektor ist in zwei Blöcke unterteilt, dem try Block und dem except\_mysql.Error, e Block.
 
-\noindent Im try Block wird über die Funktion mdb.connect eine Verbindung hergestellt und in der Variable con \label{con} gespeichert. Die in den Klammern stehenden Variablen sind v.l.n.r der Hostname, der Benutzername, das Passwort und die Datenbank die Angesprochen werden soll. Wenn die Verbindung fehlerfrei hergestellt wurde, wird über die print Funktion die Meldung "SQL-Connection successful" ausgegeben.
+Im try Block wird über die Funktion mdb.connect eine Verbindung hergestellt und in der Variable con \label{con} gespeichert. Die in den Klammern stehenden Variablen sind v.l.n.r der Hostname, der Benutzername, das Passwort und die Datenbank die Angesprochen werden soll. Wenn die Verbindung fehlerfrei hergestellt wurde, wird über die print Funktion die Meldung "SQL-Connection successful" ausgegeben.
 
-\noindent Im zweiten Block, dem except\_mysql.Error, e Block wird der Fehlerfall abgedeckt. Sollte die Funktion mdb.connect keine erfolgreiche Verbindung herstellen, gibt die print Funktion die Meldung "SQL-Connection failed. Error \%d:\%s" aus. An die Stelle des Platzhalters \%d wird der Fehlercode und an den Platzhalter \%s die Fehlermeldung die zurückgegeben wird geschrieben, die die Datenbank liefert.
+Im zweiten Block, dem except\_mysql.Error, e Block wird der Fehlerfall abgedeckt. Sollte die Funktion mdb.connect keine erfolgreiche Verbindung herstellen, gibt die print Funktion die Meldung "SQL-Connection failed. Error \%d:\%s" aus. An die Stelle des Platzhalters \%d wird der Fehlercode und an den Platzhalter \%s die Fehlermeldung die zurückgegeben wird geschrieben, die die Datenbank liefert.
 
-Im nächsten Abschnitt ist der komplette Quellcode der eigentliche Befüllung der Datenbank zu sehen.
+Im nächsten Abschnitt ist der komplette Quellcode der Befüllung der Datenbank zu sehen.
 \begin{lstlisting}[caption=Befüllen der Datenbank,frame=single,numbers=left,language=Python]
 with con:
 	cur = con.cursor()
@@ -495,7 +497,25 @@ header('Location: ../../Login.php');
 
 %Jan
 \subsection{Übersicht}
-Die Übersichtsseite zeigt einen Übersicht über die angeschlossenen Sensorknoten und die Werte der einzelnen Sensoren der Sensorknoten an. Auf der Webseite werden nur die Sensorknoten mit ihren Sensoren angezeigt die sich tatsächlich im Netz befinden. Dafür zuständig ist die Datei sensordaten.php. Die Datei sensordaten.php ladet die Werte aus der Datenbank und erstellt daraus dynamisch eine Anzeigetabelle der Sensorknoten und den zugehörigen Sensoren. Die Anzeigetabelle zeigt alle Sensoren an die an den jeweiligen Sensorknoten angeschlossen sind, falls Sensoren nicht angeschlossen sind, wird das in der Tabelle angezeigt. Zusätzlich wird unter jede Tabelle ein Symbol mit der Verlinkung zu den Statistiken(siehe \fullref{Statistik}) und der Webkameras(siehe \fullref{Webkamera}) angezeigt, dies hat den Zweck zum schnelleren wechsel auf die jeweilige Seite.Des weiteren wird die Seite alle fünf Sekunden automatisch nachgeladen, dies geschieht über die uebersichtscript.js und sorgt dafür, dass die angezeigten Daten aktuell sind ohne die Seite manuell zu aktualisiert werden.
+Die Übersichtsseite zeigt einen Übersicht über die angeschlossenen Sensorknoten und die Werte der einzelnen Sensoren der Sensorknoten an. Auf der Webseite werden nur die Sensorknoten mit ihren Sensoren angezeigt die sich tatsächlich im Netz befinden. Dafür zuständig ist die Datei sensordaten.php. Die Datei sensordaten.php ladet die Werte aus der Datenbank und erstellt daraus dynamisch eine Anzeigetabelle der Sensorknoten und den zugehörigen Sensoren. Die Anzeigetabelle zeigt alle Sensoren an, die an den jeweiligen Sensorknoten angeschlossen sind. Falls Sensoren nicht angeschlossen sind, wird das in der Tabelle angezeigt. Zusätzlich wird unter jede Tabelle ein Symbol mit der Verlinkung zu den Statistiken(siehe \fullref{Statistik}) und der Webkameras(siehe \fullref{Webkamera}) angezeigt, dies hat den Zweck zum schnelleren Wechsel auf die jeweilige Seite. Des weiteren wird die Seite alle fünf Sekunden automatisch nachgeladen, dies geschieht über die uebersichtscript.js und sorgt dafür, dass die angezeigten Daten aktuell sind ohne die Seite manuell zu aktualisiert werden.
+
+Die Besonderheit der Übersichtsseite ist die Datenbankabfragen, sie setzt sich aus mehreren Befehlen zusammen. Die Abfrage findet in der Datei sensordaten.php statt und sieht wie folgt aus:
+\begin{lstlisting}[caption=Datenbankabfrage der Sensordaten,frame=single,numbers=left,language=SQL]
+SELECT *
+FROM(
+SELECT Messwert, Timestamp, M . SEN_ID, 
+Sensorname FROM Sensorknoten SK
+INNER JOIN Sensorknoten_Messwerte AS SM ON
+(SK . KN_ID = SM . KN_ID)
+INNER JOIN Messwerte AS M ON(SM . MESS_ID = M . MESS_ID)
+INNER JOIN Sensoren S ON(M . SEN_ID = S . SEN_ID) 
+WHERE Knotennamen = '" . $Knotennamen . "'
+ORDER BY Timestamp desc
+) AS sub
+GROUP BY Sensorname
+ORDER BY SEN_ID";
+\end{lstlisting}
+%Erklärung Alex
 
 %Alex
 \subsection{Statistik}\label{Statistik}
