@@ -177,9 +177,9 @@ Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor
 	Falls der Sensor einen digitalen Anschluss hat, muss dieser initialisiert werden. Dazu dient die Kontrollstruktur von Zeile elf bis vierzehn. \textsc{Chris Hager} beschreibt in der "RPIO 0.10.0 documentation - RPIO, the Python module" den Befehl "GPIO.setup()"\space wie folgt: Der Befehl benötige als Übergabeparameter den Pin, den Modus - entweder GPIO.IN oder GPIO.OUT - die Angabe, ob der Pull-up oder Pull-down Widerstand aktiv sein solle. Im Falle der Sensoren muss das Signal als "GPIO.IN" deklariert werden. Es wird weder ein Pull-up noch ein Pull-down Widerstand angeschlossen. Aus diesem Grund wird als letzter Parameter "'GPIO.PUD\_OFF"' angegeben. \\
 	Die letzten zwei Befehle dienen zum Initialisieren des I$^2$C Buses. Der '"smbus.SMBus(X)"' nimmt entweder den Wert 0 oder Wert 1 an. Nach einem empirischen Test hat es sich herausgestellt, dass die Raspberry Pis in der Version 2 und 3 das i2c-dev1 Interface standardmäßig nutzten. Somit muss der Befehl "'smbus.SMBUS(1)"' ausgeführt werden. Die Adresse des I$^2$C Ports muss ebenfalls angegeben werden. Nach dem Blogeintrag "GPIO Interface library for the Raspberry Pi"\cite{I2CPCF8592:online} von Wiring Pi seie die Adresse "0x46$_H$"\space die Standardadresse des I$^2$C Ports im Raspberry Pi. Damit ist der Konstruktor abgeschlossen und es folgen die Methoden der Sensorklasse.
 	
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Bis hier hin gelesen und bewertet
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Bis hier hin gelesen und bewertet %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{Aufräumfunktion}
 	Diese Funktion dient zum Aufräumen der \ac{GPIO} Anschlüsse. \textsc{Ben Croston} schreibt in seinem Artikel "'RPi.GPIO basics 3"' \cite{RPiGPIOb90:online}, dass die \ac{GPIO} Pins aufgeräumt werden sollten. Folgendes Problem bestehe beim Raspberry Pi. Falls in ein Port im Programm auf auf den Wert "'1"' gesetzt wurde behalte dieser den Wert ebenfalls nach dem Beenden des Programms. Würde der Nutzer versehentlich Anschluss mit einem Masseanschluss verwinden, so wäre es möglich, dass die Platte durch den Kurzschluss Schäden davon trage. Die Implementierung für die Sensorklasse sieht wie folgt aus:
 	\lstinputlisting[caption=Portbereinigungsmethode mittels GPIO.cleanup,frame=single,numbers=left,language=Python, firstline=28, lastline=29]{Quellcode/sensor.py}
@@ -402,8 +402,16 @@ Problematisch bei den Raspberry Pis ist die Zeitsynchronisierung. Die Zeit wird 
 Der Login, die Registrierung und der Logout ist nach der Anleitung von
 wikiHow (\cite{PHP-Login:online}) erstellt und entsprechend angepasst worden. 
 \\
-Der Login besteht aus mehreren Dateien, deren Funktion in der Tabelle
+Der Login, der in \fullref{pic:login} zu sehen ist, besteht aus mehreren Dateien, deren Funktion in der Tabelle
 (\nameref{tab:Login-Dateien}) aufgezählt ist.
+
+\begin{figure} [htb]
+\begin{centering}
+\includegraphics{Bilder/Kapitel4/login.jpg}
+\caption[Ansicht des Logins]{Ansicht des Logins}
+\label{pic:login}
+\end{centering}
+\end{figure}
 
 \begin{table}
 \caption{PHP-Login-Dateien und Funktion}
@@ -457,6 +465,34 @@ Parameter, der entscheidet was der Anwender auf der Website sieht. Ist der Anwen
 \subsubsection{esc\_url}
 %TODO: prüfen
 Auf der Registrierungsseite finden Benutzereingabe statt, die in die Datenbank geschrieben werden. Um Cross-Site-Scripting zu verhindern, wird diese Funktion dafür verwendet um die Benutzereingaben zu "`bereinigen"'. Die Bereinigung findet über einen Regulären Ausdruck statt, der alle sinnvollen Zeichen ausschließt und durch "`nichts"' ersetzt. Als Folge daraus bleibt das "`Action"'-Attribut, des Eingabeformulars leer. Dies ist nicht weiter problematisch, da die Registrierung über die anderen Skripte abgewickelt wird.
+
+\subsubsection{forms.js}
+In der Datei forms.js sind zwei Funktionen enthalten. Die Funktion "`formhash"' wird beim regulären Login verwendet und die Funktion "`regformhash"' wird bei der Registrierung verwendet. \\
+Mit der Funktion "`formhash"' wird das Passwort, dass auf der Login-Seite im Passwortfeld steht mithilfe des Hashalgorithmusses gehasht und in ein nicht sichtbares Feld eingefügt. Die Passwortüberprüfung auf der Serverseite verwendet danach nur noch das gehashte Passwort für den Vergleich mit der Datenbank.\\
+Die Funktion "`regformhash"' ist etwas aufwendiger, da sie bei der Registrierung verwendet wird. Im ersten Schritt wird geprüft ob in jedem Feld eine Eingabe vorhanden ist. Ist dies nicht der Fall wird dem Anwender mitgeteilt, dass er alle Felder ausfüllen muss. Im zweiten Schritt werden die verschiedenen Eingaben überprüft ob sie die Bedingungen erfüllen, die festgelegt wurden. Im dritten Schritt wird überprüft ob die Passwörter gleich sind. Anschließend wird wie bei der Funktion "`formhash"' auch ein nicht sichtbares Feld eingefügt, in dem das gehashte Passwort gespeichert wird. Die Klartextpasswörter, die in den Eingabefeldern stehen, werden gelöscht damit sie nicht übertragen werden. Im letzten Schritt wird das Formular abgeschickt.
+
+\subsubsection{Logout}
+Beim Logout ist nur die Datei logout.php beteiligt. Die Datei wird nach dem Klick auf Logout aufgerufen und löscht die Session-ID, das aktuelle Cookie und beendet die Sitzung. Als letztes wird auf die Login-Seite weitergeleitet.
+
+\begin{lstlisting}[caption=Inhalt der logout.php,frame=single,numbers=left,language=PHP]
+include_once 'functions.php';
+sec_session_start();
+// Setze alle Session-Werte zurück
+$_SESSION = array();
+// hole Session-Parameter
+$params = session_get_cookie_params();
+// Lösche das aktuelle Cookie.
+setcookie(session_name(),
+    '', time() - 42000,
+    $params["path"],
+    $params["domain"],
+    $params["secure"],
+    $params["httponly"]);
+// Vernichte die Session
+session_destroy();
+header('Location: ../../Login.php');
+\end{lstlisting}
+
 %Jan
 \subsection{Übersicht}
 Die Übersichtsseite zeigt einen Übersicht über die angeschlossenen Sensorknoten und die Werte der einzelnen Sensoren der Sensorknoten an. Auf der Webseite werden nur die Sensorknoten mit ihren Sensoren angezeigt die sich tatsächlich im Netz befinden. Dafür zuständig ist die Datei sensordaten.php. Die Datei sensordaten.php ladet die Werte aus der Datenbank und erstellt daraus dynamisch eine Anzeigetabelle der Sensorknoten und den zugehörigen Sensoren. Die Anzeigetabelle zeigt alle Sensoren an die an den jeweiligen Sensorknoten angeschlossen sind, falls Sensoren nicht angeschlossen sind, wird das in der Tabelle angezeigt. Zusätzlich wird unter jede Tabelle ein Symbol mit der Verlinkung zu den Statistiken(siehe \fullref{Statistik}) und der Webkameras(siehe \fullref{Webkamera}) angezeigt, dies hat den Zweck zum schnelleren wechsel auf die jeweilige Seite.Des weiteren wird die Seite alle fünf Sekunden automatisch nachgeladen, dies geschieht über die uebersichtscript.js und sorgt dafür, dass die angezeigten Daten aktuell sind ohne die Seite manuell zu aktualisiert werden.
