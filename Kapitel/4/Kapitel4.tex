@@ -9,7 +9,8 @@ Zentraleinheit aufgespannt wird. IP-Adressen werden von einem \ac{DHCP}-Server, 
 auf der Zentraleinheit installiert ist vergeben.\\
 Die Website wird durch einen Apache-Webserver auf der Zentraleinheit
 bereitgestellt.
-
+%
+%
 %Harm
 \section{Netzwerkkonfiguration}
 %TODO: Einleitender satz
@@ -128,11 +129,9 @@ Die Sensoren, aus dem \fullref{Sensoren_Planung}, haben eine feste Zuweisung an 
 
  Der zusätzliche analoge Ausgang des Flammensensors und des Mikrofons wird zur Messwertüberprüfung genutzt. Als einziger Sensor der Lichtsensor besitzt keine direkte Anschlussmöglichkeit an einen \ac{GPIO} Pin und kann somit nicht zusätzlich auf Messfehler untersucht werden. Der Aufbau der \ac{GPIO} Steckplatine beeinflusst zusätzlich die Pinbelegung der Sensoren. Wie in \fullref{fig:Kapitel2/gpio_pins_pi2.png} zu sehen ist, sind die Pins 9, 14, 20 und 25 Masseanschlüsse. Die genutzten Sensoren befinden sich in unmittelbarer Nähe zu diesen. Zum einen können sich Nutzer an den Positionen der Masseanschlüsse orientieren und zum anderen ebenfalls schneller den korrekten Pin finden. Ein weiterer Vorteil ist, dass im Falle eines versehentlichen Fehlanschließens keine Gefahr für den Sensor entsteht, da beispielsweise auf den digitalen Ausgangspin keine 5V Eingangsspannung gelangen kann. Durch die feste Pinbelegung entsteht eine feste Vorgabe der Anschlussarchitektur. Die Sensoren können falsch angeschlossen werden und würden dabei ebenfalls Messdaten erzeugen, doch eine korrekte Zuweisung der Messdaten an die Sensoren wäre nicht möglich. Des Weiteren hat die feste Pinbelegung ebenso einen Einfluss auf die Implementierung der Sensoren. 
 \subsection{Implementierung der Sensoren}\label{Sensorknoten:Implementierung}
-%TODO: Alles erklären ...
 % Lichtsensor: Problematisch ist hierbei das Tageslicht, da es das gleiche Verhalten beim Sensor auslöst.
 % Schocksensor:Eine Umsetzung mit diesem Modell ist nicht mögich, da eine starke Erschütterung zum detektieren benötigt.
 Bevor die Sensoren implementiert werden können, muss eine Softwarearchitektur aufgebaut werden. Zuerst gibt es die Auswahl eines objektorientierten oder nicht objektorientierten Ansatzes.
-%TODO: Quelle raussuchen! 
 Ein Vorteil der \ac{OOP} ist die Erweiterungsfähigkeit. Eine neue Funktion kann in der Klasse niedergeschrieben werden und zur Laufzeit ausgeführt werden. Des Weiteren können mehrere Instanzen einer Klasse zur Laufzeit erzeugt werden. Somit kann eine Hauptklasse erstellt werden, die dann zur Laufzeit mehrere Objekte erzeugen kann, die jeweils eine eigene Funktionalität ausüben. Eine weitere Problemstellung in der Entwicklung der Softwarearchitektur ist die Klassenhierarchie. Statt den gewöhnlichen Ansatz einer Hauptklasse und dann jeweils einer Unterklasse mit einer Funktionalität auszubauen, wird hierbei der Ansatz einer monolithischen Architektur gewählt. Im Sensorknoten werden nur Sensoren implementiert. Damit würde es eine Überklasse geben, wovon jeder Sensor erben würde. Beim monolithischen Ansatz gibt es nur eine Klasse, die alle Methoden enthält. Erst bei der Initialisierung kann entschieden werden, welche Funktion ausgeführt werden soll. Eine Instanz einer monolithischen Klasse kann somit, falls es einen Anlass dafür gibt, unabhängig von der Initialisierung ihre Funktionsweise wechseln. Beim klassischen objektorientierten Ansatz müsse eine komplett neue Instanz erzeugt werden. Ein Nachteil der monolithischen Architektur ist die Anhäufung von Methoden in einer Klasse. Ab einem gewissen Grad wird die Klasse schwer wartbar, da zu viele Methoden kontrolliert werden müssen. Diese Größe der Klasse kann weitere Fehler, wie das nicht korrekte Bereinigen von Bugs mit sich bringen. Das größte Problem dieser Architektur ist die fehlerhafte Instanziierung eines Objektes. Zur Darstellung des Problems dient folgendes Programmbeispiel:
 
 \begin{lstlisting}[caption=Fehlerhafte Instanziierung eines Sensorobjektes,frame=single,numbers=left,language=Python]
@@ -147,8 +146,7 @@ Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor
 
 \subsubsection*{Der Konstruktor} \label{Methode:Konstruktor}
 	Wie in anderen Programmiersprachen, wird ebenfalls in Python ein Konstruktor für das Objekt benötigt. Der Konstruktor initialisiert alle notwendigen Variablen für das Objekt der Klasse. Im Falle des Sensorknotens sieht der Konstruktor wie folgt aus:
-	%TODO: Listingreferenz hinzufügen
-	\lstinputlisting[caption=Konstruktor der Sensorklasse,frame=single,numbers=left,language=Python, firstline=10, lastline=26]{Quellcode/sensor.py} \label{LST:Konstruktor}
+		\lstinputlisting[label={LST:Konstruktor},caption=Konstruktor der Sensorklasse,frame=single,numbers=left,language=Python, firstline=10, lastline=26]{Quellcode/sensor.py}
 
 	\textsc{Eric Matthes} beschreibt in seinem Buch "Python crash course"\cite{1593276036} die Funktion \_\_init\_\_ als eine geschützte Funktionalität von Python. Der Zweck der doppelten Unterstriche seie die Abgrenzung von möglichen Namen, die ein Programmierer vergeben dürfe. Es ist üblich, dass einfache Unterstriche zum verbinden von mehreren Wörtern genutzt werden. Somit, weiß der Programmierer, dass diese besondere Funktion nicht anders verwendet werden darf. Eine weitere Auffälligkeit ist die 'self' Variable. Nach \textsc{Eric Matthes} müsse der Parameter an erster Stelle im Konstruktor stehen. Dieser seie für den Bezug auf das Objekt relevant. Das 'self' ist in der Funktionalität ähnlich wie das 'this' aus Java. Die weiteren Übergabeparameter haben folgende Bedeutung:
 	\begin{description}
@@ -171,8 +169,7 @@ Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor
 		\item[Status = 2] \hfill \\
 			Bedeutet, dass der Sensor defekt ist. Anders als beim Zustand 0 tritt dieser Fall erst auf, wenn ein unmöglicher Messwert gemessen wurde. Ein Beispiel hierfür ist: Falls der Temperatursensor, welcher einen Messbereich von 0 bis 50$^\circ$C hat, Messwerte unter dem Gefrierpunkt oder über 50$^\circ$C liefert.
 	\end{description}
-	%TODO: REFERENZ RICHTIG MACHEN!
-	In Zeile neun des \fullref{LST:Konstruktor} dient zur Einstellung der GPIO-Pinbezeichnung. \textsc{MATT} beschreibt in seinem Blogeintrag "'Simple Guide to the RPi Header and Pins'"\cite{SimpleGu6:online}, dass es zwei mögliche Modi für diesen Befehl gebe. Zum einen gibt es den Übergabeparameter "'GPIO.BOARD"' und zum anderen "'GPIO.BCM"'. Sie würden für die verschiedenen Nummerierungsmöglichkeiten der \ac{GPIO} Schnittstelle stehen. GPIO.BOARD würde die Nummerierung der Pins nach der Position auf dem Board durchführen. Im Gegensatz dazu nutze die GPIO.BCM Nummerierung die eigentliche GPIO Pinbelegung. Diese wir in der \fullref{fig:Kapitel2/gpio_pins_pi2.png} dargestellt.\\
+	Die Zeile neun im \fullref{LST:Konstruktor} dient zur Einstellung der GPIO-Pinbezeichnung. \textsc{MATT} beschreibt in seinem Blogeintrag "'Simple Guide to the RPi Header and Pins'"\cite{SimpleGu6:online}, dass es zwei mögliche Modi für diesen Befehl gebe. Zum einen gibt es den Übergabeparameter "'GPIO.BOARD"' und zum anderen "'GPIO.BCM"'. Sie würden für die verschiedenen Nummerierungsmöglichkeiten der \ac{GPIO} Schnittstelle stehen. GPIO.BOARD würde die Nummerierung der Pins nach der Position auf dem Board durchführen. Im Gegensatz dazu nutze die GPIO.BCM Nummerierung die eigentliche GPIO Pinbelegung. Diese wir in der \fullref{fig:Kapitel2/gpio_pins_pi2.png} dargestellt.\\
 	Die Ausgabe von Warnungen der GPIO Bibliothek wird mit dem Befehl in der zehnten Zeile deaktiviert. Diese sind nicht notwendig, da zum einen die Sensorenknoten an keiner graphischen Ausgabe angeschlossen sind und zum anderen Fehler separat behandelt werden.\\
 	Falls der Sensor einen digitalen Anschluss hat, muss dieser initialisiert werden. Dazu dient die Kontrollstruktur von Zeile elf bis vierzehn. \textsc{Chris Hager} beschreibt in der "RPIO 0.10.0 documentation - RPIO, the Python module" den Befehl "GPIO.setup()"\space wie folgt: Der Befehl benötige als Übergabeparameter den Pin, den Modus - entweder GPIO.IN oder GPIO.OUT - die Angabe, ob der Pull-up oder Pull-down Widerstand aktiv sein solle. Im Falle der Sensoren muss das Signal als "GPIO.IN" deklariert werden. Es wird weder ein Pull-up noch ein Pull-down Widerstand angeschlossen. Aus diesem Grund wird als letzter Parameter "'GPIO.PUD\_OFF"' angegeben. \\
 	Die letzten zwei Befehle dienen zum Initialisieren des I$^2$C Buses. Der '"smbus.SMBus(X)"' nimmt entweder den Wert 0 oder Wert 1 an. Nach einem empirischen Test hat es sich herausgestellt, dass die Raspberry Pis in der Version 2 und 3 das i2c-dev1 Interface standardmäßig nutzten. Somit muss der Befehl "'smbus.SMBUS(1)"' ausgeführt werden. Die Adresse des I$^2$C Ports muss ebenfalls angegeben werden. Nach dem Blogeintrag "GPIO Interface library for the Raspberry Pi"\cite{I2CPCF8592:online} von Wiring Pi seie die Adresse "0x46$_H$"\space die Standardadresse des I$^2$C Ports im Raspberry Pi. Damit ist der Konstruktor abgeschlossen und es folgen die Methoden der Sensorklasse.
@@ -223,7 +220,10 @@ Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor
 	\lstinputlisting[caption=Implementierung der Sende Funktion Seitens des Sensorknotens,frame=single,numbers=left,language=Python, firstline=244, lastline=254]{Quellcode/sensor.py}
 	Zuerst muss ein Socketobjekt angelegt werden. Da der Sensorknoten die Rolle des Clienten hat, benötigt er zum Verbindungsaufbau die IP-Adresse und den Port des Servers. Exemplarisch dienen hierfür die Angaben in den Zeilen drei und vier. Eine fehlende Verbindung zum Server sollte den Programmfluss nicht terminieren lassen. Daher wird der Sendevorgang in einen try Block gekapselt, der einen Socketfehler erwartet. Sollte der Server nun nicht erreichbar sein wir die Meldung "'Server nicht erreichbar!"' angezeigt und das Programm läuft weiter. Dieser Puffer vermeidet bei einer kurzen Unterbrechung zum Server ein kompletten Neustart des Sensorknotens. Der Sendevorgang geschieht wie folgt. Der Socket baut zunächst eine Verbindung zum Server auf. Danach übersendet es mit dem Befehl "'sendto()"' eine kodierte Nachricht an den Server. Hier wurde ein JSON Paket ausgewählt, dass mit der Kodierung "'utf-8"' kodiert ist. Wichtig ist hierbei, dass Seitens des Servers die gleiche Kodierung ausgewählt wird, da sonst die Nachricht nicht verwertet werden kann. 
 \subsection{Konfiguration \& Testen der Sensoren}
-%TODO: Unseren Code nochmal anschauen
+	Bevor die Sensoren genutzt werden können, müssen diese korrekt konfiguriert und getestet werden. Die Konfiguration dient zur Kalibrierung des Sensors an die entsprechenden Messkriterien. Diese ist notwendig, da jeder Einsatzort individuelle Verhältnisse, wie beispielsweise Lichteinfall und Grundlautstärke, aufweisen. Einige Sensoren besitzen mit einem eingebautem \ac{Poti} die Möglichkeit zur Konfiguration. Diese Konfiguration ermöglicht neben der Erfassungsdistanz ebenfalls die Einstellung der Messschwelle. Beispielsweise können, laut Allnet\cite{111861pd90:online}, beim Flammensensor mittels des \ac{Poti} die Messdistanz von 1 bis 7 Metern eingestellt werden. Die Konfiguration des Mikrofons geschieht auf die gleiche Weise wie beim Flammensensor. Sie unterscheiden sich einzig im Einstellungsparameter. Während beim Flammensensor die Messdistanz im Fokus steht, wird beim Mikrofon die Auslöselautstärke geregelt. Die restlichen Sensoren müssen softwareseitig konfiguriert werden, da sie keine maschinelle Möglichkeit bieten. Die Konfiguration geschieht beispielsweise beim Lichtsensor über die Kalibrierung der Lichsensorfunktion. In dieser wird ein Grenzbereich für das Auslösen des positiven Datenpaketes, über eine Kontrollstruktur, bestimmt. Die Kalibrierung der Sensoren kann nur beschränkt automatisiert durchgeführt werden. Im Falle des Flammensensors und des Mikrofons kann die Werkseinstellung ausreichend für den Einsatzzweck sein, doch im Falle Lichsensors wäre dies nicht möglich. Die Sensoren können jeweils auf Funktionalität getestet werden. Hierbei kann beispielsweise beim Flammensensor ein Feuerzeug zum Sensor gehalten werden. Falls der Sensor korrekt kalibriert, wurde erleuchtet die "'LED2"' sobald die Flamme in der Reichweite des Sensors befindet. Neben diesem Test kann der Flammensensor ebenfalls mittels der Webseite getestet werden. Sollte die hingehaltene Flamme korrekt erfasst worden sein, dann wird , wie im \fullref{Uebersicht} beschrieben, dieses Ereignis vermerkt.\\
+	Das Mikrofon wird auf die gleiche Art wie der Flammensensor überprüft. Sobald ein entsprechend lautes Geräusch detektiert wurde, leuchtet die "'LED2"' auf und es wir ein Eintrag auf der Übersichtsseite sichtbar. Außer dem Mikrofon und dem Flammensensor besitzen keine weiteren Sensoren eine eingebaute Funktionsüberprüfung. Die restlichen Sensoren können nur mittels der Webseite auf korrekte Funktionsweise überprüft werden.\\
+	Die korrekte Funktionsweise der Sensoren ist essentiell für den sauberen Ablauf der Messzyklen, die im folgenden Abschnitt erläutert werden.
+
 \subsection{Priorisierung der Sensoren}
 Ohne eine Priorisierung der Sensoren wird jedes Paket ohne Kontrolle an die Hauptzentrale geschickt. Jedoch haben die angeschlossenen Sensoren unterschiedliche Stellenwerte für den Nutzer. Aufgrund der verschiedenen Bedeutungsstufen müssen die Sensoren in unterschiedlichen Zeitintervallen überprüft werden. So hat beispielsweise die Aktualisierung des Flammensensors eine höhere Relevanz als die Aktualisierung der Luftfeuchtigkeit. Auf Grundlage dessen werden die angeschlossenen Sensoren durch eine Priorisierung in unterschiedlichen Intervallen überprüft. Der Flammensensor und das Mikrofon sind in diesem Fall die zeitkritischsten Komponenten des Systems und müssen folglich am häufigsten überprüft werden. An zweiter Stelle folgt der Lichtsensor. Der ausschlaggebende Grund hierfür ist, dass  der Nutzer versehentlich das Zimmerlicht nicht ausgemacht haben könnte. Diese Information sollte ohne Verzögerung an ihn kommen, damit dieser das Licht zeitnah ausschalten kann. Die niedrigste Priorität belegt der Temperatur- und Luftfeuchtigkeitssensor. Weder die Zimmertemperatur noch die Luftfeuchtigkeit werden sich nicht rapide verändern. Ein weiterer Aspekt des DHT11 Sensors ist Verarbeitungszeit des Messvorgangs. Der Sensor benötigt nach \textsc{Tony DiCola}\cite{Adafruit47:online} für eine Messung 11 Sekunden Zeit. Bei einer starren Priorisierung können in dieser Zeit keine weiteren Messungen durchgeführt werden. Zur Behebung dieses Problems werden wichtige Sensoren zusätzlich mit einer Ereignisgesteuerten Überprüfung , die im \fullref{Sensorknoten:Implementierung} erläutert wird, versehen. Die Priorisierung verläuft nach dem folgenden Prinzip:
 \begin{enumerate}
@@ -256,20 +256,20 @@ Damit die Zentraleinheit die Anforderungen, welche im \fullref{Planung} festgele
 	Eine MySQL Datenbankserver wurde auf der Zentraleinheit installiert, dieser dient wie im \fullref{sub:Datenbank} vorgestellt, dem Sammeln der Sensordaten. Mit den vorgestellten Programmiersprachen im \fullref{Python} und im \fullref{PHP} ist es möglich eine Verbindung zur Datenbank zu erstellen. Zusätzlich kann die Datenbank mit den zuvor erwähnten Sprachen befüllt und ausgelesen werden.
 	%AUSFÜHREN MIT QUELLE WAS IST MySQL etc.
 	\textsc{Erwin Schicker} definiert in seinem Buch "'Datenbanken und SQL - Eine praxisorientierte Einführung mit Anwendungen in Oracle, SQL Server und MySQL"'\cite{schicker2017datenbanken} eine Datenbank sei eine Sammlung von Daten, die untereinander in einer logischen Beziehung stehe und von eine Datenbankverwaltungssystem verwaltet sei. Von Vorteil sei, dass der Anwendungsprogrammierer und der Endbenutzer über komfortable, mächtige und normierte Schnittstellen auf die Daten der Datenbank zugreifen könne. Kenntnisse über die innere physische Struktur der Daten seien nicht erforderlich.
-	
+
 	\item[PhpMyAdmin] \hfill \\
 	Zum einfacheren Erstellen und Testen, wurde eine PhpMyAdmin installiert. PhyMyAdmin ist eine grafische Oberfläche für den Webbrowser, mit der der Inhalt angezeigt und bearbeitet werden kann. Ebenso können Benutzerrechte festgelegt werden. Über die Oberfläche ist es möglich Cronjobs zu implementieren.
-	Laut \textsc{Susanne Kurz} \cite{kurz2016digital} sei phpMyAdmin eine Applikation, die speziell für die Administration von MySQL-Datenbanken über den Webbrowser geschrieben wurde. Die Software sei frei, sehr beliebt und sei in vielen Distributionen enthalten. Bevor phpMyAdmin genutzt werden könne, müsse zuerst der Apache und die MySQL-Datenbank gestartet sein. 
+	Laut \textsc{Susanne Kurz} \cite{kurz2016digital} sei phpMyAdmin eine Applikation, die speziell für die Administration von MySQL-Datenbanken über den Webbrowser geschrieben wurde. Die Software sei frei, sehr beliebt und sei in vielen Distributionen enthalten. Bevor phpMyAdmin genutzt werden könne, müsse zuerst der Apache und die MySQL-Datenbank gestartet sein.
 
 	\item[Apache2] \hfill \\
 	Zur Darstellung, der im \fullref{sub:Webseite} geplanten Webseite, wurde ein Apache2 als Webserver installiert. Stellt ein Client eine Anfrage an den Apache, überträgt der Apache Webserver die benötigten Dateien an den Client. Der Apache kann Dokumente lokal, im Intranet oder im WWW zur Verfügung stellen.
-			
+
 \end{description}
 \subsection{Erstellen der Datenbank}
 Da sich die Anforderungen während der Implementierung geändert haben, musste die Datenbank angepasst werden. Für den Login musste eine neue Datenbank erstellt werden und die vorhandene Datenbank musste erweitert bzw. verändert werden. Der Datenbankentwurf für den Login sieht folgendermaßen aus:
 %TODO: Datenbankentwurf Login
 %Erklärung Datenbank
-Die Datenbank aus \fullref{sub:Datenbank} wurde wie folgt abgeändert: 
+Die Datenbank aus \fullref{sub:Datenbank} wurde wie folgt abgeändert:
 %TODO: Datenbankentwurf Sensordaten
 %Erläutern
 \subsection{Empfangen der Sensordaten}
@@ -503,26 +503,19 @@ header('Location: ../../Login.php');
 \end{lstlisting}
 
 %Jan
-\subsection{Übersicht}
+\subsection{Übersicht}\label{Uebersicht}
 Die Übersichtsseite zeigt einen Übersicht über die angeschlossenen Sensorknoten und die Werte der einzelnen Sensoren der Sensorknoten an. Auf der Webseite werden nur die Sensorknoten mit ihren Sensoren angezeigt die sich tatsächlich im Netz befinden. Dafür zuständig ist die Datei sensordaten.php. Die Datei sensordaten.php ladet die Werte aus der Datenbank und erstellt daraus dynamisch eine Anzeigetabelle der Sensorknoten und den zugehörigen Sensoren. Die Anzeigetabelle zeigt alle Sensoren an, die an den jeweiligen Sensorknoten angeschlossen sind. Falls Sensoren nicht angeschlossen sind, wird das in der Tabelle angezeigt. Zusätzlich wird unter jede Tabelle ein Symbol mit der Verlinkung zu den Statistiken(siehe \fullref{Statistik}) und der Webkameras(siehe \fullref{Webkamera}) angezeigt, dies hat den Zweck zum schnelleren Wechsel auf die jeweilige Seite. Des weiteren wird die Seite alle fünf Sekunden automatisch nachgeladen, dies geschieht über die uebersichtscript.js und sorgt dafür, dass die angezeigten Daten aktuell sind ohne die Seite manuell zu aktualisiert werden.
 
-Die Besonderheit der Übersichtsseite ist die Datenbankabfragen, sie setzt sich aus mehreren Befehlen zusammen. Die Abfrage findet in der Datei sensordaten.php statt und sieht wie folgt aus:
-\begin{lstlisting}[caption=Datenbankabfrage der Sensordaten,frame=single,numbers=left,language=SQL]
-SELECT * FROM(
-SELECT Messwert, Timestamp, M . SEN_ID, 
-Sensorname FROM Sensorknoten SK
-INNER JOIN Sensorknoten_Messwerte AS SM ON
-(SK . KN_ID = SM . KN_ID)
-INNER JOIN Messwerte AS M ON(SM . MESS_ID = M . MESS_ID)
-INNER JOIN Sensoren S ON(M . SEN_ID = S . SEN_ID) 
-WHERE Knotennamen = '" . $Knotennamen . "'
-ORDER BY Timestamp desc
-) AS sub
-GROUP BY Sensorname
-ORDER BY SEN_ID";
-\end{lstlisting}
+Die Besonderheit der Übersichtsseite ist die Datenbankabfragen, sie setzt sich aus mehreren Befehlen zusammen. Die Abfrage findet in der Datei sensordaten.php statt und kann wie folgt Visualisiert werden:
+\begin{figure}[htp]
+	\includegraphics[width=\textwidth]{Bilder/Kapitel4/uebersichtjoin.jpg}
+	\caption[Mengendarstellung der Übersichtsseite]{Selbsterstellte Darstellung des Join Befehls über die Tabellen Sensorknoten, Sensorknoten\_Messwerte, Messwerte und Sensoren}
+	\label{fig:Kapitel4/uebersichtjoin.jpg}
+\end{figure}
+Die Datenbankabfrage besteht aus vier einzelnen Tabellen, diese müssen zu einer zusammengeführt und gefiltert werden. Die Tabellen sind "'Sensorknoten"', "'Sensorknoten\_Messwerte"', "'Messwerte"' und "'Sensoren"'. Die Tabellen werden mit, wie in der Darstellung zusehen, mit ihren Schlüsseln mit einander Verknüpft. Hierzu werden die Primärschlüssel und die Fremdschlüssel der jeweiligen Tabellen mit einander abgeglichen. Durch diesen Vorgang wird eine "'virtuelle Tabelle"' erstellt. Ziel dieser Verknüpfung ist es, die Messwerte der jeweiligen Sensoren eines Sensorknoten zu filtern und auszugeben.
+
 % Erklärung Alex
-%1. Selection von allem 
+%1. Selection von allem
 %2. Aufbau einer virtuellen Tabelle (Mysql-Lösung, da es keine echten virtuellen Tabellen gibt (with ...))
 %3. From Sensorknoten SK -> "SK" ist alias für die Tabelle Sensorknoten, erste Tabelle benötigt das wort "as" nicht
 %4. Hilfstabelle Sensorknoten_Messwerte (SM) wird über die ID mit der Sensorknoten (SK) Tabelle verknüpft
@@ -531,14 +524,34 @@ ORDER BY SEN_ID";
 %7. Where Klausel Bestimmt mit $Knotennamen den selektierten Knotennamen
 %8. Absteigende Sortierung -> Aktuellster wert steht zuerst
 %9. Virtue Tabelle ist sortiert und hat den alias sub
-%10. Gruppierung -> Dopplungen fallen raus 
+%10. Gruppierung -> Dopplungen fallen raus
 %11. Sortierung nach Sensor ID
-%Bild 
+%Bild
 
 %Alex
 \subsection{Statistik}\label{Statistik}
+	Die Messdaten der jeweiligen Sensorknoten können für eine Visualisierung genutzt werden. Da die Daten mit jeweils einem eindeutigen Zeitstempel versehen werden, können diese für einen Graphen mit einer Zeitabhängigkeit genutzt werden. Die notwendigen Daten werden mit Hilfe des Joins der \fullref{fig:Kapitel4/uebersichtjoin.jpg} zusammengebaut.
+	\begin{figure}[htp]
+		\includegraphics[width=\textwidth]{Bilder/Kapitel4/uebersichtjoin.jpg}
+		\caption[Mengendarstellung der Übersichtsseite]{Selbsterstellte Darstellung des Join Befehls über die Tabellen Sensorknoten, Sensorknoten\_Messwerte, Messwerte und Sensoren}
+		\label{fig:Kapitel4/uebersichtjoin.jpg}
+	\end{figure}
 %Alex+Jan
 \subsection{Webkamera}\label{Webkamera}
+Die Anzeige der Webkamera Seite erfolgt durch die Datei Kamera.php. Funktionserweiterungen über die Dateien kamera.js, kamera.php, kameraadresse.php,  kameraconfig.php und sensorknotenauswahl.php. Hierbei hat jede Datei eine gesonderte Aufgabe und kann bei Bedarf geändert werden ohne das die Funktionalität anderer Dateien beeinträchtigt wird.
+\begin{description}
+	\item[kamera.js] \hfill \\
+	Die Befüllung der Dropdown-Menüs übernimmt die Datei "'kamera.js"'. Diese lädt dynamisch die Daten mit Hilfe der anderen Dateien in die Dropdown-Menüs.
+	\item[kamera.php] \hfill \\
+	In dieser Datei werden die Sensorknoten aus der Datenbank gefiltert, die eine aktivierte Kamera angeschlossen haben.
+	\item[sensorknotenauswahl.php] \hfill \\
+	Die "'sensorknotenauswahl.php"' selektiert alle Knotennamen der Sensorknoten.
+	\item[kameraadresse.php] \hfill \\
+	Diese Datei selektiert die Ip-Adresse des jeweiligen Sensorknoten.
+	\item[kameraconfig.php] \hfill \\
+	Ist dafür zuständig die geänderten Einstellungen in der Datenbank zu speichern.
+\end{description}
+Auf der Webkamera Seite werden zunächst nur die Sensorknoten angezeigt, die eine aktivierte Kamera haben und ein Icon für die Einstellungen. Die Sensorknoten mit den aktivierten Kameras können über das Dropdown-Menü ausgewählt werden. Mit dem "Blablub-Button" kann eine Verbindung zur ausgewählten Kamera hergestellt werden, diese wird nach drücken des Buttons unterhalb der Auswahl angezeigt. In den Einstellungen kann über ein Dropdown-Menü der jeweilige Sensorknoten ausgewählt und über die Radiobuttons die Webkamera aktiviert bzw. deaktiviert werden. In den Dropdown-Menüs werden nur die Sensorknoten angezeigt, die mit der Zentraleinheit verbunden sind. 
 %Harm
 \subsection{Impressum}
 
