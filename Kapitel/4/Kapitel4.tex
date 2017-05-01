@@ -529,13 +529,51 @@ Die Datenbankabfrage besteht aus vier einzelnen Tabellen, diese müssen zu einer
 %Bild
 
 %Alex
+\newpage
 \subsection{Statistik}\label{Statistik}
-	Die Messdaten der jeweiligen Sensorknoten können für eine Visualisierung genutzt werden. Da die Daten mit jeweils einem eindeutigen Zeitstempel versehen werden, können diese für einen Graphen mit einer Zeitabhängigkeit genutzt werden. Die notwendigen Daten werden mit Hilfe des Joins der \fullref{fig:Kapitel4/uebersichtjoin.jpg} zusammengebaut.
+	Die Messdaten der jeweiligen Sensorknoten können für eine Visualisierung genutzt werden. Da die Daten mit jeweils einem eindeutigen Zeitstempel versehen werden, können diese für einen Graphen mit einer Zeitabhängigkeit genutzt werden. Die notwendigen Daten werden mit Hilfe des Joins der \fullref{fig:Kapitel4/uebersichtjoin.jpg1} zusammengebaut.
 	\begin{figure}[htp]
 		\includegraphics[width=\textwidth]{Bilder/Kapitel4/uebersichtjoin.jpg}
 		\caption[Mengendarstellung der Übersichtsseite]{Selbsterstellte Darstellung des Join Befehls über die Tabellen Sensorknoten, Sensorknoten\_Messwerte, Messwerte und Sensoren}
-		\label{fig:Kapitel4/uebersichtjoin.jpg}
+		\label{fig:Kapitel4/uebersichtjoin.jpg1}
 	\end{figure}
+%TODO Screenshot der Statistik seite einbinden
+	Die Statistikseite ist wie folgt aufgebaut:
+	\begin{description}
+		\item[1. Sensorknotenauswahl] \hfill \\
+			Dieses Dropdownfeld generiert mit Hilfe des folgenden Befehls die Auswahl der Sensorknoten:
+\begin{lstlisting}[caption=SQL Selektion der Möglichen Sensorknoten,frame=single,numbers=left,language=SQL]
+	SELECT Knotennamen FROM Sensorknoten
+\end{lstlisting}
+			Ein Sensorknoten wird nur in die Datenbank eingetragen falls er Daten an die Zentaleinheit sendet. Daher reicht dieser Befehl aus, um alle möglichen Sensorknoten auszulesen. Die Rückgabemenge wird mittels dem "'append()"' Befehl an das Dropdownmenü angehängt.
+		\item[2. Sensorauwahl] \hfill \\
+			In diesem Dropdownfeld werden die jeweils möglichen Sensoren des zuvor ausgewählten Sensorknotens gelistet. Die Menge wird durch das \fullref{Sensorauswahl:Statistik} generiert werden.
+			\newpage
+\begin{lstlisting}[label={Sensorauswahl:Statistik},caption=Auswahl der Sensoren auf der Statistikseite,frame=single,numbers=left,language=SQL]
+Select * FROM(
+	SELECT Sensorname FROM Sensorknoten SK
+		INNER JOIN Sensorknoten_Messwerte 
+			AS SM ON (SK.KN_ID = SM.KN_ID)
+		INNER JOIN Messwerte 
+			AS M ON (SM.MESS_ID = M.MESS_ID)
+		INNER JOIN Sensoren 
+			AS S ON (M.SEN_ID = M.MESS_ID)
+	WHERE Knotennamen = '".$sensorknoten."'
+)AS Stub ORDER BY Sensorname;";
+\end{lstlisting}
+	Die Join Verkettung über die jeweiligen Primärschlüssel der Tabellen Sensorknoten, der Hilfstabelle Sensorknoten\_Messwerte, Messwerte und Sensoren liefert die angeschlossenen Sensoren an den ausgewählten Sensorknoten. Die \fullref{fig:Kapitel4/uebersichtjoin.jpg1} stellt den Vorgang Listings gleich dar.
+
+	\item[3. Tagesauswahl] \hfill \\
+		In diesem Dropdownfeld kann entweder ein möglicher Tag oder die komplette Woche ausgewählt werden. Abhängig von dieser Auswahl wird der Graph entsprechend skaliert. 
+	\item[4. Graphische Darstellung] \hfill \\
+		Hier werden die ausgewählten Daten durch das Framework "'CanvasJS"' generiert. 
+	\item[4. Generierungsbutton] \hfill \\
+		Der Button "'Auswahl"' löst beim draufdrücken die Generierung der Darstellung aus.
+	\end{description}
+Neben dem Aufbau der Seite müssen die Daten aus der Datenbank für die Erstellung der Graphen entsprechend angepasst werden. In diesem Fall gibt es zwei Arten von Messwertdaten  – diskrete und nicht diskrete Daten. Zu den diskreten Messdaten zählen die Temperatur- und Luftfeuchtigkeitsmessungen. Auf der anderen Seite befinden sich die binären Messdaten des Flammensensors, die Geräuschmessung des Mikrofons, die Lichtschranke und der Lichtsensor.\\
+Die Messdaten werden beim klicken des "'Auswahl"' Buttons mittels eines \ac{AJAX} Befehls asynchron abgefragt. Daraufhin werden die Daten entweder boolischen oder nummerischen Werten zugeordnet. Im nächsten Schritt werden die Messdaten an das Framework "'canvasJS"' übergeben. Dieses Generiert mit Hilfe der Messdaten, den Zeitraum und der Achsenbeschriftung einen Graphen aus diesen Daten.\\
+Bei nummerischen Graphen kann , abhängig von den Messintervallen, der Nutzer in diesen hineinzoomen und genaue Information über die Messwerte erhalten. Der zeitliche Verlauft dient hauptsächlich zur Nachbetrachtung der Messdaten.\\
+Aktuelle Informationen der Sensoren können mit Hilfe der Webkamera kontrolliert werden und falls eine Gefahr besteht kann der Nutzer dementsprechend handeln.
 %Alex+Jan
 \subsection{Webkamera}\label{Webkamera}
 Die Anzeige der Webkamera Seite erfolgt durch die Datei Kamera.php. Funktionserweiterungen über die Dateien kamera.js, kamera.php, kameraadresse.php,  kameraconfig.php und sensorknotenauswahl.php. Hierbei hat jede Datei eine gesonderte Aufgabe und kann bei Bedarf geändert werden ohne das die Funktionalität anderer Dateien beeinträchtigt wird.
