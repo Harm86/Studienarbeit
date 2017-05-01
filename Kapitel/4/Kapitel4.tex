@@ -254,16 +254,23 @@ Damit die Zentraleinheit die Anforderungen, welche im \fullref{Planung} festgele
 	\item[MySQL] \hfill \\
 	Eine MySQL Datenbankserver wurde auf der Zentraleinheit installiert, dieser dient wie im \fullref{sub:Datenbank} vorgestellt, dem Sammeln der Sensordaten. Mit den vorgestellten Programmiersprachen im \fullref{Python} und im \fullref{PHP} ist es möglich eine Verbindung zur Datenbank zu erstellen. Zusätzlich kann die Datenbank mit den zuvor erwähnten Sprachen befüllt und ausgelesen werden.
 	%AUSFÜHREN MIT QUELLE WAS IST MySQL etc.
+	\textsc{Erwin Schicker} definiert in seinem Buch "'Datenbanken und SQL - Eine praxisorientierte Einführung mit Anwendungen in Oracle, SQL Server und MySQL"'\cite{schicker2017datenbanken} eine Datenbank sei eine Sammlung von Daten, die untereinander in einer logischen Beziehung stehe und von eine Datenbankverwaltungssystem verwaltet sei. Von Vorteil sei, dass der Anwendungsprogrammierer und der Endbenutzer über komfortable, mächtige und normierte Schnittstellen auf die Daten der Datenbank zugreifen könne. Kenntnisse über die innere physische Struktur der Daten seien nicht erforderlich.
+
 	\item[PhpMyAdmin] \hfill \\
 	Zum einfacheren Erstellen und Testen, wurde eine PhpMyAdmin installiert. PhyMyAdmin ist eine grafische Oberfläche für den Webbrowser, mit der der Inhalt angezeigt und bearbeitet werden kann. Ebenso können Benutzerrechte festgelegt werden. Über die Oberfläche ist es möglich Cronjobs zu implementieren.
-	%EVTL QUELLE
+	Laut \textsc{Susanne Kurz} \cite{kurz2016digital} sei phpMyAdmin eine Applikation, die speziell für die Administration von MySQL-Datenbanken über den Webbrowser geschrieben wurde. Die Software sei frei, sehr beliebt und sei in vielen Distributionen enthalten. Bevor phpMyAdmin genutzt werden könne, müsse zuerst der Apache und die MySQL-Datenbank gestartet sein.
+
 	\item[Apache2] \hfill \\
-	Zur Darstellung, der im \fullref{sub:Webseite} geplanten Webseite, wurde ein Apache2 als Webserver installiert.
-	%AUSFÜHREN MIT QUELLE WAS IST APACHE2 etc.		
+	Zur Darstellung, der im \fullref{sub:Webseite} geplanten Webseite, wurde ein Apache2 als Webserver installiert. Stellt ein Client eine Anfrage an den Apache, überträgt der Apache Webserver die benötigten Dateien an den Client. Der Apache kann Dokumente lokal, im Intranet oder im WWW zur Verfügung stellen.
+
 \end{description}
 \subsection{Erstellen der Datenbank}
-Da sich die Anforderungen während der Implementierung geändert haben, musste die Datenbank angepasst werden. Für den Login musste eine Datenbank erstellt werden und die vorhandene Datenbank musste erweitert bzw. verändert werden.
-%TODO: Datenbankentwurf mit ausführlicher Erklärung
+Da sich die Anforderungen während der Implementierung geändert haben, musste die Datenbank angepasst werden. Für den Login musste eine neue Datenbank erstellt werden und die vorhandene Datenbank musste erweitert bzw. verändert werden. Der Datenbankentwurf für den Login sieht folgendermaßen aus:
+%TODO: Datenbankentwurf Login
+%Erklärung Datenbank
+Die Datenbank aus \fullref{sub:Datenbank} wurde wie folgt abgeändert:
+%TODO: Datenbankentwurf Sensordaten
+%Erläutern
 \subsection{Empfangen der Sensordaten}
 Die Scriptsprache Python muss mit folgenden Bibliotheken erweitert werden, damit eine Socketschnittstelle erstellt werden kann und die Sensordaten somit empfangen werden können.
 \begin{lstlisting}[caption=Einbinden der Bibliotheken für die Schnittstelle,frame=single,numbers=left,language=Python]
@@ -500,21 +507,32 @@ Die Übersichtsseite zeigt einen Übersicht über die angeschlossenen Sensorknot
 
 Die Besonderheit der Übersichtsseite ist die Datenbankabfragen, sie setzt sich aus mehreren Befehlen zusammen. Die Abfrage findet in der Datei sensordaten.php statt und sieht wie folgt aus:
 \begin{lstlisting}[caption=Datenbankabfrage der Sensordaten,frame=single,numbers=left,language=SQL]
-SELECT *
-FROM(
-SELECT Messwert, Timestamp, M . SEN_ID,
+SELECT * FROM(
+SELECT Messwert, Timestamp, M . SEN_ID, 
 Sensorname FROM Sensorknoten SK
 INNER JOIN Sensorknoten_Messwerte AS SM ON
 (SK . KN_ID = SM . KN_ID)
 INNER JOIN Messwerte AS M ON(SM . MESS_ID = M . MESS_ID)
-INNER JOIN Sensoren S ON(M . SEN_ID = S . SEN_ID)
+INNER JOIN Sensoren S ON(M . SEN_ID = S . SEN_ID) 
 WHERE Knotennamen = '" . $Knotennamen . "'
 ORDER BY Timestamp desc
 ) AS sub
 GROUP BY Sensorname
 ORDER BY SEN_ID";
 \end{lstlisting}
-%Erklärung Alex
+% Erklärung Alex
+%1. Selection von allem
+%2. Aufbau einer virtuellen Tabelle (Mysql-Lösung, da es keine echten virtuellen Tabellen gibt (with ...))
+%3. From Sensorknoten SK -> "SK" ist alias für die Tabelle Sensorknoten, erste Tabelle benötigt das wort "as" nicht
+%4. Hilfstabelle Sensorknoten_Messwerte (SM) wird über die ID mit der Sensorknoten (SK) Tabelle verknüpft
+%5. Same
+%6. Same
+%7. Where Klausel Bestimmt mit $Knotennamen den selektierten Knotennamen
+%8. Absteigende Sortierung -> Aktuellster wert steht zuerst
+%9. Virtue Tabelle ist sortiert und hat den alias sub
+%10. Gruppierung -> Dopplungen fallen raus
+%11. Sortierung nach Sensor ID
+%Bild
 
 %Alex
 \subsection{Statistik}\label{Statistik}
