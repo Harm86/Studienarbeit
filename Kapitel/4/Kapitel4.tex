@@ -506,21 +506,14 @@ header('Location: ../../Login.php');
 \subsection{Übersicht}\label{Uebersicht}
 Die Übersichtsseite zeigt einen Übersicht über die angeschlossenen Sensorknoten und die Werte der einzelnen Sensoren der Sensorknoten an. Auf der Webseite werden nur die Sensorknoten mit ihren Sensoren angezeigt die sich tatsächlich im Netz befinden. Dafür zuständig ist die Datei sensordaten.php. Die Datei sensordaten.php ladet die Werte aus der Datenbank und erstellt daraus dynamisch eine Anzeigetabelle der Sensorknoten und den zugehörigen Sensoren. Die Anzeigetabelle zeigt alle Sensoren an, die an den jeweiligen Sensorknoten angeschlossen sind. Falls Sensoren nicht angeschlossen sind, wird das in der Tabelle angezeigt. Zusätzlich wird unter jede Tabelle ein Symbol mit der Verlinkung zu den Statistiken(siehe \fullref{Statistik}) und der Webkameras(siehe \fullref{Webkamera}) angezeigt, dies hat den Zweck zum schnelleren Wechsel auf die jeweilige Seite. Des weiteren wird die Seite alle fünf Sekunden automatisch nachgeladen, dies geschieht über die uebersichtscript.js und sorgt dafür, dass die angezeigten Daten aktuell sind ohne die Seite manuell zu aktualisiert werden.
 
-Die Besonderheit der Übersichtsseite ist die Datenbankabfragen, sie setzt sich aus mehreren Befehlen zusammen. Die Abfrage findet in der Datei sensordaten.php statt und sieht wie folgt aus:
-\begin{lstlisting}[caption=Datenbankabfrage der Sensordaten,frame=single,numbers=left,language=SQL]
-SELECT * FROM(
-SELECT Messwert, Timestamp, M . SEN_ID, 
-Sensorname FROM Sensorknoten SK
-INNER JOIN Sensorknoten_Messwerte AS SM ON
-(SK . KN_ID = SM . KN_ID)
-INNER JOIN Messwerte AS M ON(SM . MESS_ID = M . MESS_ID)
-INNER JOIN Sensoren S ON(M . SEN_ID = S . SEN_ID) 
-WHERE Knotennamen = '" . $Knotennamen . "'
-ORDER BY Timestamp desc
-) AS sub
-GROUP BY Sensorname
-ORDER BY SEN_ID";
-\end{lstlisting}
+Die Besonderheit der Übersichtsseite ist die Datenbankabfragen, sie setzt sich aus mehreren Befehlen zusammen. Die Abfrage findet in der Datei sensordaten.php statt und kann wie folgt Visualisiert werden:
+\begin{figure}[htp]
+	\includegraphics[width=\textwidth]{Bilder/Kapitel4/uebersichtjoin.jpg}
+	\caption[Mengendarstellung der Übersichtsseite]{Selbsterstellte Darstellung des Join Befehls über die Tabellen Sensorknoten, Sensorknoten\_Messwerte, Messwerte und Sensoren}
+	\label{fig:Kapitel4/uebersichtjoin.jpg}
+\end{figure}
+Die Datenbankabfrage besteht aus vier einzelnen Tabellen, diese müssen zu einer zusammengeführt und gefiltert werden. Die Tabellen sind "'Sensorknoten"', "'Sensorknoten\_Messwerte"', "'Messwerte"' und "'Sensoren"'. Die Tabellen werden mit, wie in der Darstellung zusehen, mit ihren Schlüsseln mit einander Verknüpft. Hierzu werden die Primärschlüssel und die Fremdschlüssel der jeweiligen Tabellen mit einander abgeglichen. Durch diesen Vorgang wird eine "'virtuelle Tabelle"' erstellt. Ziel dieser Verknüpfung ist es, die Messwerte der jeweiligen Sensoren eines Sensorknoten zu filtern und auszugeben.
+
 % Erklärung Alex
 %1. Selection von allem
 %2. Aufbau einer virtuellen Tabelle (Mysql-Lösung, da es keine echten virtuellen Tabellen gibt (with ...))
@@ -545,6 +538,20 @@ ORDER BY SEN_ID";
 	\end{figure}
 %Alex+Jan
 \subsection{Webkamera}\label{Webkamera}
+Die Anzeige der Webkamera Seite erfolgt durch die Datei Kamera.php. Funktionserweiterungen über die Dateien kamera.js, kamera.php, kameraadresse.php,  kameraconfig.php und sensorknotenauswahl.php. Hierbei hat jede Datei eine gesonderte Aufgabe und kann bei Bedarf geändert werden ohne das die Funktionalität anderer Dateien beeinträchtigt wird.
+\begin{description}
+	\item[kamera.js] \hfill \\
+	Die Befüllung der Dropdown-Menüs übernimmt die Datei "'kamera.js"'. Diese lädt dynamisch die Daten mit Hilfe der anderen Dateien in die Dropdown-Menüs.
+	\item[kamera.php] \hfill \\
+	In dieser Datei werden die Sensorknoten aus der Datenbank gefiltert, die eine aktivierte Kamera angeschlossen haben.
+	\item[sensorknotenauswahl.php] \hfill \\
+	Die "'sensorknotenauswahl.php"' selektiert alle Knotennamen der Sensorknoten.
+	\item[kameraadresse.php] \hfill \\
+	Diese Datei selektiert die Ip-Adresse des jeweiligen Sensorknoten.
+	\item[kameraconfig.php] \hfill \\
+	Ist dafür zuständig die geänderten Einstellungen in der Datenbank zu speichern.
+\end{description}
+Auf der Webkamera Seite werden zunächst nur die Sensorknoten angezeigt, die eine aktivierte Kamera haben und ein Icon für die Einstellungen. Die Sensorknoten mit den aktivierten Kameras können über das Dropdown-Menü ausgewählt werden. Mit dem "Blablub-Button" kann eine Verbindung zur ausgewählten Kamera hergestellt werden, diese wird nach drücken des Buttons unterhalb der Auswahl angezeigt. In den Einstellungen kann über ein Dropdown-Menü der jeweilige Sensorknoten ausgewählt und über die Radiobuttons die Webkamera aktiviert bzw. deaktiviert werden. In den Dropdown-Menüs werden nur die Sensorknoten angezeigt, die mit der Zentraleinheit verbunden sind. 
 %Harm
 \subsection{Impressum}
 
