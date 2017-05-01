@@ -145,7 +145,7 @@ Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor
 
 \subsubsection*{Der Konstruktor} \label{Methode:Konstruktor}
 	Wie in anderen Programmiersprachen, wird ebenfalls in Python ein Konstruktor für das Objekt benötigt. Der Konstruktor initialisiert alle notwendigen Variablen für das Objekt der Klasse. Im Falle des Sensorknotens sieht der Konstruktor wie folgt aus:
-		\lstinputlisting[label={LST:Konstruktor},caption=Konstruktor der Sensorklasse,frame=single,numbers=left,language=Python, firstline=10, lastline=26]{Quellcode/sensor.py} 
+		\lstinputlisting[label={LST:Konstruktor},caption=Konstruktor der Sensorklasse,frame=single,numbers=left,language=Python, firstline=10, lastline=26]{Quellcode/sensor.py}
 
 	\textsc{Eric Matthes} beschreibt in seinem Buch "Python crash course"\cite{1593276036} die Funktion \_\_init\_\_ als eine geschützte Funktionalität von Python. Der Zweck der doppelten Unterstriche seie die Abgrenzung von möglichen Namen, die ein Programmierer vergeben dürfe. Es ist üblich, dass einfache Unterstriche zum verbinden von mehreren Wörtern genutzt werden. Somit, weiß der Programmierer, dass diese besondere Funktion nicht anders verwendet werden darf. Eine weitere Auffälligkeit ist die 'self' Variable. Nach \textsc{Eric Matthes} müsse der Parameter an erster Stelle im Konstruktor stehen. Dieser seie für den Bezug auf das Objekt relevant. Das 'self' ist in der Funktionalität ähnlich wie das 'this' aus Java. Die weiteren Übergabeparameter haben folgende Bedeutung:
 	\begin{description}
@@ -173,9 +173,9 @@ Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor
 	Falls der Sensor einen digitalen Anschluss hat, muss dieser initialisiert werden. Dazu dient die Kontrollstruktur von Zeile elf bis vierzehn. \textsc{Chris Hager} beschreibt in der "RPIO 0.10.0 documentation - RPIO, the Python module" den Befehl "GPIO.setup()"\space wie folgt: Der Befehl benötige als Übergabeparameter den Pin, den Modus - entweder GPIO.IN oder GPIO.OUT - die Angabe, ob der Pull-up oder Pull-down Widerstand aktiv sein solle. Im Falle der Sensoren muss das Signal als "GPIO.IN" deklariert werden. Es wird weder ein Pull-up noch ein Pull-down Widerstand angeschlossen. Aus diesem Grund wird als letzter Parameter "'GPIO.PUD\_OFF"' angegeben. \\
 	Die letzten zwei Befehle dienen zum Initialisieren des I$^2$C Buses. Der '"smbus.SMBus(X)"' nimmt entweder den Wert 0 oder Wert 1 an. Nach einem empirischen Test hat es sich herausgestellt, dass die Raspberry Pis in der Version 2 und 3 das i2c-dev1 Interface standardmäßig nutzten. Somit muss der Befehl "'smbus.SMBUS(1)"' ausgeführt werden. Die Adresse des I$^2$C Ports muss ebenfalls angegeben werden. Nach dem Blogeintrag "GPIO Interface library for the Raspberry Pi"\cite{I2CPCF8592:online} von Wiring Pi seie die Adresse "0x46$_H$"\space die Standardadresse des I$^2$C Ports im Raspberry Pi. Damit ist der Konstruktor abgeschlossen und es folgen die Methoden der Sensorklasse.
 	
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Bis hier hin gelesen und bewertet
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Bis hier hin gelesen und bewertet %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{Aufräumfunktion}
 	Diese Funktion dient zum Aufräumen der \ac{GPIO} Anschlüsse. \textsc{Ben Croston} schreibt in seinem Artikel "'RPi.GPIO basics 3"' \cite{RPiGPIOb90:online}, dass die \ac{GPIO} Pins aufgeräumt werden sollten. Folgendes Problem bestehe beim Raspberry Pi. Falls in ein Port im Programm auf auf den Wert "'1"' gesetzt wurde behalte dieser den Wert ebenfalls nach dem Beenden des Programms. Würde der Nutzer versehentlich Anschluss mit einem Masseanschluss verwinden, so wäre es möglich, dass die Platte durch den Kurzschluss Schäden davon trage. Die Implementierung für die Sensorklasse sieht wie folgt aus:
 	\lstinputlisting[caption=Portbereinigungsmethode mittels GPIO.cleanup,frame=single,numbers=left,language=Python, firstline=28, lastline=29]{Quellcode/sensor.py}
@@ -221,8 +221,8 @@ Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor
 \subsection{Konfiguration \& Testen der Sensoren}
 	Bevor die Sensoren genutzt werden können, müssen diese korrekt konfiguriert und getestet werden. Die Konfiguration dient zur Kalibrierung des Sensors an die entsprechenden Messkriterien. Diese ist notwendig, da jeder Einsatzort individuelle Verhältnisse, wie beispielsweise Lichteinfall und Grundlautstärke, aufweisen. Einige Sensoren besitzen mit einem eingebautem \ac{Poti} die Möglichkeit zur Konfiguration. Diese Konfiguration ermöglicht neben der Erfassungsdistanz ebenfalls die Einstellung der Messschwelle. Beispielsweise können, laut Allnet\cite{111861pd90:online}, beim Flammensensor mittels des \ac{Poti} die Messdistanz von 1 bis 7 Metern eingestellt werden. Die Konfiguration des Mikrofons geschieht auf die gleiche Weise wie beim Flammensensor. Sie unterscheiden sich einzig im Einstellungsparameter. Während beim Flammensensor die Messdistanz im Fokus steht, wird beim Mikrofon die Auslöselautstärke geregelt. Die restlichen Sensoren müssen softwareseitig konfiguriert werden, da sie keine maschinelle Möglichkeit bieten. Die Konfiguration geschieht beispielsweise beim Lichtsensor über die Kalibrierung der Lichsensorfunktion. In dieser wird ein Grenzbereich für das Auslösen des positiven Datenpaketes, über eine Kontrollstruktur, bestimmt. Die Kalibrierung der Sensoren kann nur beschränkt automatisiert durchgeführt werden. Im Falle des Flammensensors und des Mikrofons kann die Werkseinstellung ausreichend für den Einsatzzweck sein, doch im Falle Lichsensors wäre dies nicht möglich. Die Sensoren können jeweils auf Funktionalität getestet werden. Hierbei kann beispielsweise beim Flammensensor ein Feuerzeug zum Sensor gehalten werden. Falls der Sensor korrekt kalibriert, wurde erleuchtet die "'LED2"' sobald die Flamme in der Reichweite des Sensors befindet. Neben diesem Test kann der Flammensensor ebenfalls mittels der Webseite getestet werden. Sollte die hingehaltene Flamme korrekt erfasst worden sein, dann wird , wie im \fullref{Uebersicht} beschrieben, dieses Ereignis vermerkt.\\
 	Das Mikrofon wird auf die gleiche Art wie der Flammensensor überprüft. Sobald ein entsprechend lautes Geräusch detektiert wurde, leuchtet die "'LED2"' auf und es wir ein Eintrag auf der Übersichtsseite sichtbar. Außer dem Mikrofon und dem Flammensensor besitzen keine weiteren Sensoren eine eingebaute Funktionsüberprüfung. Die restlichen Sensoren können nur mittels der Webseite auf korrekte Funktionsweise überprüft werden.\\
-	Die korrekte Funktionsweise der Sensoren ist essentiell für den sauberen Ablauf der Messzyklen, die im folgenden Abschnitt erläutert werden. 
-	
+	Die korrekte Funktionsweise der Sensoren ist essentiell für den sauberen Ablauf der Messzyklen, die im folgenden Abschnitt erläutert werden.
+
 \subsection{Priorisierung der Sensoren}
 Ohne eine Priorisierung der Sensoren wird jedes Paket ohne Kontrolle an die Hauptzentrale geschickt. Jedoch haben die angeschlossenen Sensoren unterschiedliche Stellenwerte für den Nutzer. Aufgrund der verschiedenen Bedeutungsstufen müssen die Sensoren in unterschiedlichen Zeitintervallen überprüft werden. So hat beispielsweise die Aktualisierung des Flammensensors eine höhere Relevanz als die Aktualisierung der Luftfeuchtigkeit. Auf Grundlage dessen werden die angeschlossenen Sensoren durch eine Priorisierung in unterschiedlichen Intervallen überprüft. Der Flammensensor und das Mikrofon sind in diesem Fall die zeitkritischsten Komponenten des Systems und müssen folglich am häufigsten überprüft werden. An zweiter Stelle folgt der Lichtsensor. Der ausschlaggebende Grund hierfür ist, dass  der Nutzer versehentlich das Zimmerlicht nicht ausgemacht haben könnte. Diese Information sollte ohne Verzögerung an ihn kommen, damit dieser das Licht zeitnah ausschalten kann. Die niedrigste Priorität belegt der Temperatur- und Luftfeuchtigkeitssensor. Weder die Zimmertemperatur noch die Luftfeuchtigkeit werden sich nicht rapide verändern. Ein weiterer Aspekt des DHT11 Sensors ist Verarbeitungszeit des Messvorgangs. Der Sensor benötigt nach \textsc{Tony DiCola}\cite{Adafruit47:online} für eine Messung 11 Sekunden Zeit. Bei einer starren Priorisierung können in dieser Zeit keine weiteren Messungen durchgeführt werden. Zur Behebung dieses Problems werden wichtige Sensoren zusätzlich mit einer Ereignisgesteuerten Überprüfung , die im \fullref{Sensorknoten:Implementierung} erläutert wird, versehen. Die Priorisierung verläuft nach dem folgenden Prinzip:
 \begin{enumerate}
@@ -262,8 +262,10 @@ Damit die Zentraleinheit die Anforderungen, welche im \fullref{Planung} festgele
 	%AUSFÜHREN MIT QUELLE WAS IST APACHE2 etc.		
 \end{description}
 \subsection{Erstellen der Datenbank}
+Da sich die Anforderungen während der Implementierung geändert haben, musste die Datenbank angepasst werden. Für den Login musste eine Datenbank erstellt werden und die vorhandene Datenbank musste erweitert bzw. verändert werden.
+%TODO: Datenbankentwurf mit ausführlicher Erklärung
 \subsection{Empfangen der Sensordaten}
-Die Scriptsprache Python muss mit folgenden Bibliotheken erweitert werden, damit eine Socketschnittstelle erstellt werden kann.
+Die Scriptsprache Python muss mit folgenden Bibliotheken erweitert werden, damit eine Socketschnittstelle erstellt werden kann und die Sensordaten somit empfangen werden können.
 \begin{lstlisting}[caption=Einbinden der Bibliotheken für die Schnittstelle,frame=single,numbers=left,language=Python]
 import socket
 import json
@@ -279,8 +281,8 @@ s.bind((host, port))
 s.listen(5)
 msg = 'Thank you for connecting'
 \end{lstlisting}
-Mit dem Befehl "'socket.socket()"' wird eine neue Socket-Instanz erzeugt und in der Variable "'s"' gespeichert. Danach wird die IP-Adresse der Zentraleinheit in der Variable "'host"' und ein beliebiger Port der Zentraleinheit in die Variable "'port"' gespeichert. Durch den Aufruf "'s.bind((host, port))"' wird die zuvor gespeicherte IP-Adresse und der Port der Zentraleinheit, an den Socket gebunden. D.h. die Socketschnittstelle der Zentraleinheit ist Clientseitig auf den zuvor festgelegten IP-Adresse und Port erreichbar. Mit dem Befehl "'s.listen(5)"' wird die Zentraleinheit in den passiven Modus geschaltet und "'hört"' ob Verbindungsanfragen kommen. Der übergebene Parameter, in diesem Fall "'5"', bestimmt wie viele Verbindungsversuche gepuffert werden.
-\noindent Im nächsten Codeabschnitt wird beschrieben wie die Schnittstelle eine Verbindung annimmt und wie er die gesendeten Daten speichert.
+Mit dem Befehl "'socket.socket()"' wird eine neue Socket-Instanz erzeugt und in der Variable "'s"' gespeichert. Danach wird die IP-Adresse der Zentraleinheit in der Variable "'host"' und ein beliebiger Port der Zentraleinheit in die Variable "'port"' gespeichert. Durch den Aufruf "'s.bind((host, port))"' wird die zuvor gespeicherte IP-Adresse und der Port der Zentraleinheit, an den Socket gebunden. D.h. die Socketschnittstelle der Zentraleinheit ist Clientseitig auf den zuvor festgelegten IP-Adresse und Port erreichbar. Mit dem Befehl "'s.listen(5)"' wird die Zentraleinheit in den passiven Modus geschaltet und "'hört"' ob Verbindungsanfragen ankommen. Der übergebene Parameter, in diesem Fall "'5"', bestimmt wie viele Verbindungsversuche gepuffert werden.
+\noindent Im nächsten Codeabschnitt wird beschrieben wie die Schnittstelle eine Verbindung annimmt und wie die gesendeten Daten gespeichert werden.
 \begin{lstlisting}[caption=Speichern der Daten,frame=single,numbers=left,language=Python]
 while True:
 	c, addr = s.accept()
@@ -311,11 +313,11 @@ except _mysql.Error, e:
 \end{lstlisting}
 Der Datenbankkonnektor ist in zwei Blöcke unterteilt, dem try Block und dem except\_mysql.Error, e Block.
 
-\noindent Im try Block wird über die Funktion mdb.connect eine Verbindung hergestellt und in der Variable con \label{con} gespeichert. Die in den Klammern stehenden Variablen sind v.l.n.r der Hostname, der Benutzername, das Passwort und die Datenbank die Angesprochen werden soll. Wenn die Verbindung fehlerfrei hergestellt wurde, wird über die print Funktion die Meldung "SQL-Connection successful" ausgegeben.
+Im try Block wird über die Funktion mdb.connect eine Verbindung hergestellt und in der Variable con \label{con} gespeichert. Die in den Klammern stehenden Variablen sind v.l.n.r der Hostname, der Benutzername, das Passwort und die Datenbank die Angesprochen werden soll. Wenn die Verbindung fehlerfrei hergestellt wurde, wird über die print Funktion die Meldung "SQL-Connection successful" ausgegeben.
 
-\noindent Im zweiten Block, dem except\_mysql.Error, e Block wird der Fehlerfall abgedeckt. Sollte die Funktion mdb.connect keine erfolgreiche Verbindung herstellen, gibt die print Funktion die Meldung "SQL-Connection failed. Error \%d:\%s" aus. An die Stelle des Platzhalters \%d wird der Fehlercode und an den Platzhalter \%s die Fehlermeldung die zurückgegeben wird geschrieben, die die Datenbank liefert.
+Im zweiten Block, dem except\_mysql.Error, e Block wird der Fehlerfall abgedeckt. Sollte die Funktion mdb.connect keine erfolgreiche Verbindung herstellen, gibt die print Funktion die Meldung "SQL-Connection failed. Error \%d:\%s" aus. An die Stelle des Platzhalters \%d wird der Fehlercode und an den Platzhalter \%s die Fehlermeldung die zurückgegeben wird geschrieben, die die Datenbank liefert.
 
-Im nächsten Abschnitt ist der komplette Quellcode der eigentliche Befüllung der Datenbank zu sehen.
+Im nächsten Abschnitt ist der komplette Quellcode der Befüllung der Datenbank zu sehen.
 \begin{lstlisting}[caption=Befüllen der Datenbank,frame=single,numbers=left,language=Python]
 with con:
 	cur = con.cursor()
@@ -401,8 +403,16 @@ Problematisch bei den Raspberry Pis ist die Zeitsynchronisierung. Die Zeit wird 
 Der Login, die Registrierung und der Logout ist nach der Anleitung von
 wikiHow (\cite{PHP-Login:online}) erstellt und entsprechend angepasst worden. 
 \\
-Der Login besteht aus mehreren Dateien, deren Funktion in der Tabelle
+Der Login, der in \fullref{pic:login} zu sehen ist, besteht aus mehreren Dateien, deren Funktion in der Tabelle
 (\nameref{tab:Login-Dateien}) aufgezählt ist.
+
+\begin{figure} [htb]
+\begin{centering}
+\includegraphics{Bilder/Kapitel4/login.jpg}
+\caption[Ansicht des Logins]{Ansicht des Logins}
+\label{pic:login}
+\end{centering}
+\end{figure}
 
 \begin{table}
 \caption{PHP-Login-Dateien und Funktion}
@@ -456,9 +466,55 @@ Parameter, der entscheidet was der Anwender auf der Website sieht. Ist der Anwen
 \subsubsection{esc\_url}
 %TODO: prüfen
 Auf der Registrierungsseite finden Benutzereingabe statt, die in die Datenbank geschrieben werden. Um Cross-Site-Scripting zu verhindern, wird diese Funktion dafür verwendet um die Benutzereingaben zu "`bereinigen"'. Die Bereinigung findet über einen Regulären Ausdruck statt, der alle sinnvollen Zeichen ausschließt und durch "`nichts"' ersetzt. Als Folge daraus bleibt das "`Action"'-Attribut, des Eingabeformulars leer. Dies ist nicht weiter problematisch, da die Registrierung über die anderen Skripte abgewickelt wird.
+
+\subsubsection{forms.js}
+In der Datei forms.js sind zwei Funktionen enthalten. Die Funktion "`formhash"' wird beim regulären Login verwendet und die Funktion "`regformhash"' wird bei der Registrierung verwendet. \\
+Mit der Funktion "`formhash"' wird das Passwort, dass auf der Login-Seite im Passwortfeld steht mithilfe des Hashalgorithmusses gehasht und in ein nicht sichtbares Feld eingefügt. Die Passwortüberprüfung auf der Serverseite verwendet danach nur noch das gehashte Passwort für den Vergleich mit der Datenbank.\\
+Die Funktion "`regformhash"' ist etwas aufwendiger, da sie bei der Registrierung verwendet wird. Im ersten Schritt wird geprüft ob in jedem Feld eine Eingabe vorhanden ist. Ist dies nicht der Fall wird dem Anwender mitgeteilt, dass er alle Felder ausfüllen muss. Im zweiten Schritt werden die verschiedenen Eingaben überprüft ob sie die Bedingungen erfüllen, die festgelegt wurden. Im dritten Schritt wird überprüft ob die Passwörter gleich sind. Anschließend wird wie bei der Funktion "`formhash"' auch ein nicht sichtbares Feld eingefügt, in dem das gehashte Passwort gespeichert wird. Die Klartextpasswörter, die in den Eingabefeldern stehen, werden gelöscht damit sie nicht übertragen werden. Im letzten Schritt wird das Formular abgeschickt.
+
+\subsubsection{Logout}
+Beim Logout ist nur die Datei logout.php beteiligt. Die Datei wird nach dem Klick auf Logout aufgerufen und löscht die Session-ID, das aktuelle Cookie und beendet die Sitzung. Als letztes wird auf die Login-Seite weitergeleitet.
+
+\begin{lstlisting}[caption=Inhalt der logout.php,frame=single,numbers=left,language=PHP]
+include_once 'functions.php';
+sec_session_start();
+// Setze alle Session-Werte zurück
+$_SESSION = array();
+// hole Session-Parameter
+$params = session_get_cookie_params();
+// Lösche das aktuelle Cookie.
+setcookie(session_name(),
+    '', time() - 42000,
+    $params["path"],
+    $params["domain"],
+    $params["secure"],
+    $params["httponly"]);
+// Vernichte die Session
+session_destroy();
+header('Location: ../../Login.php');
+\end{lstlisting}
+
 %Jan
 \subsection{Übersicht}\label{Uebersicht}
-Die Übersichtsseite zeigt einen Übersicht über die angeschlossenen Sensorknoten und die Werte der einzelnen Sensoren der Sensorknoten an. Auf der Webseite werden nur die Sensorknoten mit ihren Sensoren angezeigt die sich tatsächlich im Netz befinden. Dafür zuständig ist die Datei sensordaten.php. Die Datei sensordaten.php ladet die Werte aus der Datenbank und erstellt daraus dynamisch eine Anzeigetabelle der Sensorknoten und den zugehörigen Sensoren. Die Anzeigetabelle zeigt alle Sensoren an die an den jeweiligen Sensorknoten angeschlossen sind, falls Sensoren nicht angeschlossen sind, wird das in der Tabelle angezeigt. Zusätzlich wird unter jede Tabelle ein Symbol mit der Verlinkung zu den Statistiken(siehe \fullref{Statistik}) und der Webkameras(siehe \fullref{Webkamera}) angezeigt, dies hat den Zweck zum schnelleren wechsel auf die jeweilige Seite.Des weiteren wird die Seite alle fünf Sekunden automatisch nachgeladen, dies geschieht über die uebersichtscript.js und sorgt dafür, dass die angezeigten Daten aktuell sind ohne die Seite manuell zu aktualisiert werden.
+Die Übersichtsseite zeigt einen Übersicht über die angeschlossenen Sensorknoten und die Werte der einzelnen Sensoren der Sensorknoten an. Auf der Webseite werden nur die Sensorknoten mit ihren Sensoren angezeigt die sich tatsächlich im Netz befinden. Dafür zuständig ist die Datei sensordaten.php. Die Datei sensordaten.php ladet die Werte aus der Datenbank und erstellt daraus dynamisch eine Anzeigetabelle der Sensorknoten und den zugehörigen Sensoren. Die Anzeigetabelle zeigt alle Sensoren an, die an den jeweiligen Sensorknoten angeschlossen sind. Falls Sensoren nicht angeschlossen sind, wird das in der Tabelle angezeigt. Zusätzlich wird unter jede Tabelle ein Symbol mit der Verlinkung zu den Statistiken(siehe \fullref{Statistik}) und der Webkameras(siehe \fullref{Webkamera}) angezeigt, dies hat den Zweck zum schnelleren Wechsel auf die jeweilige Seite. Des weiteren wird die Seite alle fünf Sekunden automatisch nachgeladen, dies geschieht über die uebersichtscript.js und sorgt dafür, dass die angezeigten Daten aktuell sind ohne die Seite manuell zu aktualisiert werden.
+
+Die Besonderheit der Übersichtsseite ist die Datenbankabfragen, sie setzt sich aus mehreren Befehlen zusammen. Die Abfrage findet in der Datei sensordaten.php statt und sieht wie folgt aus:
+\begin{lstlisting}[caption=Datenbankabfrage der Sensordaten,frame=single,numbers=left,language=SQL]
+SELECT *
+FROM(
+SELECT Messwert, Timestamp, M . SEN_ID,
+Sensorname FROM Sensorknoten SK
+INNER JOIN Sensorknoten_Messwerte AS SM ON
+(SK . KN_ID = SM . KN_ID)
+INNER JOIN Messwerte AS M ON(SM . MESS_ID = M . MESS_ID)
+INNER JOIN Sensoren S ON(M . SEN_ID = S . SEN_ID)
+WHERE Knotennamen = '" . $Knotennamen . "'
+ORDER BY Timestamp desc
+) AS sub
+GROUP BY Sensorname
+ORDER BY SEN_ID";
+\end{lstlisting}
+%Erklärung Alex
 
 %Alex
 \subsection{Statistik}\label{Statistik}
