@@ -18,7 +18,7 @@ Document=Anhang\abkuerzungsverzeichnis.tex
 
 [Frame0_View0,0]
 TopLine=0
-Cursor=0
+Cursor=406
 
 [Frame1]
 Flags=0
@@ -36,7 +36,7 @@ Document=Literaturverzeichnis.bib
 
 [Frame1_View0,0]
 TopLine=0
-Cursor=528
+Cursor=0
 
 [Frame2]
 Flags=0
@@ -53,8 +53,8 @@ Class=LaTeXView
 Document=Projektarbeit.tex
 
 [Frame2_View0,0]
-TopLine=0
-Cursor=0
+TopLine=90
+Cursor=4512
 
 [Frame3]
 Flags=0
@@ -72,7 +72,7 @@ Document=Kapitel\1\Kapitel1.tex
 
 [Frame3_View0,0]
 TopLine=0
-Cursor=102
+Cursor=2004
 
 [Frame4]
 Flags=0
@@ -89,7 +89,7 @@ Class=LaTeXView
 Document=Kapitel\2\Kapitel2.tex
 
 [Frame4_View0,0]
-TopLine=214
+TopLine=237
 Cursor=12214
 
 [Frame5]
@@ -107,8 +107,8 @@ Class=LaTeXView
 Document=Kapitel\3\Kapitel3.tex
 
 [Frame5_View0,0]
-TopLine=53
-Cursor=3858
+TopLine=21
+Cursor=319
 
 [Frame6]
 Flags=0
@@ -125,8 +125,8 @@ Class=LaTeXView
 Document=Kapitel\4\Kapitel4.tex
 
 [Frame6_View0,0]
-TopLine=700
-Cursor=11635
+TopLine=0
+Cursor=0
 
 [Frame7]
 Flags=0
@@ -148,5 +148,5 @@ Cursor=112
 
 [SessionInfo]
 FrameCount=8
-ActiveFrame=5
+ActiveFrame=7
 
