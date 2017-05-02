@@ -551,7 +551,7 @@ Die Datenbankabfrage besteht aus vier einzelnen Tabellen, diese müssen zu einer
 		\caption[Mengendarstellung der Übersichtsseite]{Selbsterstelle Darstellung des Join Befehls über die Tabellen Sensorknoten, Sensorknoten\_Messwerte, Messwerte und Sensoren}
 		\label{fig:Kapitel4/uebersichtjoin.jpg1}
 	\end{figure}
-%TODO Screenshot der Statistik seite einbinden
+%TODO Screenshot der Statistik seite einbinden + erklären
 	Die Statistikseite ist wie folgt aufgebaut:
 	\begin{description}
 		\item[1. Sensorknotenauswahl] \hfill \\
@@ -587,7 +587,7 @@ Select * FROM(
 Neben dem Aufbau der Seite müssen die Daten aus der Datenbank für die Erstellung der Graphen entsprechend angepasst werden. In diesem Fall gibt es zwei Arten von Messwertdaten  – diskrete und nicht diskrete Daten. Zu den diskreten Messdaten zählen die Temperatur- und Luftfeuchtigkeitsmessungen. Auf der anderen Seite befinden sich die binären Messdaten des Flammensensors, die Geräuschmessung des Mikrofons, die Lichtschranke und der Lichtsensor.\\
 Die Messdaten werden beim klicken des "'Auswahl"' Buttons mittels eines \ac{AJAX} Befehls asynchron abgefragt. Daraufhin werden die Daten entweder boolischen oder nummerischen Werten zugeordnet. Im nächsten Schritt werden die Messdaten an das Framework "'canvasJS"' übergeben. Dieses Generiert mit Hilfe der Messdaten, den Zeitraum und der Achsenbeschriftung einen Graphen aus diesen Daten.\\
 Bei nummerischen Graphen kann , abhängig von den Messintervallen, der Nutzer in diesen hineinzoomen und genaue Information über die Messwerte erhalten. Der zeitliche Verlauft dient hauptsächlich zur Nachbetrachtung der Messdaten.\\
-Aktuelle Informationen der Sensoren können mit Hilfe der Webkamera kontrolliert werden und falls eine Gefahr besteht kann der Nutzer dementsprechend handeln.
+Aktuelle Informationen der Sensoren können mit Hilfe der Webkamera kontrolliert werden und falls eine Gefahr besteht, kann der Nutzer dementsprechend handeln.
 %Alex+Jan
 \subsection{Webkamera}\label{Webkamera}
 Die Anzeige der Webkamera Seite erfolgt durch die Datei Kamera.php. Funktionserweiterungen über die Dateien kamera.js, kamera.php, kameraadresse.php,  kameraconfig.php und sensorknotenauswahl.php. Hierbei hat jede Datei eine gesonderte Aufgabe und kann bei Bedarf geändert werden ohne das die Funktionalität anderer Dateien beeinträchtigt wird.
