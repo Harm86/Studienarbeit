@@ -464,10 +464,10 @@ elif row_count == 0:
 \subsection{Problematik Zeitsynchronisierung}\label{Zeitsynchronisierung}
 Problematisch bei den Raspberry Pis ist die Zeitsynchronisierung. Die Zeit wird nur synchronisiert und somit aktuell gehalten, wenn der Raspberry Pi mit einem Netzwerk mit funktionierender Internetverbindung verbunden ist. In der Datenbank auf der Zentraleinheit werden Messwerte mit einem Zeitstempel gespeichert. Problematisch ist hierbei, dass ein täglicher Cronjob Messwerte löscht, die älter als eine Woche sind. Um die Problematik mit der Zeitsynchronisierung und damit verbunden Problemen zu lösen, musste eine schnelle und zuverlässige Lösung gefunden werden. Die in \fullref{Sensoren_Planung} vorgestellte Erweiterungsplatine RPi-Explorer 700 von Joy-IT beinhaltet einen internen Zeitgeber. Dieser Zeitgeber, kann die Uhrzeit des Raspberry Pi auf dem aktuellen Stand halten. Dazu muss auf der RPi-Explorer 700 eine Batterie montiert werden und die Funktionalität auf der Zentraleinheit aktiviert werden. Dies geschieht mit folgenden Befehlen auf der Zentraleinheit:
 %TODO: Befehle aus Pi auslesen
-\begin{lstlisting}[caption=Aktivieren des I2C Bus,frame=single,numbers=left,language=bash,showstringspaces=false]
+\begin{lstlisting}[caption=Aktivieren des I$^2$C Bus,frame=single,numbers=left,language=bash,showstringspaces=false]
 sudo raspi-config
 \end{lstlisting}
-Zuerst muss in den Raspberry Pi Einstellungen unter "'raspi-config"' im Menü "'Advanced"' der I2C Bus aktiviert werden.
+Zuerst muss in den Raspberry Pi Einstellungen unter "'raspi-config"' im Menü "'Advanced"' der I$^2$C Bus aktiviert werden.
 
 Danach muss Software zur Konfiguration installiert werden:
 \begin{lstlisting}[caption=Installation für die Konfiguration,frame=single,numbers=left,language=bash,showstringspaces=false]
@@ -475,11 +475,16 @@ sudo apt-get install python-smbus i2c-tools
 \end{lstlisting}
 Mit diesem Befehl werden die Pakete "'python-smbus"' und "'i2c-tools"' auf dem Raspberry Pi installiert.
 
-Nachfolgend wir getestet werden, welche Module am I2C-Bus aktiviert sind:
-\begin{lstlisting}[caption=I2C-Bus,frame=single,numbers=left,language=bash,showstringspaces=false]
+Nachfolgend wir getestet, welche Module am I$^2$C-Bus aktiviert sind:
+\begin{lstlisting}[caption=I$^2$C-Bus,frame=single,numbers=left,language=bash,showstringspaces=false]
 sudo i2cdetect -y 1
 \end{lstlisting}
-An Position 68 die Zahl 68. Die Zahl 68 ist die Adresse, an welche das Modul geschrieben werden muss.
+\begin{figure}[htp]
+	\includegraphics[width=\textwidth]{Bilder/Kapitel4/1pos68.png}
+	\caption[Ausgabe 1 der Position des Zeitgebers im I$^2$C Bus]{Ausgabe 1 der Position des Zeitgebers im I$^2$C Bus}
+	\label{fig:Kapitel4/1pos68.png}
+\end{figure}
+An Position 68 des Befehls steht die Zahl 68. Die Zahl 68 kennzeichnet die Adresse, an welche das Modul geschrieben werden muss.
 
 Nun muss festgestellt werden, welcher RTC Chip verwendet wird, in diesem Fall das Modul ds3231. Dieses Modul muss in die Bootconfig eingefügt werden. Folgender Befehl führt in die Bootconfig:
 \begin{lstlisting}[caption=Bootconfig,frame=single,numbers=left,language=bash,showstringspaces=false]
@@ -487,7 +492,7 @@ sudo nano /boot/config.txt
 \end{lstlisting}
 Mit diesem Befehl kann in die Bootconfig geschrieben werden.
 
-An die letzte Zeile muss das zuvor verwendete Modul eingetragen werden:
+An die letzte Zeile muss das neue Modul wie folgt eingetragen werden:
 \begin{lstlisting}[caption=Eintrag Bootconfig,frame=single,numbers=left,language=bash,showstringspaces=false]
 dtoverlay=i2c-rtc,ds3231
 \end{lstlisting}
@@ -500,7 +505,12 @@ Danach wird mit folgenden Befehl kontrolliert, ob das neue Modul aktiv ist:
 \begin{lstlisting}[caption=I2C-Bus Kontrolle,frame=single,numbers=left,language=bash,showstringspaces=false]
 sudo i2cdetect -y 1
 \end{lstlisting}
-An der Position 68 steht nun keine 68 mehr, sondern UU. D.h. Das neue Modul ist aktiv.
+Wie in \fullref{fig:Kapitel4/2pos68.png} zu sehen, steht an der Position 68 nun keine 68 mehr, sondern UU. Das heißt, dass das neue Modul aktiv ist . 
+\begin{figure}[htp]
+	\includegraphics[width=\textwidth]{Bilder/Kapitel4/2pos68.png}
+	\caption[Ausgabe 2 der Position des Zeitgebers im I$^2$C Bus]{Ausgabe 2 der Position des Zeitgebers im I$^2$C Bus}
+	\label{fig:Kapitel4/2pos68.png}
+\end{figure}
 
 Der alte Zeitgeber muss entfernt werden:
 \begin{lstlisting}[caption=Entfernen des Zeitgebers,frame=single,numbers=left,language=bash,showstringspaces=false]
@@ -513,13 +523,13 @@ Anschließend muss das Skript des alten Zeitgebers auskommentiert werden. Diese 
 \begin{lstlisting}[caption=Zeitgeber Skript,frame=single,numbers=left,language=bash,showstringspaces=false]
 sudo nano /lib/udev/hwclock-set
 \end{lstlisting}
-Hier müssen die Zeilen:
+Hier müssen die Zeilen auskommentiert werden:
 \begin{lstlisting}[caption=Auskommentieren in Zeitgeber Skript,frame=single,numbers=left,language=bash,showstringspaces=false]
 #if [ -e /run/systemd/system ] ; then
 # exit 0
 #fi
 \end{lstlisting}
-Mit dem nächsten Befehl kann überprüft werden ob der alte Zeitgeber deaktiviert wurde:
+Mit dem nächsten Befehl kann überprüft werden, ob der alte Zeitgeber deaktiviert wurde:
 \begin{lstlisting}[caption=Überprüfung des alten Zeitgebers,frame=single,numbers=left,language=bash,showstringspaces=false]
 hwclock -D -r
 \end{lstlisting}
@@ -601,10 +611,10 @@ Aufgerufen wird die Funktion mit den Parametern Username, Passwort und der Daten
 Die Funktion "`checkbrute()"' prüft, ob  ein Angreifer möglicherweise versucht eine Brute-Force-Attacke durchzuführen. Eine Brute-Force-Attacke ist das systematische Ausprobieren von Kennwörtern. Ein Kennwort kann mittels Brute-Force-Attacke immer irgendwann herausgefunden werden. Die einzige Schutzmöglichkeit besteht darin, den Aufwand unermesslich groß zu machen. Ein handelsüblicher PC kann mittlerweile mehrere Millionen von Passwörtern pro Sekunde ausprobieren. Dies führt dazu, dass ein einfaches (kurzes) Passwort sehr schnell geknackt werden kann. Ein Passwort, dass nur aus Kleinbuchstaben besteht und ein Zeichen lang ist, hat somit 26 verschiedene Möglichkeiten. Wird die Länge auf 2 erhöht, gibt es bereits $26^2$ verschiedene Möglichkeiten. Ein aktuelles Passwort sollte immer mindestens 8 Zeichen lang sein und mindestens einen Kleinbuchstaben, einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten. Daraus ergibt sich $94^8$ was 6.095.689.385.410.816 verschiedenen Möglichkeiten entspricht. Durch eine "`Bremse"' kann die Dauer bis alle potentiellen Passwörter ausprobiert wurden weiter erhöht werden. Eine solche "`Bremse"' ist beispielsweise das von der Funktion "`checkbrute()"' eingesetzte blockieren von weiteren Einloggversuchen nach 5 fehlgeschlagenen Eingaben.
 
 Die Funktion "`checkbrute()"' prüft, ob in den letzten zwei Stunden mehr als 5 fehlgeschlagene Einloggversuche protokolliert wurden und sperrt den Benutzer. Der Benutzer muss erst über die Datenbank wieder freigeschaltet werden, bevor ein erneutes Einloggen wieder möglich ist.
-
+%Hacken
 \subsubsection{login\_check}
 Diese Funktion prüft, ob ein Anwender eingeloggt ist und setzt den entsprechenden
-Parameter, der entscheidet, was der Anwender auf der Website sieht. Ist der Anwender korrekt eingeloggt sieht er die korrekte Webseite. Für den Fall, dass der Anwender nicht eingeloggt ist sieht er wie in \fullref{notloggedin} die Information, dass er sich bitte einloggen soll.
+Parameter. Der Parameter entscheidet, was der Anwender auf der Webseite sieht. Ist der Anwender eingeloggt, sieht er die korrekte Webseite. Für den Fall, dass der Anwender nicht eingeloggt ist, sieht er wie in \fullref{notloggedin} die Information, dass er sich bitte einloggen soll.
 
 \begin{figure} [htb]
 \begin{centering}
@@ -614,18 +624,24 @@ Parameter, der entscheidet, was der Anwender auf der Website sieht. Ist der Anwe
 \end{centering}
 \end{figure}
 
-
+%Hacken
 \subsubsection{esc\_url}
 %TODO: prüfen
-Auf der Registrierungsseite finden Benutzereingabe statt, die in die Datenbank geschrieben werden. Um Cross-Site-Scripting zu verhindern, wird diese Funktion dafür verwendet um die Benutzereingaben zu "`bereinigen"'. Die Bereinigung findet über einen Regulären Ausdruck statt, der alle sinnvollen Zeichen ausschließt und durch "`nichts"' ersetzt. Als Folge daraus bleibt das "`Action"'-Attribut, des Eingabeformulars leer. Dies ist nicht weiter problematisch, da die Registrierung über die anderen Skripte abgewickelt wird.
-
+Auf der Registrierungsseite finden Benutzereingabe statt, die in die Datenbank geschrieben werden. Um Cross-Site-Scripting zu verhindern, wird diese Funktion verwendet, das "`Action"'-Attribut zu "`bereinigen"'. Die Bereinigung findet über einen regulären Ausdruck statt, der alle Zeichen ausschließt und entfernt. Als Folge daraus bleibt das "`Action"'-Attribut, des Eingabeformulars leer. Dies ist nicht weiter problematisch, da die Registrierung über andere Skripte abgewickelt wird.
+%Check
 \subsubsection{forms.js}
-In der Datei forms.js sind zwei Funktionen enthalten. Die Funktion "`formhash"' wird beim regulären Login verwendet und die Funktion "`regformhash"' wird bei der Registrierung verwendet. \\
-Mit der Funktion "`formhash"' wird das Passwort, dass auf der Login-Seite im Passwortfeld steht mithilfe des Hashalgorithmusses gehasht und in ein nicht sichtbares Feld eingefügt. Die Passwortüberprüfung auf der Serverseite verwendet danach nur noch das gehashte Passwort für den Vergleich mit der Datenbank.\\
-Die Funktion "`regformhash"' ist etwas aufwendiger, da sie bei der Registrierung verwendet wird. Im ersten Schritt wird geprüft ob in jedem Feld eine Eingabe vorhanden ist. Ist dies nicht der Fall wird dem Anwender mitgeteilt, dass er alle Felder ausfüllen muss. Im zweiten Schritt werden die verschiedenen Eingaben überprüft ob sie die Bedingungen erfüllen, die festgelegt wurden. Im dritten Schritt wird überprüft ob die Passwörter gleich sind. Anschließend wird wie bei der Funktion "`formhash"' auch ein nicht sichtbares Feld eingefügt, in dem das gehashte Passwort gespeichert wird. Die Klartextpasswörter, die in den Eingabefeldern stehen, werden gelöscht damit sie nicht übertragen werden. Im letzten Schritt wird das Formular abgeschickt.
+In der Datei forms.js sind zwei Funktionen enthalten. Die Funktion "`formhash"' wird beim regulären Login verwendet und die Funktion "`regformhash"' wird bei der Registrierung verwendet. 
+
+Mit der Funktion "`formhash"' wird das Passwort, dass auf der Login-Seite im Passwortfeld steht mithilfe des Hashalgorithmuss gehasht und in ein nicht sichtbares Feld eingefügt. Die Passwortüberprüfung auf der Serverseite verwendet nur das gehashte Passwort für den Vergleich mit der Datenbank.
+
+Die Funktion "`regformhash"' ist aufwendiger, da sie bei der Registrierung verwendet wird. Im ersten Schritt wird geprüft, ob in jedem Feld eine Eingabe vorhanden ist. Ist dies nicht der Fall, wird dem Anwender mitgeteilt, dass er alle Felder ausfüllen muss.
+
+Im zweiten Schritt werden die verschiedenen Eingaben überprüft, ob sie die festgelegten Bedingungen erfüllen. 
+
+Im dritten Schritt wird überprüft, ob die Passwörter gleich sind. Anschließend wird wie bei der Funktion "`formhash"' auch ein nicht sichtbares Feld eingefügt, in dem das gehashte Passwort gespeichert wird. Die Klartextpasswörter in den Eingabefeldern werden gelöscht, damit sie nicht übertragen werden. Im letzten Schritt wird das Formular abgeschickt.
 
 \subsubsection{Logout}
-Beim Logout ist nur die Datei logout.php beteiligt. Die Datei wird nach dem Klick auf Logout aufgerufen und löscht die Session-ID, das aktuelle Cookie und beendet die Sitzung. Als letztes wird auf die Login-Seite weitergeleitet.
+Beim Logout ist nur die Datei "'logout.php"' beteiligt. Die Datei wird nach dem Klick auf Logout aufgerufen und löscht die Session-ID, das aktuelle Cookie und beendet die Sitzung. Als letztes wird auf die Login-Seite weitergeleitet.
 
 \begin{lstlisting}[caption=Inhalt der logout.php,frame=single,numbers=left,language=PHP]
 include_once 'functions.php';
@@ -648,15 +664,15 @@ header('Location: ../../Login.php');
 
 %Jan
 \subsection{Übersicht}\label{Uebersicht}
-Die Übersichtsseite zeigt einen Übersicht über die angeschlossenen Sensorknoten und die Werte der einzelnen Sensoren der Sensorknoten an. Auf der Webseite werden nur die Sensorknoten mit ihren Sensoren angezeigt die sich tatsächlich im Netz befinden. Dafür zuständig ist die Datei sensordaten.php. Die Datei sensordaten.php ladet die Werte aus der Datenbank und erstellt daraus dynamisch eine Anzeigetabelle der Sensorknoten und den zugehörigen Sensoren. Die Anzeigetabelle zeigt alle Sensoren an, die an den jeweiligen Sensorknoten angeschlossen sind. Falls Sensoren nicht angeschlossen sind, wird das in der Tabelle angezeigt. Zusätzlich wird unter jede Tabelle ein Symbol mit der Verlinkung zu den Statistiken(siehe \fullref{Statistik}) und der Webkameras(siehe \fullref{Webkamera}) angezeigt, dies hat den Zweck zum schnelleren Wechsel auf die jeweilige Seite. Des weiteren wird die Seite alle fünf Sekunden automatisch nachgeladen, dies geschieht über die uebersichtscript.js und sorgt dafür, dass die angezeigten Daten aktuell sind ohne die Seite manuell zu aktualisiert werden.
+Die Übersichtsseite zeigt eine Übersicht über die angeschlossenen Sensorknoten und die Werte der einzelnen Sensoren der Sensorknoten an. Auf der Webseite werden nur die Sensorknoten mit ihren Sensoren angezeigt, die sich tatsächlich im Netz befinden. Dafür zuständig ist die Datei "'sensordaten.php"'. Diese Datei lädt die Werte aus der Datenbank und erstellt daraus dynamisch eine Anzeigetabelle der Sensorknoten und den zugehörigen Sensoren. Falls Sensoren nicht angeschlossen sind, wird das in der Tabelle angezeigt. Zusätzlich wird unter jede Tabelle ein Symbol mit der Verlinkung zu den Statistiken (siehe \fullref{Statistik}) und der Webkameras (siehe \fullref{Webkamera}) angezeigt, dies hat den Zweck zum schnelleren Wechsel auf die jeweilige Seite. Des Weiteren wird die Seite alle fünf Sekunden automatisch nachgeladen, hierfür dient die "'uebersichtscript.js"' und sorgt dafür, dass die angezeigten Daten aktuell sind ohne die Seite manuell zu aktualisieren.
 
-Die Besonderheit der Übersichtsseite ist die Datenbankabfragen, sie setzt sich aus mehreren Befehlen zusammen. Die Abfrage findet in der Datei sensordaten.php statt und kann wie folgt Visualisiert werden:
+Die Besonderheit der Übersichtsseite ist die Datenbankabfrage, sie setzt sich aus mehreren Befehlen zusammen. Die Abfrage findet in der Datei "'sensordaten.php"' statt und kann wie folgt visualisiert werden:
 \begin{figure}[htp]
 	\includegraphics[width=\textwidth]{Bilder/Kapitel4/uebersichtjoin.jpg}
-	\caption[Mengendarstellung der Übersichtsseite]{Selbsterstelle Darstellung des Join Befehls über die Tabellen Sensorknoten, Sensorknoten\_Messwerte, Messwerte und Sensoren}
+	\caption[Mengendarstellung der Übersichtsseite]{ Darstellung des Join Befehls über die Tabellen Sensorknoten, Sensorknoten\_Messwerte, Messwerte und Sensoren}
 	\label{fig:Kapitel4/uebersichtjoin.jpg}
 \end{figure}
-Die Datenbankabfrage besteht aus vier einzelnen Tabellen, diese müssen zu einer zusammengeführt und gefiltert werden. Die Tabellen sind "'Sensorknoten"', "'Sensorknoten\_Messwerte"', "'Messwerte"' und "'Sensoren"'. Die Tabellen werden mit, wie in der Darstellung zusehen, mit ihren Schlüsseln mit einander Verknüpft. Hierzu werden die Primärschlüssel und die Fremdschlüssel der jeweiligen Tabellen mit einander abgeglichen. Durch diesen Vorgang wird eine "'virtuelle Tabelle"' erstellt. Ziel dieser Verknüpfung ist es, die Messwerte der jeweiligen Sensoren eines Sensorknoten zu filtern und auszugeben.
+Die Datenbankabfrage besteht aus vier einzelnen Tabellen. Diese müssen zu einer zusammengeführt und gefiltert werden. Die Tabellen sind "'Sensorknoten"', "'Sensorknoten\_Messwerte"', "'Messwerte"' und "'Sensoren"'. Die Tabellen werden , wie in der Darstellung zusehen, mit ihren Schlüsseln miteinander verknüpft. Hierzu werden die Primärschlüssel und die Fremdschlüssel der jeweiligen Tabellen miteinander zusammen abgeglichen. Durch diesen Vorgang wird eine "'virtuelle Tabelle"' erstellt. Ziel dieser Verknüpfung ist es, die aktuellsten Messwerte der jeweiligen Sensoren eines Sensorknoten zu filtern und auszugeben.
 
 % Erklärung Alex
 %1. Selection von allem
@@ -675,23 +691,19 @@ Die Datenbankabfrage besteht aus vier einzelnen Tabellen, diese müssen zu einer
 %Alex
 \newpage
 \subsection{Statistik}\label{Statistik}
-	Die Messdaten der jeweiligen Sensorknoten können für eine Visualisierung genutzt werden. Da die Daten mit jeweils einem eindeutigen Zeitstempel versehen werden, können diese für einen Graphen mit einer Zeitabhängigkeit genutzt werden. Die notwendigen Daten werden mit Hilfe des Joins der \fullref{fig:Kapitel4/uebersichtjoin.jpg1} zusammengebaut.
-	\begin{figure}[htp]
-		\includegraphics[width=\textwidth]{Bilder/Kapitel4/uebersichtjoin.jpg}
-		\caption[Mengendarstellung der Übersichtsseite]{Selbsterstelle Darstellung des Join Befehls über die Tabellen Sensorknoten, Sensorknoten\_Messwerte, Messwerte und Sensoren}
-		\label{fig:Kapitel4/uebersichtjoin.jpg1}
-	\end{figure}
-%TODO Screenshot der Statistik seite einbinden + erklären
-	Die Statistikseite ist wie folgt aufgebaut:
+	Die Messdaten der jeweiligen Sensorknoten können für eine Visualisierung genutzt werden. Da die Daten mit jeweils einem eindeutigen Zeitstempel versehen werden, können diese für einen Graphen mit einer Zeitabhängigkeit genutzt werden. Die notwendigen Daten werden mit Hilfe des Joins der \fullref{fig:Kapitel4/uebersichtjoin.jpg} erstellt.
+	Die Darstellung der Statistikseite findet sich in 
+%TODO: Referent Anhang hinzufügen
+	und ist wie folgt aufgebaut:
 	\begin{description}
 		\item[1. Sensorknotenauswahl] \hfill \\
 			Dieses Dropdownfeld generiert mit Hilfe des folgenden Befehls die Auswahl der Sensorknoten:
 \begin{lstlisting}[caption=SQL Selektion der Möglichen Sensorknoten,frame=single,numbers=left,language=SQL]
 	SELECT Knotennamen FROM Sensorknoten
 \end{lstlisting}
-			Ein Sensorknoten wird nur in die Datenbank eingetragen falls er Daten an die Zentaleinheit sendet. Daher reicht dieser Befehl aus, um alle möglichen Sensorknoten auszulesen. Die Rückgabemenge wird mittels dem "'append()"' Befehl an das Dropdownmenü angehängt.
-		\item[2. Sensorauwahl] \hfill \\
-			In diesem Dropdownfeld werden die jeweils möglichen Sensoren des zuvor ausgewählten Sensorknotens gelistet. Die Menge wird durch das \fullref{Sensorauswahl:Statistik} generiert werden.
+			Ein Sensorknoten wird nur in die Datenbank eingetragen, falls er Daten an die Zentaleinheit sendet. Daher reicht dieser Befehl aus, um alle möglichen Sensorknoten auszulesen. Die Rückgabemenge wird mittels des "'append()"' Befehls an das Dropdownmenü angehängt.
+		\item[2. Sensorauswahl] \hfill \\
+			In diesem Dropdownfeld werden die jeweils möglichen Sensoren des zuvor ausgewählten Sensorknotens aufgelistet. Die Menge wird durch das \fullref{Sensorauswahl:Statistik} generiert.
 			\newpage
 \begin{lstlisting}[label={Sensorauswahl:Statistik},caption=Auswahl der Sensoren auf der Statistikseite,frame=single,numbers=left,language=SQL]
 Select * FROM(
@@ -705,40 +717,39 @@ Select * FROM(
 	WHERE Knotennamen = '".$sensorknoten."'
 )AS Stub ORDER BY Sensorname;";
 \end{lstlisting}
-	Die Join Verkettung über die jeweiligen Primärschlüssel der Tabellen Sensorknoten, der Hilfstabelle Sensorknoten\_Messwerte, Messwerte und Sensoren liefert die angeschlossenen Sensoren an den ausgewählten Sensorknoten. Die \fullref{fig:Kapitel4/uebersichtjoin.jpg1} stellt den Vorgang Listings gleich dar.
+	Die Join Verkettung über die jeweiligen Primärschlüssel der Tabellen Sensorknoten, der Hilfstabelle Sensorknoten\_Messwerte, Messwerte und Sensoren liefert die angeschlossenen Sensoren an des ausgewählten Sensorknotens. Die \fullref{fig:Kapitel4/uebersichtjoin.jpg} stellt den Vorgang des Listings gleich dar.
 
 	\item[3. Tagesauswahl] \hfill \\
 		In diesem Dropdownfeld kann entweder ein möglicher Tag oder die komplette Woche ausgewählt werden. Abhängig von dieser Auswahl wird der Graph entsprechend skaliert. 
 	\item[4. Graphische Darstellung] \hfill \\
 		Hier werden die ausgewählten Daten durch das Framework "'CanvasJS"' generiert. 
 	\item[4. Generierungsbutton] \hfill \\
-		Der Button "'Auswahl"' löst beim draufdrücken die Generierung der Darstellung aus.
+		Der Button "'Auswahl"' löst beim anklicken die Generierung der Darstellung aus.
 	\end{description}
-Neben dem Aufbau der Seite müssen die Daten aus der Datenbank für die Erstellung der Graphen entsprechend angepasst werden. In diesem Fall gibt es zwei Arten von Messwertdaten  – diskrete und nicht diskrete Daten. Zu den diskreten Messdaten zählen die Temperatur- und Luftfeuchtigkeitsmessungen. Auf der anderen Seite befinden sich die binären Messdaten des Flammensensors, die Geräuschmessung des Mikrofons, die Lichtschranke und der Lichtsensor.\\
-Die Messdaten werden beim klicken des "'Auswahl"' Buttons mittels eines \ac{AJAX} Befehls asynchron abgefragt. Daraufhin werden die Daten entweder boolischen oder nummerischen Werten zugeordnet. Im nächsten Schritt werden die Messdaten an das Framework "'canvasJS"' übergeben. Dieses Generiert mit Hilfe der Messdaten, den Zeitraum und der Achsenbeschriftung einen Graphen aus diesen Daten.\\
-Bei nummerischen Graphen kann , abhängig von den Messintervallen, der Nutzer in diesen hineinzoomen und genaue Information über die Messwerte erhalten. Der zeitliche Verlauft dient hauptsächlich zur Nachbetrachtung der Messdaten.\\
-Aktuelle Informationen der Sensoren können mit Hilfe der Webkamera kontrolliert werden und falls eine Gefahr besteht, kann der Nutzer dementsprechend handeln.
+Neben dem Aufbau der Seite müssen die Daten aus der Datenbank für die Erstellung der Graphen entsprechend angepasst werden. In diesem Fall gibt es zwei Arten von Messwertdaten  – diskrete und nicht diskrete Daten. Zu den nicht diskreten Messdaten zählen die Temperatur- und Luftfeuchtigkeitsmessungen. Auf der anderen Seite befinden sich die diskreten binären Messdaten des Flammensensors, die Geräuschmessung des Mikrofons, die Lichtschranke und der Lichtsensor.
+
+Die Messdaten werden beim anklicken des "'Auswahl"' Buttons mittels eines \ac{AJAX} Befehls asynchron abgefragt. Daraufhin werden die Daten entweder bool'schen oder numerischen Werten zugeordnet. Im nächsten Schritt werden die Messdaten an das Framework "'canvasJS"' übergeben. Dieses generiert mit Hilfe der Messdaten, den Zeitraum und der Achsenbeschriftung einen Graphen.
+
+Bei numerischen Graphen kann, abhängig von den Messintervallen, der Nutzer in diese hineinzoomen und genaue Informationen über die Messwerte erhalten. Der zeitliche Verlauf dient hauptsächlich zur Nachbetrachtung der Messdaten. Zum Beispiel: Wie oft war ein Sensor aktiv bzw was wurde gemessen ?
+
+Aktuelle Informationen der Sensoren, beispielsweise des Flammensensors, können mit Hilfe der Webkamera kontrolliert werden und falls eine Gefahr besteht, kann der Nutzer dementsprechend handeln.
 %Alex+Jan
 \subsection{Webkamera}\label{Webkamera}
-Die Anzeige der Webkamera Seite erfolgt durch die Datei Kamera.php. Funktionserweiterungen über die Dateien kamera.js, kamera.php, kameraadresse.php,  kameraconfig.php und sensorknotenauswahl.php. Hierbei hat jede Datei eine gesonderte Aufgabe und kann bei Bedarf geändert werden ohne das die Funktionalität anderer Dateien beeinträchtigt wird.
+Die Anzeige der Webkamera Seite erfolgt durch die Datei "'Kamera.php"'. Funktionen werden über die Dateien "'kamera.js"', "'kamera.php"', "'kameraadresse.php"',  "'kameraconfig.php"' und "'sensorknotenauswahl.php"' realisiert. Hierbei hat jede Datei eine gesonderte Aufgabe und kann bei Bedarf geändert werden, ohne dass die Funktionalität anderer Dateien beeinträchtigt wird.
 \begin{description}
 	\item[kamera.js] \hfill \\
-	Die Befüllung der Dropdown-Menüs übernimmt die Datei "'kamera.js"'. Diese lädt dynamisch die Daten aus der Datenbank mit Hilfe der anderen Dateien in die Dropdown-Menüs.
+	Die Befüllung der Dropdownfeld übernimmt die Datei "'kamera.js"'. Diese lädt dynamisch die Daten aus der Datenbank mit Hilfe der anderen Dateien in die  Dropdownfeld.
 	\item[kamera.php] \hfill \\
 	In dieser Datei werden die Sensorknoten aus der Datenbank gefiltert, die eine aktivierte Kamera angeschlossen haben.
 	\item[sensorknotenauswahl.php] \hfill \\
 	Die "'sensorknotenauswahl.php"' selektiert alle Knotennamen der Sensorknoten.
 	\item[kameraadresse.php] \hfill \\
-	Diese Datei selektiert die Ip-Adresse des jeweiligen Sensorknoten.
+	Diese Datei selektiert die IP-Adresse des jeweiligen Sensorknotens.
 	\item[kameraconfig.php] \hfill \\
 	Ist dafür zuständig die geänderten Einstellungen in der Datenbank zu speichern.
 \end{description}
-Auf der Webkamera Seite werden zunächst nur ein Icon für die Einstellungen und ein Dropdown-Menü mit den Sensorknoten die eine aktivierte Kamera haben. Die Sensorknoten mit den aktivierten Kameras können in dem Dropdown-Menü ausgewählt werden. Mit dem "Blablub-Button" kann eine Verbindung zur ausgewählten Kamera hergestellt werden, diese wird nach drücken des Buttons unterhalb der Auswahl angezeigt. In den Einstellungen kann über ein Dropdown-Menü der jeweilige Sensorknoten ausgewählt und über die Radiobuttons die Webkamera aktiviert bzw. deaktiviert werden. In den Dropdown-Menüs werden nur die Sensorknoten angezeigt, die mit der Zentraleinheit verbunden sind. 
+Auf der Webkamera Seite wird zunächst nur ein Icon für die Einstellungen und ein Dropdownfeld mit den Sensorknoten die eine aktivierte Kamera haben angezeigt. Die Sensorknoten mit den aktivierten Kameras können in dem Dropdownfeld ausgewählt werden. Mit dem "Auswahl-Button" kann eine Verbindung zur ausgewählten Kamera hergestellt werden. Ein Livebild der ausgewählten Kamera wird nach drücken des Buttons unterhalb der Auswahl angezeigt. In den Einstellungen kann über ein Dropdownfeld der jeweilige Sensorknoten ausgewählt und über die Radiobuttons die Webkamera aktiviert bzw. deaktiviert werden. In den Dropdownfeld werden nur die Sensorknoten angezeigt, die mit der Zentraleinheit verbunden sind. 
 %Harm
 \subsection{Impressum}
 
 Auf der Seite "`Impressum"' stehen die Namen der drei Autoren, der Titel des Projektes und diese Dokumentation wird zum Download angeboten. Ansonsten ist keine weitere Funktionalität implementiert.
-%Alle
-\section{Refactoring}
-%Alle
-\section{Systemtest}
