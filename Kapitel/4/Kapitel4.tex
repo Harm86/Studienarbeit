@@ -512,7 +512,15 @@ Diese Funktion vergibt eine Session-ID und legt fest, dass Cookies verwendet wer
 
 \subsubsection{login}
 Diese Funktion steuert alle notwendigen Abläufe, die den Login betreffend.\\
-Aufgerufen wird die Funktion mit den Parametern Username, Passwort und der Datenbankverbindung. Die Parameter Username und Passwort werden aus POST-Werten der Loginseite übergeben während die Datenbankverbindung in der Datei db-connect.php definiert ist. Durch ein Prepared-Statement werden die benötigten Werte aus der Datenbank abgerufen. Danach wird verglichen ob der übergebene Username in der Datenbank hinterlegt ist. Existiert der Benutzer, wird zuerst durch die Funktion 'checkbrute' überprüft, ob der Benutzer momentan gesperrt ist. Ist der Benutzer nicht gesperrt, wird das Passwort überprüft und der Anwender wird auf die Seite 'Übersicht' weitergeleitet. Ist das Passwort nicht korrekt, wird der fehlgeschlagene Loginversuch in der Datenbank vermerkt und der Benutzer erhält eine Meldung, dass der Anmeldeversuch fehlgeschlagen ist. 
+Aufgerufen wird die Funktion mit den Parametern Username, Passwort und der Datenbankverbindung. Die Parameter Username und Passwort werden aus POST-Werten der Loginseite übergeben während die Datenbankverbindung in der Datei db-connect.php definiert ist. Durch ein Prepared-Statement werden die benötigten Werte aus der Datenbank abgerufen. Danach wird verglichen ob der übergebene Username in der Datenbank hinterlegt ist. Existiert der Benutzer, wird zuerst durch die Funktion 'checkbrute' überprüft, ob der Benutzer momentan gesperrt ist. Ist der Benutzer nicht gesperrt, wird das Passwort überprüft und der Anwender wird auf die Seite 'Übersicht' weitergeleitet. Ist das Passwort nicht korrekt, wird der fehlgeschlagene Loginversuch in der Datenbank vermerkt und der Benutzer erhält eine Meldung wie in \fullref{computersaysno}, dass der Anmeldeversuch fehlgeschlagen ist. 
+
+\begin{figure} [htb]
+\begin{centering}
+\includegraphics{Bilder/Kapitel4/login_fehlgeschlagen.jpg}
+\caption[Meldung bei einer falschen Benutzer/Passwort Kombination]{Meldung bei einer falschen Benutzer/Passwort Kombination}
+\label{computersaysno}
+\end{centering}
+\end{figure}
 
 \subsubsection{checkbrute}
 %TODO: Belegen
