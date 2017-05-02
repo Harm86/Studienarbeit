@@ -266,10 +266,24 @@ Damit die Zentraleinheit die Anforderungen, welche im \fullref{Planung} festgele
 
 \end{description}
 \subsection{Erstellen der Datenbank}
-Da sich die Anforderungen während der Implementierung geändert haben, musste die Datenbank angepasst werden. Für den Login musste eine neue Datenbank erstellt werden und die vorhandene Datenbank musste erweitert bzw. verändert werden. Der Datenbankentwurf für den Login sieht folgendermaßen aus:
-%TODO: Datenbankentwurf Login
-%Erklärung Datenbank
-Die Datenbank aus \fullref{sub:Datenbank} wurde wie folgt abgeändert:
+Da sich die Anforderungen während der Implementierung geändert haben, musste die Datenbank angepasst werden. Für den Login mussten zwei neue Datenbanktabellen erstellt werden. Der Datenbankentwurf für den Login sieht folgendermaßen aus:
+%TODO: Datenbankentwurf Login. richtig?
+\begin{figure}[htp]
+	\begin{center}
+		\includegraphics{Bilder/Kapitel4/db_login.jpg}
+		\caption[Schematische Darstellung des Datenbankentwurfs des Logins]{Schematische Darstellung des Datenbankentwurfs des Logins}
+		\label{fig:Datenbankentwurf_login}
+	\end{center}
+\end{figure}
+Die Datenbank wurde um die Tabellen "'members"' und "'login-attemps"' erweitert. Die Datenbanktabelle "'members"' enthält die selbsterklärenden Attribute "'ID"',"'username"',"'email"',"'password"' und "'salt"'. Die Tabelle "'login-attemps"' besitzt die Attribute "'USER\_ID"' und "'time"'. Die genaue Funktionalität des Logins wird nachfolgend in \fullref{Login} erläutert.
+%Genauere Erklärung durch Harm?
+Die Datenbank aus \fullref{sub:Datenbank} wurde wie folgt erweitert:
+\begin{figure}[htp]
+	\includegraphics[width=\textwidth]{Bilder/Kapitel4/Datenbankentwurf2.jpg}
+	\caption[Schematische Darstellung des erweiterten Datenbankentwurfs]{Schematische Darstellung des erweiterten Datenbankentwurfs}
+	\label{fig:Datenbankentwurf_erweiterung}
+\end{figure}
+Die Datenbanktabelle "'Sensorknoten"' wurde durch das Attribut "'Webcam"' erweitert. Das Attribut "'Webcam"' soll als Flag dienen und durch ihren Zustand (0 oder 1) anzeigen, ob eine Kamera angeschlossen ist. Dies war notwendig, da es keine Möglichkeit gibt, auszulesen ob eine Webkamera installiert ist. Das Attribut "'Webcam"' kann über die Homepage gesetzt werden
 %TODO: Datenbankentwurf Sensordaten
 %Erläutern
 \subsection{Empfangen der Sensordaten}
@@ -281,7 +295,7 @@ import json
 Die Bibliotheken socket und json werden eingebunden. Die Bibliothek socket ist dafür zuständig, die Funktionalität der Socketschnittstelle bereitzustellen. Die Bibliothek json ist in diesem Fall nur für die Verarbeitung der Daten zuständig.\hfill
 \noindent Nachfolgend sehen sie die Bereitstellung der Socketschnittstelle.
 % Referenz Methode:senden
-\begin{lstlisting}[caption=Bereitstellen der Socketschnittstelle,frame=single,numbers=left,language=Python]
+\begin{lstlisting}[caption=Bereitstellen der Socketschnittstelle,frame=single,numbers=left,language=Python,showstringspaces=false]
 s = socket.socket()
 host = '192.168.178.1'
 port = 12345
@@ -291,7 +305,7 @@ msg = 'Thank you for connecting'
 \end{lstlisting}
 Mit dem Befehl "'socket.socket()"' wird eine neue Socket-Instanz erzeugt und in der Variable "'s"' gespeichert. Danach wird die IP-Adresse der Zentraleinheit in der Variable "'host"' und ein beliebiger Port der Zentraleinheit in die Variable "'port"' gespeichert. Durch den Aufruf "'s.bind((host, port))"' wird die zuvor gespeicherte IP-Adresse und der Port der Zentraleinheit, an den Socket gebunden. D.h. die Socketschnittstelle der Zentraleinheit ist Clientseitig auf den zuvor festgelegten IP-Adresse und Port erreichbar. Mit dem Befehl "'s.listen(5)"' wird die Zentraleinheit in den passiven Modus geschaltet und "'hört"' ob Verbindungsanfragen ankommen. Der übergebene Parameter, in diesem Fall "'5"', bestimmt wie viele Verbindungsversuche gepuffert werden.
 \noindent Im nächsten Codeabschnitt wird beschrieben wie die Schnittstelle eine Verbindung annimmt und wie die gesendeten Daten gespeichert werden.
-\begin{lstlisting}[caption=Speichern der Daten,frame=single,numbers=left,language=Python]
+\begin{lstlisting}[caption=Speichern der Daten,frame=single,numbers=left,language=Python,showstringspaces=false]
 while True:
 	c, addr = s.accept()
 	print('Got connection from ', addr)
@@ -301,7 +315,7 @@ while True:
 	Wert = str(data["Messwert"])
 	adresse = str(addr[0])
 \end{lstlisting}\label{Daten}
-In einer Endlosschleife wartet der Socket mit dem Befehl "'s.accept()"' auf eingehende Verbindungsanfragen. Wenn eingehende Verbindungsanfragen eingehen, speichert er im ersten Tupel die empfangenen Daten und im zweiten Tupel Informationen des Absenders. Danach wird ausgeben das eine Verbindung mit der IP-Adresse des Absenders besteht. Der Befehl "'json.loads(c.recv(4096).encode('utf-8'))"' ist für mehrere dinge zuständigen. Der Befehlsteil "'.encode('utf-8')"' gibt vor, dass das empfangene Paket UTF-8-Kodiert sein soll, der Befehlsteil "'c.recv(4096)"' gibt die Paketlänge vor, die in diesem Fall maximal 4096 Bits groß sein darf. Der Befehl "'json.loads"' erzeugt aus dem empfangenen Daten ein JSON-Objekt, dies ist für die weiter Verarbeitung des Paketinhaltes notwendig. Das Erzeugen einen JSON-Objekts ist nur möglich, da im \fullref{Sensonknoten:JSON} das Paket als JSON-Objekt gepackt wird. Das erzeugte JSON-Objekt wird in der Variable "'data"' gespeichert. Nachfolgenden werden die übertragenen Daten herausgefiltert und in die jeweiligen Variablen gespeichert, diese Daten werden für die Befüllung der Datenbank benötigt.
+In einer Endlosschleife wartet der Socket mit dem Befehl "'s.accept()"' auf eingehende Verbindungsanfragen. Wenn eingehende Verbindungsanfragen eingehen, speichert er im ersten Tupel die empfangenen Daten und im zweiten Tupel Informationen des Absenders. Danach wird ausgeben das eine Verbindung mit der IP-Adresse des Absenders besteht. Der Befehl "'json.loads(c.recv(4096).encode('utf-8'))"' ist für mehrere dinge zuständigen. Der Befehlsteil "'.encode('utf-8')"' gibt vor, dass das empfangene Paket UTF-8-Kodiert sein soll, der Befehlsteil "'c.recv(4096)"' gibt die Paketlänge vor, die in diesem Fall maximal 4096 Bits groß sein darf. Der Befehl "'json.loads"' erzeugt aus dem empfangenen Daten ein JSON-Objekt, dies ist für die weiter Verarbeitung des Paketinhaltes notwendig. Das Erzeugen einen JSON-Objekts ist nur möglich, da im \fullref{Sensorknoten:JSON} das Paket als JSON-Objekt gepackt wird. Das erzeugte JSON-Objekt wird in der Variable "'data"' gespeichert. Nachfolgenden werden die übertragenen Daten herausgefiltert und in die jeweiligen Variablen gespeichert, diese Daten werden für die Befüllung der Datenbank benötigt.
 
 \subsection{Befüllen der Datenbank}
 Damit mit Python eine Datenbank befüllt werden kann, muss zuerst eine Bibliothek eingebunden werden.
@@ -310,7 +324,7 @@ import MySQLdb as mdb
 \end{lstlisting}
 Die Bibliotheken MySQLdb wird eingebunden und mdb wird als Alias festgelegt.\hfill
 \noindent Danach muss der Datenbankkonnektor implementiert werden. Nachfolgenden der Quellcode für den Datenbankkonnektor.
-\begin{lstlisting}[caption=Datenbankkonnekor,frame=single,numbers=left,language=Python]
+\begin{lstlisting}[caption=Datenbankkonnekor,frame=single,numbers=left,language=Python,showstringspaces=false]
 try:
 	con = mdb.connect('localhost', 'root', 'Piroot',
 	'Sicherheitssystem')
@@ -326,7 +340,7 @@ Im try Block wird über die Funktion mdb.connect eine Verbindung hergestellt und
 Im zweiten Block, dem except\_mysql.Error, e Block wird der Fehlerfall abgedeckt. Sollte die Funktion mdb.connect keine erfolgreiche Verbindung herstellen, gibt die print Funktion die Meldung "SQL-Connection failed. Error \%d:\%s" aus. An die Stelle des Platzhalters \%d wird der Fehlercode und an den Platzhalter \%s die Fehlermeldung die zurückgegeben wird geschrieben, die die Datenbank liefert.
 
 Im nächsten Abschnitt ist der komplette Quellcode der Befüllung der Datenbank zu sehen.
-\begin{lstlisting}[caption=Befüllen der Datenbank,frame=single,numbers=left,language=Python]
+\begin{lstlisting}[caption=Befüllen der Datenbank,frame=single,numbers=left,language=Python,showstringspaces=false]
 with con:
 	cur = con.cursor()
 	row_count = cur.execute("SELECT KN_ID FROM Sensorknoten
@@ -365,7 +379,7 @@ with con:
 con.close()
 \end{lstlisting}
 Der große Block, beginnend mit with con und endend mit con.close(), beinhaltet die Befüllung der Datenbank. with con bedeutet, dass der nachfolgenden Quellcode mit dem Konnektor aus Kapitel \fullref{con} durchgeführt wird und das close.con(), dass die Verbindung getrennt wird. Im ersten Abschnitt wird mit dem Befehl con.cursor() ein Cursor-Objekt in der Variable cur gespeichert, dieses Cursor-Objekt wird dazu benötigt um die Datensätze in der Datenbank zu durchlaufen. Mit dem cur.execute Befehl werden die in der Select-Anweisung festgelegten Datensätze durchsucht und in die Variable row\_count gespeichert. Die Variable row\_count dient zur Auswertung, ob ein Datensatz vorhanden ist oder nicht.\hfill
-\begin{lstlisting}[caption=If-Anweisung des Befüllen der Datenbank,frame=single,numbers=left,language=Python]
+\begin{lstlisting}[caption=If-Anweisung des Befüllen der Datenbank,frame=single,numbers=left,language=Python,showstringspaces=false]
 if row_count == 1:
 	KN_ID = cur.fetchone()
 	cur.execute("""UPDATE Sensorknoten SET
@@ -381,7 +395,7 @@ if row_count == 1:
 	VALUES(%s, %s)""", (KN_ID, MessID))
 \end{lstlisting}\label{If-Anweisung}
 \noindent In der If-Anweisung wird überprüft ob ein Datensatz vorhanden ist, ist ein Datensatz vorhanden, springt das Programm in den nachfolgenden if Block.In diesem Block wird zuerst die zuvor selektierete Knotenid mit dem Befehl cur.fetchone() geholt und in die Variable KN\_ID gespeichert. Danach wird mit den Daten aus Kapitel \fullref{Daten} der Datenbankeintrag mit dem SQL-Befehl UPDATE erneuert. Mit dem SQL-Befehl INSERT wird ein neuer Datensatz in der Datenbanktabelle Messwerte erzeugt. Die ID des zuletzt erstellten Datenbankeintrag wird mit dem Befehlt cur.lastrowid in die Variable MessID gespeichert. Diese MessID wird benötigt, damit die Verknüpfung der Datenbank Tabellen mit dem nächsten Befehlt stattfinden kann. Der letzte INSERT-Befehlt verknüpft die Datenbanken, dies ist wichtig für die spätere Suche nach den richtigen Werten für die Anzeige auf der Webseite. 
-\begin{lstlisting}[caption=Ifelse-Anweisung des Befüllen der Datenbank,frame=single,numbers=left,language=Python]
+\begin{lstlisting}[caption=Ifelse-Anweisung des Befüllen der Datenbank,frame=single,numbers=left,language=Python,showstringspaces=false]
 	# Wenn kein Datenbankeintrag gefunden wird,
 	wird ein neuer Datenbankeintrag erstellt
 elif row_count == 0:
@@ -406,7 +420,7 @@ Problematisch bei den Raspberry Pis ist die Zeitsynchronisierung. Die Zeit wird 
  
 \section{Webseite}
 %Harm
-\subsection{Login und Logout}
+\subsection{Login und Logout}\label{login}
 
 Der Login, die Registrierung und der Logout ist nach der Anleitung von
 wikiHow (\cite{PHP-Login:online}) erstellt und entsprechend angepasst worden. 
@@ -509,7 +523,7 @@ Die Übersichtsseite zeigt einen Übersicht über die angeschlossenen Sensorknot
 Die Besonderheit der Übersichtsseite ist die Datenbankabfragen, sie setzt sich aus mehreren Befehlen zusammen. Die Abfrage findet in der Datei sensordaten.php statt und kann wie folgt Visualisiert werden:
 \begin{figure}[htp]
 	\includegraphics[width=\textwidth]{Bilder/Kapitel4/uebersichtjoin.jpg}
-	\caption[Mengendarstellung der Übersichtsseite]{Selbsterstellte Darstellung des Join Befehls über die Tabellen Sensorknoten, Sensorknoten\_Messwerte, Messwerte und Sensoren}
+	\caption[Mengendarstellung der Übersichtsseite]{Selbsterstelle Darstellung des Join Befehls über die Tabellen Sensorknoten, Sensorknoten\_Messwerte, Messwerte und Sensoren}
 	\label{fig:Kapitel4/uebersichtjoin.jpg}
 \end{figure}
 Die Datenbankabfrage besteht aus vier einzelnen Tabellen, diese müssen zu einer zusammengeführt und gefiltert werden. Die Tabellen sind "'Sensorknoten"', "'Sensorknoten\_Messwerte"', "'Messwerte"' und "'Sensoren"'. Die Tabellen werden mit, wie in der Darstellung zusehen, mit ihren Schlüsseln mit einander Verknüpft. Hierzu werden die Primärschlüssel und die Fremdschlüssel der jeweiligen Tabellen mit einander abgeglichen. Durch diesen Vorgang wird eine "'virtuelle Tabelle"' erstellt. Ziel dieser Verknüpfung ist es, die Messwerte der jeweiligen Sensoren eines Sensorknoten zu filtern und auszugeben.
@@ -534,7 +548,7 @@ Die Datenbankabfrage besteht aus vier einzelnen Tabellen, diese müssen zu einer
 	Die Messdaten der jeweiligen Sensorknoten können für eine Visualisierung genutzt werden. Da die Daten mit jeweils einem eindeutigen Zeitstempel versehen werden, können diese für einen Graphen mit einer Zeitabhängigkeit genutzt werden. Die notwendigen Daten werden mit Hilfe des Joins der \fullref{fig:Kapitel4/uebersichtjoin.jpg1} zusammengebaut.
 	\begin{figure}[htp]
 		\includegraphics[width=\textwidth]{Bilder/Kapitel4/uebersichtjoin.jpg}
-		\caption[Mengendarstellung der Übersichtsseite]{Selbsterstellte Darstellung des Join Befehls über die Tabellen Sensorknoten, Sensorknoten\_Messwerte, Messwerte und Sensoren}
+		\caption[Mengendarstellung der Übersichtsseite]{Selbsterstelle Darstellung des Join Befehls über die Tabellen Sensorknoten, Sensorknoten\_Messwerte, Messwerte und Sensoren}
 		\label{fig:Kapitel4/uebersichtjoin.jpg1}
 	\end{figure}
 %TODO Screenshot der Statistik seite einbinden
@@ -579,7 +593,7 @@ Aktuelle Informationen der Sensoren können mit Hilfe der Webkamera kontrolliert
 Die Anzeige der Webkamera Seite erfolgt durch die Datei Kamera.php. Funktionserweiterungen über die Dateien kamera.js, kamera.php, kameraadresse.php,  kameraconfig.php und sensorknotenauswahl.php. Hierbei hat jede Datei eine gesonderte Aufgabe und kann bei Bedarf geändert werden ohne das die Funktionalität anderer Dateien beeinträchtigt wird.
 \begin{description}
 	\item[kamera.js] \hfill \\
-	Die Befüllung der Dropdown-Menüs übernimmt die Datei "'kamera.js"'. Diese lädt dynamisch die Daten mit Hilfe der anderen Dateien in die Dropdown-Menüs.
+	Die Befüllung der Dropdown-Menüs übernimmt die Datei "'kamera.js"'. Diese lädt dynamisch die Daten aus der Datenbank mit Hilfe der anderen Dateien in die Dropdown-Menüs.
 	\item[kamera.php] \hfill \\
 	In dieser Datei werden die Sensorknoten aus der Datenbank gefiltert, die eine aktivierte Kamera angeschlossen haben.
 	\item[sensorknotenauswahl.php] \hfill \\
@@ -589,7 +603,7 @@ Die Anzeige der Webkamera Seite erfolgt durch die Datei Kamera.php. Funktionserw
 	\item[kameraconfig.php] \hfill \\
 	Ist dafür zuständig die geänderten Einstellungen in der Datenbank zu speichern.
 \end{description}
-Auf der Webkamera Seite werden zunächst nur die Sensorknoten angezeigt, die eine aktivierte Kamera haben und ein Icon für die Einstellungen. Die Sensorknoten mit den aktivierten Kameras können über das Dropdown-Menü ausgewählt werden. Mit dem "Blablub-Button" kann eine Verbindung zur ausgewählten Kamera hergestellt werden, diese wird nach drücken des Buttons unterhalb der Auswahl angezeigt. In den Einstellungen kann über ein Dropdown-Menü der jeweilige Sensorknoten ausgewählt und über die Radiobuttons die Webkamera aktiviert bzw. deaktiviert werden. In den Dropdown-Menüs werden nur die Sensorknoten angezeigt, die mit der Zentraleinheit verbunden sind. 
+Auf der Webkamera Seite werden zunächst nur ein Icon für die Einstellungen und ein Dropdown-Menü mit den Sensorknoten die eine aktivierte Kamera haben. Die Sensorknoten mit den aktivierten Kameras können in dem Dropdown-Menü ausgewählt werden. Mit dem "Blablub-Button" kann eine Verbindung zur ausgewählten Kamera hergestellt werden, diese wird nach drücken des Buttons unterhalb der Auswahl angezeigt. In den Einstellungen kann über ein Dropdown-Menü der jeweilige Sensorknoten ausgewählt und über die Radiobuttons die Webkamera aktiviert bzw. deaktiviert werden. In den Dropdown-Menüs werden nur die Sensorknoten angezeigt, die mit der Zentraleinheit verbunden sind. 
 %Harm
 \subsection{Impressum}
 
