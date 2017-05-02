@@ -518,19 +518,20 @@ Aufgerufen wird die Funktion mit den Parametern Username, Passwort und der Daten
 \begin{figure} [htb]
 \begin{centering}
 \includegraphics{Bilder/Kapitel4/login_fehlgeschlagen.jpg}
-\caption[Meldung bei einer falschen Benutzer/Passwort Kombination]{Meldung bei einer falschen Benutzer/Passwort Kombination}
+\caption[Meldung bei einer falschen Benutzer/Passwort Kombination]{Meldung bei einer falschen Benutzer und Passwort Kombination}
 \label{computersaysno}
 \end{centering}
 \end{figure}
 
+%CHECK
 \subsubsection{checkbrute}
-%TODO: Belegen
-Die Funktion "`checkbrute()"' prüft ob möglicherweise versucht wird eine Brute-Force-Attacke durchzuführen. Eine Brute-Force-Attacke ist das systematische Ausprobieren von Kennwörtern. Ein Kennwort kann mittels Brute-Force-Attacke immer irgendwann herausgefunden werden. Die einzige Schutzmöglichkeit besteht darin, den Aufwand unermesslich groß zu machen. Ein handelsüblicher PC kann mittlerweile mehrere Millionen von Passwörtern pro Sekunde ausprobieren. Dies führt dazu, dass ein einfaches (kurzes) Passwort sehr schnell geknackt werden kann. Ein Passwort, dass nur aus Kleinbuchstaben besteht und ein Zeichen lang ist hat somit 26 verschiedene Möglichkeiten. Erhöht man die Länge um 2 hat man bereits $26^2$ verschiedene Möglichkeiten. Ein aktuelles Passwort sollte immer mindestens 8 Zeichen lang sein und mindestens einen Kleinbuchstaben, einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten. Daraus ergibt sich $94^8$ was 6.095.689.385.410.816 verschiedenen Möglichkeiten entspricht. Durch eine "`Bremse"' kann die Dauer bis alle potentiellen Passwörter ausprobiert wurden weiter erhöht werden. Eine solche "`Bremse"' ist beispielsweise das von der Funktion "`checkbrute()"' eingesetzte blockieren von weiteren Einloggversuchen nach 5 fehlgeschlagenen Eingaben.\\
-Die Funktion "`checkbrute()"' prüft ob in den letzten zwei Stunden mehr als 5 fehlgeschlagene Einloggversuche protokolliert wurden und sperrt den Benutzer. Der Benutzer muss erst über die Datenbank wieder freigeschaltet werden bevor ein erneutes Einloggen wieder möglich ist.
+Die Funktion "`checkbrute()"' prüft, ob  ein Angreifer möglicherweise versucht eine Brute-Force-Attacke durchzuführen. Eine Brute-Force-Attacke ist das systematische Ausprobieren von Kennwörtern. Ein Kennwort kann mittels Brute-Force-Attacke immer irgendwann herausgefunden werden. Die einzige Schutzmöglichkeit besteht darin, den Aufwand unermesslich groß zu machen. Ein handelsüblicher PC kann mittlerweile mehrere Millionen von Passwörtern pro Sekunde ausprobieren. Dies führt dazu, dass ein einfaches (kurzes) Passwort sehr schnell geknackt werden kann. Ein Passwort, dass nur aus Kleinbuchstaben besteht und ein Zeichen lang ist, hat somit 26 verschiedene Möglichkeiten. Wird die Länge auf 2 erhöht, gibt es bereits $26^2$ verschiedene Möglichkeiten. Ein aktuelles Passwort sollte immer mindestens 8 Zeichen lang sein und mindestens einen Kleinbuchstaben, einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten. Daraus ergibt sich $94^8$ was 6.095.689.385.410.816 verschiedenen Möglichkeiten entspricht. Durch eine "`Bremse"' kann die Dauer bis alle potentiellen Passwörter ausprobiert wurden weiter erhöht werden. Eine solche "`Bremse"' ist beispielsweise das von der Funktion "`checkbrute()"' eingesetzte blockieren von weiteren Einloggversuchen nach 5 fehlgeschlagenen Eingaben.
+
+Die Funktion "`checkbrute()"' prüft, ob in den letzten zwei Stunden mehr als 5 fehlgeschlagene Einloggversuche protokolliert wurden und sperrt den Benutzer. Der Benutzer muss erst über die Datenbank wieder freigeschaltet werden, bevor ein erneutes Einloggen wieder möglich ist.
 
 \subsubsection{login\_check}
-Diese Funktion prüft ob ein Anwender eingeloggt ist und setzt den entsprechenden
-Parameter, der entscheidet was der Anwender auf der Website sieht. Ist der Anwender korrekt eingeloggt sieht er die korrekte Webseite. Für den Fall, dass der Anwender nicht eingeloggt ist sieht er wie in \fullref{notloggedin} die Information, dass er sich bitte einloggen soll.
+Diese Funktion prüft, ob ein Anwender eingeloggt ist und setzt den entsprechenden
+Parameter, der entscheidet, was der Anwender auf der Website sieht. Ist der Anwender korrekt eingeloggt sieht er die korrekte Webseite. Für den Fall, dass der Anwender nicht eingeloggt ist sieht er wie in \fullref{notloggedin} die Information, dass er sich bitte einloggen soll.
 
 \begin{figure} [htb]
 \begin{centering}
