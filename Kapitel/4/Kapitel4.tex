@@ -464,7 +464,80 @@ elif row_count == 0:
 \subsection{Problematik Zeitsynchronisierung}\label{Zeitsynchronisierung}
 Problematisch bei den Raspberry Pis ist die Zeitsynchronisierung. Die Zeit wird nur synchronisiert und somit aktuell gehalten, wenn der Raspberry Pi mit einem Netzwerk mit funktionierender Internetverbindung verbunden ist. In der Datenbank auf der Zentraleinheit werden Messwerte mit einem Zeitstempel gespeichert. Problematisch ist hierbei, dass ein täglicher Cronjob Messwerte löscht, die älter als eine Woche sind. Um die Problematik mit der Zeitsynchronisierung und damit verbunden Problemen zu lösen, musste eine schnelle und zuverlässige Lösung gefunden werden. Die in \fullref{Sensoren_Planung} vorgestellte Erweiterungsplatine RPi-Explorer 700 von Joy-IT beinhaltet einen internen Zeitgeber. Dieser Zeitgeber, kann die Uhrzeit des Raspberry Pi auf dem aktuellen Stand halten. Dazu muss auf der RPi-Explorer 700 eine Batterie montiert werden und die Funktionalität auf der Zentraleinheit aktiviert werden. Dies geschieht mit folgenden Befehlen auf der Zentraleinheit:
 %TODO: Befehle aus Pi auslesen
- 
+\begin{lstlisting}[caption=Aktivieren des I2C Bus,frame=single,numbers=left,language=bash,showstringspaces=false]
+sudo raspi-config
+\end{lstlisting}
+Zuerst muss in den Raspberry Pi Einstellungen unter "'raspi-config"' im Menü "'Advanced"' der I2C Bus aktiviert werden.
+
+Danach muss Software zur Konfiguration installiert werden:
+\begin{lstlisting}[caption=Installation für die Konfiguration,frame=single,numbers=left,language=bash,showstringspaces=false]
+sudo apt-get install python-smbus i2c-tools
+\end{lstlisting}
+Mit diesem Befehl werden die Pakete "'python-smbus"' und "'i2c-tools"' auf dem Raspberry Pi installiert.
+
+Nachfolgend wir getestet werden, welche Module am I2C-Bus aktiviert sind:
+\begin{lstlisting}[caption=I2C-Bus,frame=single,numbers=left,language=bash,showstringspaces=false]
+sudo i2cdetect -y 1
+\end{lstlisting}
+An Position 68 die Zahl 68. Die Zahl 68 ist die Adresse, an welche das Modul geschrieben werden muss.
+
+Nun muss festgestellt werden, welcher RTC Chip verwendet wird, in diesem Fall das Modul ds3231. Dieses Modul muss in die Bootconfig eingefügt werden. Folgender Befehl führt in die Bootconfig:
+\begin{lstlisting}[caption=Bootconfig,frame=single,numbers=left,language=bash,showstringspaces=false]
+sudo nano /boot/config.txt
+\end{lstlisting}
+Mit diesem Befehl kann in die Bootconfig geschrieben werden.
+
+An die letzte Zeile muss das zuvor verwendete Modul eingetragen werden:
+\begin{lstlisting}[caption=Eintrag Bootconfig,frame=single,numbers=left,language=bash,showstringspaces=false]
+dtoverlay=i2c-rtc,ds3231
+\end{lstlisting}
+
+Nun muss der Raspberry Pi mit dem Befehl neu gestartet werden: 
+\begin{lstlisting}[caption=Neustart Raspberry Pi,frame=single,numbers=left,language=bash,showstringspaces=false]
+sudo reboot now
+\end{lstlisting}
+Danach wird mit folgenden Befehl kontrolliert, ob das neue Modul aktiv ist:
+\begin{lstlisting}[caption=I2C-Bus Kontrolle,frame=single,numbers=left,language=bash,showstringspaces=false]
+sudo i2cdetect -y 1
+\end{lstlisting}
+An der Position 68 steht nun keine 68 mehr, sondern UU. D.h. Das neue Modul ist aktiv.
+
+Der alte Zeitgeber muss entfernt werden:
+\begin{lstlisting}[caption=Entfernen des Zeitgebers,frame=single,numbers=left,language=bash,showstringspaces=false]
+sudo apt-get -y remove fake-hwclock
+sudo update-rc.d -f fake-hwclock remove
+\end{lstlisting}
+Mit diesen beiden Befehlen wird der alte Zeitgeber entfernt.
+
+Anschließend muss das Skript des alten Zeitgebers auskommentiert werden. Diese befindet sich in folgender Datei:
+\begin{lstlisting}[caption=Zeitgeber Skript,frame=single,numbers=left,language=bash,showstringspaces=false]
+sudo nano /lib/udev/hwclock-set
+\end{lstlisting}
+Hier müssen die Zeilen:
+\begin{lstlisting}[caption=Auskommentieren in Zeitgeber Skript,frame=single,numbers=left,language=bash,showstringspaces=false]
+#if [ -e /run/systemd/system ] ; then
+# exit 0
+#fi
+\end{lstlisting}
+Mit dem nächsten Befehl kann überprüft werden ob der alte Zeitgeber deaktiviert wurde:
+\begin{lstlisting}[caption=Überprüfung des alten Zeitgebers,frame=single,numbers=left,language=bash,showstringspaces=false]
+hwclock -D -r
+\end{lstlisting}
+Ist der alte Zeitgeber deaktiviert, kann das neue Zeitgebermodul synchronisiert werden.
+
+Hierzu muss der Raspberry Pi an ein internetfähiges Netzwerk angeschlossen werden. Der Raspberry Pi holt sich automatisch die aktuelle Zeit aus dem Internet.
+
+Die synchronisierte Zeit muss auf das neue Zeitgebermodul geschrieben werden:
+\begin{lstlisting}[caption=Schreiben der Zeit auf das Zeitgebermodul,frame=single,numbers=left,language=bash,showstringspaces=false]
+sudo hwclock -w
+\end{lstlisting}
+Nun ist die synchronisierte Zeit aus dem Internet auf das neue Zeitgebermodul geschrieben. Der Raspberry Pi kann vom Internet entfernt werden.
+
+Mit dem nachfolgenden Befehl kann überprüft werden, ob die Zeit des neuen Zeitgebers aktuell ist:
+\begin{lstlisting}[caption=Lesen der Zeit auf das Zeitgebermodul,frame=single,numbers=left,language=bash,showstringspaces=false]
+sudo hwclock -r
+\end{lstlisting}
+Die aktuelle Zeit des Zeitgebers wird ausgegeben. Die Zeit auf dem Raspberry Pi wird nun von dem neuen Zeitgeber ohne Internetverbindung aktuell gehalten.
 \section{Webseite} \label{Webseite}
 %Harm
 \subsection{Login und Logout}\label{login}
