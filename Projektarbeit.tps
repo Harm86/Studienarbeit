@@ -35,8 +35,8 @@ Class=LaTeXView
 Document=Projektarbeit.tex
 
 [Frame1_View0,0]
-TopLine=42
-Cursor=2425
+TopLine=108
+Cursor=4674
 
 [Frame2]
 Flags=0
@@ -71,7 +71,7 @@ Class=LaTeXView
 Document=Kapitel\2\Kapitel2.tex
 
 [Frame3_View0,0]
-TopLine=298
+TopLine=319
 Cursor=12214
 
 [Frame4]
@@ -89,7 +89,7 @@ Class=LaTeXView
 Document=Kapitel\3\Kapitel3.tex
 
 [Frame4_View0,0]
-TopLine=23
+TopLine=25
 Cursor=1652
 
 [Frame5]
