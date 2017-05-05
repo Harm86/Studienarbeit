@@ -176,7 +176,7 @@ Bei der Standardisierung der Standards 802.11b, 802.11g und 802.11a wurde \ac{WE
 \end{centering}
 \end{figure}
 
-Problematisch an diesem Verfahren ist, dass der Schlüssel bei jedem Teilnehmer eingetragen werden muss und somit nicht Geheim gehalten werden kann. Schwerwiegender ist , dass jedes verschlüsselte Frame am Anfang die gleiche Bytefolge des \ac{LLC}-Headers beinhaltet. Bestimmte \acp{IV} werden im Klartext übertragen, wodurch ein Angreifer nach etwa 5-6 Millionen Paketen den Schlüssel berechnen kann. Mittlerweile sind auch Anwendungen verfügbar, die selbst Datenpakete erzeugen und so in sehr kurzer Zeit, den Schlüssel berechnen können.(vgl. \cite{SWB-430171331})
+Problematisch an diesem Verfahren ist, dass der Schlüssel bei jedem Teilnehmer eingetragen werden muss und somit nicht geheim gehalten werden kann. Schwerwiegender ist, dass jedes verschlüsselte Frame am Anfang die gleiche Bytefolge des \ac{LLC}-Headers beinhaltet. Bestimmte \acp{IV} werden im Klartext übertragen, wodurch ein Angreifer nach etwa 5-6 Millionen Paketen den Schlüssel berechnen kann. Mittlerweile sind auch Anwendungen verfügbar, die selbst Datenpakete erzeugen und so in sehr kurzer Zeit, den Schlüssel berechnen können. (vgl. \cite{SWB-430171331})
 %TODO: Kann bei Seitenbedarf noch ausgebaut werden
 %Durch
 \subsubsection{\ac{WPA}} 
@@ -195,5 +195,6 @@ Wie aus der \fullref{wpa_funktionsweise} hervorgeht, werden der MICHAEL-Schlüss
 \end{figure}
 %Durch
 \subsubsection{\ac{WPA2}}
-\ac{WPA2} und \ac{WPA} sind nahezu identisch. \ac{CCMP} ersetzt \ac{TKIP} und die Hashfunktion MICHAEL. \ac{CCMP} basiert auf dem \ac{AES}-Verschlüsselungsstandard. (vgl. \cite{WPA2})
+\ac{WPA2} und \ac{WPA} sind nahezu identisch. \ac{CCMP} ersetzt \ac{TKIP} und die Hashfunktion MICHAEL. \ac{CCMP} basiert auf dem \ac{AES}-\\
+Verschlüsselungsstandard. (vgl. \cite{WPA2})
 %TODO: Falls jemand eine Idee hat wie man das noch ausschmücken kann... her damit!!!!

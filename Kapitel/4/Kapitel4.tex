@@ -13,16 +13,13 @@ bereitgestellt.
 %%
 %Harm
 \section{Netzwerkkonfiguration}
-%TODO: Einleitender satz
-%TODO: WLAN-Stick
-%TODO: Acro WLAN Anmerkung: WLAN ist eine allgemein bekannte Abkürzung und muss nicht erklärt werden!!
 %Passt
 \subsection{WLAN}
-%TODO: Wird von der Zentraleinheit aufgespannt
-Es wird ein Funknetz auf Basis des 802.11n Standards verwendet. Aufgespannt wird das WLAN von der Zentraleinheit, auf der zentrale Dienste bereitgestellt werden. Als Name wurde Pinet festgelegt, der von allen gesehen werden kann. In der Tabelle (siehe \fullref{tab:WLAN-Konfiguration}) sind die einzelnen Optionen aufgeführt und erläutert.
+
+Es wird ein Funknetz auf Basis des 802.11n Standards verwendet. Aufgespannt wird das WLAN von der Zentraleinheit, auf der zentrale Dienste bereitgestellt werden. \\ Als Name wurde Pinet festgelegt, der von allen gesehen werden kann. In der Tabelle (siehe \fullref{tab:WLAN-Konfiguration}) sind die einzelnen Optionen aufgeführt und erläutert.
 
  
-\begin{table}
+\begin{table}[htb]
 \caption{WLAN-Konfigurationsdetails}
 \label{tab:WLAN-Konfiguration}
 \begin{tabular}{p{0.5\textwidth} p{0.45\textwidth}}
@@ -87,7 +84,7 @@ import <Paketname> as <Aliasname>
 # Hinzufügen einer Methode aus einem Paket
 from <Paketname> import <Methodenname>
 \end{lstlisting}
-%TODO: Tabelle daraus machen
+
 Folgende Pakete werden benötigt:
 \begin{enumerate}
 	\item RPi.GPIO
@@ -132,7 +129,8 @@ Die Sensoren, aus dem \fullref{Sensoren_Planung}, haben eine feste Zuweisung an 
 % Lichtsensor: Problematisch ist hierbei das Tageslicht, da es das gleiche Verhalten beim Sensor auslöst.
 % Schocksensor:Eine Umsetzung mit diesem Modell ist nicht mögich, da eine starke Erschütterung zum detektieren benötigt.
 Bevor die Sensoren implementiert werden können, muss eine Softwarearchitektur aufgebaut werden. Zuerst gibt es die Auswahl eines objektorientierten oder nicht objektorientierten Ansatzes.
-Ein Vorteil der \ac{OOP} ist die Erweiterungsfähigkeit. Eine neue Funktion kann in der Klasse niedergeschrieben werden und zur Laufzeit ausgeführt werden. Des Weiteren können mehrere Instanzen einer Klasse zur Laufzeit erzeugt werden. Somit kann eine Hauptklasse erstellt werden, die dann zur Laufzeit mehrere Objekte erzeugen kann, die jeweils eine eigene Funktionalität ausüben. Eine weitere Problemstellung in der Entwicklung der Softwarearchitektur ist die Klassenhierarchie. Statt den gewöhnlichen Ansatz einer Hauptklasse und dann jeweils einer Unterklasse mit einer Funktionalität auszubauen, wird hierbei der Ansatz einer monolithischen Architektur gewählt. Im Sensorknoten werden nur Sensoren implementiert. Damit würde es eine Überklasse geben, wovon jeder Sensor erben würde. Beim monolithischen Ansatz gibt es nur eine Klasse, die alle Methoden enthält. Erst bei der Initialisierung kann entschieden werden, welche Funktion ausgeführt werden soll. Eine Instanz einer monolithischen Klasse kann somit, falls es einen Anlass dafür gibt, unabhängig von der Initialisierung ihre Funktionsweise wechseln. Beim klassischen objektorientierten Ansatz müsse eine komplett neue Instanz erzeugt werden. Ein Nachteil der monolithischen Architektur ist die Anhäufung von Methoden in einer Klasse. Ab einem gewissen Grad wird die Klasse schwer wartbar, da zu viele Methoden kontrolliert werden müssen. Diese Größe der Klasse kann weitere Fehler, wie das nicht korrekte Bereinigen von Bugs mit sich bringen. Das größte Problem dieser Architektur ist die fehlerhafte Instanziierung eines Objektes. Zur Darstellung des Problems dient folgendes Programmbeispiel:
+Ein Vorteil der \ac{OOP} ist die Erweiterungsfähigkeit. Eine neue Funktion kann in der Klasse niedergeschrieben werden und zur Laufzeit ausgeführt werden. Des Weiteren können mehrere Instanzen einer Klasse zur Laufzeit erzeugt werden. Somit kann eine Hauptklasse erstellt werden, die dann zur Laufzeit mehrere Objekte erzeugen kann, die jeweils eine eigene Funktionalität ausüben. Eine weitere Problemstellung in der Entwicklung der Softwarearchitektur ist die Klassenhierarchie. Statt den gewöhnlichen Ansatz einer Hauptklasse und dann jeweils einer Unterklasse mit einer Funktionalität auszubauen, wird hierbei der Ansatz einer monolithischen Architektur gewählt. Im Sensorknoten werden nur Sensoren implementiert. Damit würde es eine Überklasse geben, wovon jeder Sensor erben würde. Beim monolithischen Ansatz gibt es nur eine Klasse, die alle Methoden enthält. Erst bei der Initialisierung kann entschieden werden, welche Funktion ausgeführt werden soll. Eine Instanz einer monolithischen Klasse kann somit, falls es einen Anlass dafür gibt, unabhängig von der Initialisierung ihre Funktionsweise wechseln. Beim klassischen objektorientierten Ansatz müsse eine komplett neue Instanz erzeugt werden. Ein Nachteil der monolithischen Architektur ist die Anhäufung von Methoden in einer Klasse. Ab einem gewissen Grad wird die Klasse schwer wartbar, da zu viele Methoden kontrolliert werden müssen. Diese Größe der Klasse kann weitere Fehler, wie das nicht korrekte Bereinigen von Bugs mit sich bringen. Das größte Problem dieser Architektur ist die fehlerhafte Instanziierung eines Objektes. \\
+Zur Darstellung des Problems dient folgendes Programmbeispiel:
 
 \begin{lstlisting}[caption=Fehlerhafte Instanziierung eines Sensorobjektes,frame=single,numbers=left,language=Python, showstringspaces=false]
 # Initialisierung des Mikrofons
@@ -158,9 +156,8 @@ Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor
 			Die Nummerierung der Digital\_Pins kann ebenfalls aus der \fullref{tab:Pinbelegung} gelesen werden. Die Angabe wird für Sicherheitsüberprüfungen und zum Auslesen von den digitalen Sensorwerten benutzt.
    	\end{description}
 	Der Sensorname ermittelt mit Hilfe der "'socket"' Bibliothek den Namen des Betriebssystems. Damit wird der Name des Sensorknotens ermittelt. Dieser wird für die Zuweisung der Sensoren zum Sensorknoten in der Datenbank genutzt. Der eigentliche Name des jeweiligen Sensors ist für den Sensorknoten nicht von Bedeutung, denn die SEN\_ID ist immer eindeutig. Der Name des Sensors wird mit Hilfe der Datenbank bestimmt.
-	%TODO: Verknüpfung zur Zentraleinheit : Datenbank. Übersetzung SEN_ID zum Sensornamen
-	Neben der SEN\_ID ist der Messwert in der zu übertragenden Nachricht an die Zentraleinheit enthalten. Der Messwert wird zu Beginn als ein leerer String vorgeladen. Python setzt keine Deklaration vor der Nutzung einer Variable voraus. Die Messwertvariable wird dennoch deklariert, damit der Quellcode wartbarer wird. Die Status Variable dient als Zustandskontrolle des Sensors. Der Status des Sensors wird auf der Webseite wie im Kapitel BLAARRRGH %TODO: Verweis auf Website Übersicht mit dem Statusbit!
-	erläutert, dargestellt. Der Zustand ändert sich explizit, sobald ein Sensor detektiert wird. Die Status-Variable kann folgende Zustände annehmen:
+	Neben der SEN\_ID ist der Messwert in der zu übertragenden Nachricht an die Zentraleinheit enthalten. Der Messwert wird zu Beginn als ein leerer String vorgeladen. Python setzt keine Deklaration vor der Nutzung einer Variable voraus. Die Messwertvariable wird dennoch deklariert, damit der Quellcode wartbarer wird. Die Status Variable dient als Zustandskontrolle des Sensors. \\
+	Der Status des Sensors wird auf der Webseite wie im \fullref{Webseite}	erläutert, dargestellt. Der Zustand ändert sich explizit, sobald ein Sensor detektiert wird. Die Status-Variable kann folgende Zustände annehmen:
 	\begin{description}
 		\item[Status = 0] \hfill \\
 			Bedeutet, dass der Sensor nicht angeschlossen ist. Dies ist außerdem der Defaultzustand aller Sensorobjekte.
@@ -217,13 +214,12 @@ Wie in Zeile 2 zu sehen ist, wird ein Sensorobjekt, mit der Bezeichnung "'sensor
 	Der DHT11 Sensor liefert mit der Adafruit Bibliothek beide Messwerte gemeinsam aus. Aufgrund der Programmarchitektur - ein Objekt soll nur eine Funktion haben - wird die Funktionalität in zwei Methoden aufgeteilt. Aufgrund der hohen Ähnlichkeit der beiden Arbeitsweisen werden diese gemeinsam in einem Abschnitt erläutert. Der DHT11 Sensor ist einer der beiden Sensoren, der ohne analoge Signale arbeitet. Damit wird ebenfalls die Kontrollmöglichkeit des Sensors eingeschränkt. Die Implementierung des Temperatursensors ist wie folgt:
 	\lstinputlisting[caption=Implementierung der Temperaturfühlerfunktion des DHT11 Sensors,frame=single,numbers=left,language=Python, firstline=129, lastline=148]{Quellcode/sensor.py}
 	Die Adafruit\_DHT Bibliothek liefert mit der Funktion "'read.retry()"' eine Möglichkeit den DHT11 Sensor auszulesen. Der erste Übergabeparameter für diese Funktion ist der Modulname des Sensors. Hierbei können laut der Dokumentation der Adafruit DHT Bibliothek\cite{Adafruit47:online} "'11"', entsprechend dem DHT11, "'22"', entsprechend dem DHT22 und "'2302"', entsprechend dem AM2302 Sensor, angegeben werden. Nach der Angabe des Moduls folgt die Eingabe des verwendeten digitalen Pins. Die Funktion liefert als Rückgabewert ein Array mit zwei Speicherstellen. An der Stelle 0 wird die Luftfeuchtigkeit und an der Position 1 die Temperatur gespeichert. Dies hat zur Folge, dass in Zeile zwei die Position "'1"' der Funktionsrückgabe gespeichert wird.
-	 %TODO: Grad Zeichen hier korrigieren!
-	Der digitale Sensor hat keine Möglichkeit eine unabhängige Fehlerüberprüfung zu gewährleisten. Daher wird zur Fehlerabhandlung der Messbereich des Sensors als Richtwert genommen. Falls die gemessene Temperatur außerhalb eines festgelegten Bereiches liegt, wird angenommen, dass der Sensor defekt sein muss. Hier ist die einzige Unterscheidung zwischen der Temperaturmethode und der Luftfeuchtigkeitsmethode. Bei der Temperatur wird der Bereich 0 bis kleiner gleich 50$\circ$C , während die Luftfeuchtigkeit zwischen 0 und kleiner gleich 95\% gemessen werden kann. Sollte sich der Messwert im messbaren Bereich befinden, wird der Status auf eine "'1"' und der Messwert auf den gemessenen Wert gesetzt. Der Messwert muss jedoch zuvor vom Float-Datentyp in einen Text konvertiert werden, damit es keine Darstellungsprobleme auf der Webseite gibt. Falls kein DHT11 Sensor angeschlossen ist, wird die Funktion in Zeile zwei kein Objekt "'temperatur"' erzeugen. Python besitzt die Fähigkeit auf nicht vorhandene Objekte in einer Kontrollstruktur zu prüfen. Damit wird die Zeile acht im Falle eines nicht vorhandenen Sensors erfüllt und die des Status und des Messwerts auf "'0"' gesetzt. Der else Pfad in Zeile elf wird im Falle eines defekten Sensors ausgeführt. Bei einer Fehlfunktion würde entweder eine "'0"' oder ein sehr hoher Wert gemessen werden. Abschließend werden die Daten mittels der senden Methode an den Server geschickt.
+	Der digitale Sensor hat keine Möglichkeit eine unabhängige Fehlerüberprüfung zu gewährleisten. Daher wird zur Fehlerabhandlung der Messbereich des Sensors als Richtwert genommen. Falls die gemessene Temperatur außerhalb eines festgelegten Bereiches liegt, wird angenommen, dass der Sensor defekt sein muss. Hier ist die einzige Unterscheidung zwischen der Temperaturmethode und der Luftfeuchtigkeitsmethode. Bei der Temperatur wird der Bereich 0 bis kleiner gleich 50$^\circ$C, während die Luftfeuchtigkeit zwischen 0 und kleiner gleich 95\% gemessen werden kann. Sollte sich der Messwert im messbaren Bereich befinden, wird der Status auf eine "'1"' und der Messwert auf den gemessenen Wert gesetzt. Der Messwert muss jedoch zuvor vom Float-Datentyp in einen Text konvertiert werden, damit es keine Darstellungsprobleme auf der Webseite gibt. Falls kein DHT11 Sensor angeschlossen ist, wird die Funktion in Zeile zwei kein Objekt "'temperatur"' erzeugen. Python besitzt die Fähigkeit auf nicht vorhandene Objekte in einer Kontrollstruktur zu prüfen. Damit wird die Zeile acht im Falle eines nicht vorhandenen Sensors erfüllt und die des Status und des Messwerts auf "'0"' gesetzt. Der else Pfad in Zeile elf wird im Falle eines defekten Sensors ausgeführt. Bei einer Fehlfunktion würde entweder eine "'0"' oder ein sehr hoher Wert gemessen werden. Abschließend werden die Daten mittels der senden Methode an den Server geschickt.
 	%Hacken
 \subsubsection*{Der Lichtsensor}
 	Beim Lichtsensor handelt es sich um einen analogen Photowiderstand, der abhängig von der Helligkeit des Lichts, einen niedrigen oder hohen Widerstand besitzt. Dieser analoge Widerstandswert wird am \ac{A/D-Wandler} in einen digitalen Messwert umgewandelt. Die Funktionalität ist wie folgt:
 	\lstinputlisting[caption=Implementierung des Lichtssensors,frame=single,numbers=left,language=Python, firstline=207, lastline=233]{Quellcode/sensor.py}
-	Da es sich bei dem Lichtsensor um einen analogen Sensor handelt, kann die "'sensorcheck\_analog()"' Funktion überprüfen, ob der Sensor angeschlossen ist. Der Messwertbereich der Kontrollstruktur in Zeile fünf entscheidet ab welchem Lichteinfall der Sensor reagieren soll. Die Grenzwerte wurden empirisch festgestellt und festgelegt, da der Sensor keine weitere Möglichkeit hierfür bietet. Diese Grenzwerte sind abhängig von, Positionierung des Sensors, Tageszeit, allgemeiner Lichteinfall in dem Zimmer, mögliche Lichtquellen im Zimmer und der Nutzungsart des Zimmers. In einer Küche gibt es beispielsweise mehr Störquellen als in einer Abstellkammer. Aus diesem Grund sollte der Sensor vor jeder Nutzung korrekt eingestellt werden. Der Status und der Messwert werden wie gehabt an den Server geschickt.
+	Da es sich bei dem Lichtsensor um einen analogen Sensor handelt, \\ kann die "'sensorcheck\_analog()"' Funktion überprüfen, ob der Sensor angeschlossen ist. Der Messwertbereich der Kontrollstruktur in Zeile fünf entscheidet ab welchem Lichteinfall der Sensor reagieren soll. Die Grenzwerte wurden empirisch festgestellt und festgelegt, da der Sensor keine weitere Möglichkeit hierfür bietet. Diese Grenzwerte sind abhängig von, Positionierung des Sensors, Tageszeit, allgemeiner Lichteinfall in dem Zimmer, mögliche Lichtquellen im Zimmer und der Nutzungsart des Zimmers. In einer Küche gibt es beispielsweise mehr Störquellen als in einer Abstellkammer. Aus diesem Grund sollte der Sensor vor jeder Nutzung korrekt eingestellt werden. Der Status und der Messwert werden wie gehabt an den Server geschickt.
 	%Hacken
 	
 \subsubsection*{Lichtschranke und Schocksensor}
@@ -301,8 +297,6 @@ Damit die Zentraleinheit die Anforderungen, welche im \fullref{Planung} festgele
 \end{description}
 \subsection{Erstellen der Datenbank}
 Da sich die Anforderungen während der Implementierung geändert haben, musste die Datenbank angepasst werden. Für den Login mussten zwei neue Datenbanktabellen erstellt werden. Der Datenbankentwurf für den Login sieht folgendermaßen aus:
-%TODO: Datenbankentwurf Login. richtig?
-%TODO: Bild verschieben
 \begin{figure}[htp]
 	\begin{center}
 		\includegraphics{Bilder/Kapitel4/db_login.jpg}
@@ -342,8 +336,9 @@ s.listen(5)
 msg = 'Thank you for connecting'
 \end{lstlisting}
 Mit dem Befehl "'socket.socket()"' wird eine neue Socket-Instanz erzeugt und in der Variable "'s"' gespeichert. Danach wird die IP-Adresse der Zentraleinheit in der Variable "'host"' und ein beliebiger Port der Zentraleinheit in die Variable "'port"' gespeichert. Durch den Aufruf "'s.bind((host, port))"' wird die zuvor gespeicherte IP-Adresse und der Port der Zentraleinheit, an den Socket gebunden. D.h. die Socketschnittstelle der Zentraleinheit ist klientseitig unter der zuvor festgelegten IP-Adresse und Port erreichbar. Mit dem Befehl "'s.listen(5)"' wird die Zentraleinheit in den passiven Modus geschaltet und "'hört"' ob Verbindungsanfragen ankommen. Der übergebene Parameter, in diesem Fall "'5"', bestimmt wie viele Verbindungsversuche gepuffert werden. Bei einer erfolgreichen Verbindung wird die Nachricht in Zeile sechs an den Klienten geschickt.
-
 Im nächsten Codeabschnitt wird beschrieben, wie die Schnittstelle eine Verbindung annimmt und wie die empfangenen Daten gespeichert werden.
+\\
+\\
 \begin{lstlisting}[caption=Speichern der empfangenen Daten,frame=single,numbers=left,language=Python,showstringspaces=false]
 while True:
 	c, addr = s.accept()
@@ -463,7 +458,6 @@ elif row_count == 0:
  %Hacken
 \subsection{Problematik Zeitsynchronisierung}\label{Zeitsynchronisierung}
 Problematisch bei den Raspberry Pis ist die Zeitsynchronisierung. Die Zeit wird nur synchronisiert und somit aktuell gehalten, wenn der Raspberry Pi mit einem Netzwerk mit funktionierender Internetverbindung verbunden ist. In der Datenbank auf der Zentraleinheit werden Messwerte mit einem Zeitstempel gespeichert. Problematisch ist hierbei, dass ein täglicher Cronjob Messwerte löscht, die älter als eine Woche sind. Um die Problematik mit der Zeitsynchronisierung und damit verbunden Problemen zu lösen, musste eine schnelle und zuverlässige Lösung gefunden werden. Die in \fullref{Sensoren_Planung} vorgestellte Erweiterungsplatine RPi-Explorer 700 von Joy-IT beinhaltet einen internen Zeitgeber. Dieser Zeitgeber, kann die Uhrzeit des Raspberry Pi auf dem aktuellen Stand halten. Dazu muss auf der RPi-Explorer 700 eine Batterie montiert werden und die Funktionalität auf der Zentraleinheit aktiviert werden. Dies geschieht mit folgenden Befehlen auf der Zentraleinheit:
-%TODO: Befehle aus Pi auslesen
 \begin{lstlisting}[caption=Aktivieren des I$^2$C Bus,frame=single,numbers=left,language=bash,showstringspaces=false]
 sudo raspi-config
 \end{lstlisting}
@@ -595,7 +589,7 @@ beschrieben werden:
 
 %Hacken
 \subsubsection{sec\_session\_start}
-%TODO: Session-ID und Cookie erklähren - Erledigt?
+
 Diese Funktion vergibt eine Session-ID und legt fest, dass Cookies verwendet werden. Die Session-ID ermöglicht es Anfragen eines Clients zuordnen zu können und Antworten oder Aktualisierungen an diesen zu senden. Die Session-ID wird vom Server generiert und per Cookie an den Client übertragen. Der Client speichert das Cookie ab und sendet bei jeder Anfrage das Cookie (mit der Session-ID) an den Server. Wird keine oder eine falsche Session-ID übertragen erhält der Benutzer, die Meldung, dass er sich zuerst am System anmelden muss. Durch den Anmelde-Vorgang wird dem Client eine neue Session-ID zugewiesen.
 
 \subsubsection{login}
@@ -630,7 +624,7 @@ Parameter. Der Parameter entscheidet, was der Anwender auf der Webseite sieht. I
 
 %Hacken
 \subsubsection{esc\_url}
-%TODO: prüfen
+
 Auf der Registrierungsseite finden Benutzereingabe statt, die in die Datenbank geschrieben werden. Um Cross-Site-Scripting zu verhindern, wird diese Funktion verwendet, das "`Action"'-Attribut zu "`bereinigen"'. Die Bereinigung findet über einen regulären Ausdruck statt, der alle Zeichen ausschließt und entfernt. Als Folge daraus bleibt das "`Action"'-Attribut, des Eingabeformulars leer. Dies ist nicht weiter problematisch, da die Registrierung über andere Skripte abgewickelt wird.
 %Check
 \subsubsection{forms.js}
@@ -693,12 +687,9 @@ Die Datenbankabfrage besteht aus vier einzelnen Tabellen. Diese müssen zu einer
 %Bild
 
 %Alex
-\newpage
 \subsection{Statistik}\label{Statistik}
 	Die Messdaten der jeweiligen Sensorknoten können für eine Visualisierung genutzt werden. Da die Daten mit jeweils einem eindeutigen Zeitstempel versehen werden, können diese für einen Graphen mit einer Zeitabhängigkeit genutzt werden. Die notwendigen Daten werden mit Hilfe des Joins der \fullref{fig:Kapitel4/uebersichtjoin.jpg} erstellt.
-	Die Darstellung der Statistikseite findet sich in 
-%TODO: Referent Anhang hinzufügen
-	und ist wie folgt aufgebaut:
+	Die Statistikseite ist wie folgt aufgebaut:
 	\begin{description}
 		\item[1. Sensorknotenauswahl] \hfill \\
 			Dieses Dropdownfeld generiert mit Hilfe des folgenden Befehls die Auswahl der Sensorknoten:
@@ -708,7 +699,6 @@ Die Datenbankabfrage besteht aus vier einzelnen Tabellen. Diese müssen zu einer
 			Ein Sensorknoten wird nur in die Datenbank eingetragen, falls er Daten an die Zentraleinheit sendet. Daher reicht dieser Befehl aus, um alle möglichen Sensorknoten auszulesen. Die Rückgabemenge wird mittels des "'append()"' Befehls an das Dropdownmenü angehängt.
 		\item[2. Sensorauswahl] \hfill \\
 			In diesem Dropdownfeld werden die jeweils möglichen Sensoren des zuvor ausgewählten Sensorknotens aufgelistet. Die Menge wird durch das \fullref{Sensorauswahl:Statistik} generiert.
-			\newpage
 \begin{lstlisting}[label={Sensorauswahl:Statistik},caption=Auswahl der Sensoren auf der Statistikseite,frame=single,numbers=left,language=SQL]
 Select * FROM(
 	SELECT Sensorname FROM Sensorknoten SK
@@ -739,7 +729,7 @@ Bei numerischen Graphen kann, abhängig von den Messintervallen, der Nutzer in d
 Aktuelle Informationen der Sensoren, beispielsweise des Flammensensors, können mit Hilfe der Webkamera kontrolliert werden und falls eine Gefahr besteht, kann der Nutzer dementsprechend handeln.
 %Alex+Jan
 \subsection{Webkamera}\label{Webkamera}
-Die Anzeige der Webkamera Seite erfolgt durch die Datei "'Kamera.php"'. Funktionen werden über die Dateien "'kamera.js"', "'kamera.php"', "'kameraadresse.php"',  "'kameraconfig.php"' und "'sensorknotenauswahl.php"' realisiert. Hierbei hat jede Datei eine gesonderte Aufgabe und kann bei Bedarf geändert werden, ohne dass die Funktionalität anderer Dateien beeinträchtigt wird.
+Die Anzeige der Webkamera Seite erfolgt durch die Datei "'Kamera.php"'. Funktionen werden über die Dateien "'kamera.js"', "'kamera.php"', "'kameraadresse.php"',  \\ "'kameraconfig.php"' und "'sensorknotenauswahl.php"' realisiert. Hierbei hat jede Datei eine gesonderte Aufgabe und kann bei Bedarf geändert werden, ohne dass die Funktionalität anderer Dateien beeinträchtigt wird.
 \begin{description}
 	\item[kamera.js] \hfill \\
 	Die Befüllung der Dropdownfeld übernimmt die Datei "'kamera.js"'. Diese lädt dynamisch die Daten aus der Datenbank mit Hilfe der anderen Dateien in die  Dropdownfeld.
